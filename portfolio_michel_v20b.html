@@ -556,28 +556,6 @@ td strong { color: var(--text); font-weight: 600; }
 
 <!-- DIVIDENDEN -->
 <div class="tab-content" id="tab-dividenden">
-  <div class="cards" style="margin-bottom:16px">
-    <div class="card accent">
-      <div class="card-label">Geschätztes Jahreseinkommen</div>
-      <div class="card-value" id="div-annual">—</div>
-      <div class="card-sub">CHF brutto, alle Depots</div>
-    </div>
-    <div class="card">
-      <div class="card-label">Pro Monat</div>
-      <div class="card-value amber" id="div-monthly">—</div>
-      <div class="card-sub">CHF Durchschnitt</div>
-    </div>
-  </div>
-  <div class="section">
-    <div class="section-header"><div class="section-title">Top Dividendenzahler</div></div>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Position</th><th class="r">Yield</th><th class="r">Marktwert</th><th class="r">Jahres-Div.</th></tr></thead>
-      <tbody id="div-body"></tbody>
-    </table></div>
-    <div style="font-size:11px;color:var(--muted);margin-top:8px;padding:0 4px">
-      Geschätzte Yields basierend auf historischen Ausschüttungen. Keine Garantie. Saxo + Neon + Swissquote + Selma.
-    </div>
-  </div>
   <div class="cards">
     <div class="card accent">
       <div class="card-label">Est. Dividenden p.a.</div>
@@ -927,32 +905,9 @@ td strong { color: var(--text); font-weight: 600; }
 <!-- VERLAUF -->
 <div class="tab-content" id="tab-verlauf">
 
-  <!-- TÄGLICHE ERINNERUNG (wird dynamisch eingeblendet) -->
-  <div id="vl-reminder" style="display:none;background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px">
-    <div style="font-size:13px;color:#92400e">
-      <strong>📊 Noch kein Verlaufs-Eintrag für heute</strong> — Kurse aktualisiert? Jetzt alle Depots speichern.
-    </div>
-    <div style="display:flex;gap:8px;flex-shrink:0">
-      <button class="btn-primary" style="font-size:12px;padding:6px 12px" onclick="autoSnapshotAll()">Alle speichern</button>
-      <button onclick="dismissReminder()" style="font-size:11px;background:none;border:none;cursor:pointer;color:#92400e;padding:4px 8px">✕</button>
-    </div>
-  </div>
-
-  <!-- DEPOT-SELEKTOR -->
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
-    <span style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px">Depot:</span>
-    <button class="chip active" id="vl-depot-gesamt"  onclick="setVerlaufDepot('gesamt',this)">📊 Gesamt</button>
-    <button class="chip" id="vl-depot-saxo"    onclick="setVerlaufDepot('saxo',this)">Saxo</button>
-    <button class="chip" id="vl-depot-neon"    onclick="setVerlaufDepot('neon',this)">Neon</button>
-    <button class="chip" id="vl-depot-swissquote" onclick="setVerlaufDepot('swissquote',this)">Swissquote</button>
-    <button class="chip" id="vl-depot-selma"   onclick="setVerlaufDepot('selma',this)">Selma</button>
-    <button class="chip" id="vl-depot-relai"   onclick="setVerlaufDepot('relai',this)">₿ Relai</button>
-  </div>
-
-  <!-- KARTEN -->
-  <div class="cards" style="margin-bottom:16px">
+  <div class="cards" style="margin-bottom:20px">
     <div class="card accent">
-      <div class="card-label">Rendite seit Start</div>
+      <div class="card-label">Gesamtrendite</div>
       <div class="card-value" id="vl-total-pct">—</div>
       <div class="card-sub" id="vl-total-chf">Seit erstem Eintrag</div>
     </div>
@@ -962,76 +917,81 @@ td strong { color: var(--text); font-weight: 600; }
       <div class="card-sub">CHF</div>
     </div>
     <div class="card">
-      <div class="card-label">Einstand</div>
-      <div class="card-value" id="vl-cost-card">—</div>
-      <div class="card-sub">CHF investiert</div>
+      <div class="card-label">Einstandswert (investiert)</div>
+      <div class="card-value" id="vl-cost">—</div>
+      <div class="card-sub">CHF gesamt</div>
     </div>
     <div class="card">
-      <div class="card-label">Einträge</div>
+      <div class="card-label">Datenpunkte</div>
       <div class="card-value amber" id="vl-count">—</div>
-      <div class="card-sub" id="vl-depot-label">Alle Depots</div>
+      <div class="card-sub">Manuelle Einträge</div>
     </div>
   </div>
 
-  <!-- CHART -->
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-bottom:16px">
+  <!-- CHART BEREICH -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-bottom:20px">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-      <div style="font-family:var(--serif);font-size:16px;font-weight:600" id="vl-chart-title">Portfolio-Verlauf</div>
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-        <button class="chip active" id="vl-mode-chf"  onclick="setVerlaufMode('chf',this)">CHF</button>
-        <button class="chip" id="vl-mode-pct"  onclick="setVerlaufMode('pct',this)">%</button>
+      <div style="font-family:var(--serif);font-size:18px;font-weight:600">Portfolio-Verlauf</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button class="chip active" id="vl-mode-chf" onclick="setVerlaufMode('chf',this)">CHF Wert</button>
+        <button class="chip" id="vl-mode-pct" onclick="setVerlaufMode('pct',this)">% Performance</button>
         <button class="chip" id="vl-mode-both" onclick="setVerlaufMode('both',this)">Beide</button>
-        <span style="width:1px;height:18px;background:var(--border);margin:0 2px"></span>
+        <span style="width:1px;height:20px;background:var(--border);margin:0 4px"></span>
         <button class="chip active" id="vl-range-all" onclick="setVerlaufRange('all',this)">Alle</button>
-        <button class="chip" id="vl-range-1y"  onclick="setVerlaufRange('1y',this)">1J</button>
-        <button class="chip" id="vl-range-6m"  onclick="setVerlaufRange('6m',this)">6M</button>
-        <button class="chip" id="vl-range-3m"  onclick="setVerlaufRange('3m',this)">3M</button>
+        <button class="chip" id="vl-range-1y" onclick="setVerlaufRange('1y',this)">1J</button>
+        <button class="chip" id="vl-range-6m" onclick="setVerlaufRange('6m',this)">6M</button>
+        <button class="chip" id="vl-range-3m" onclick="setVerlaufRange('3m',this)">3M</button>
       </div>
     </div>
-    <div style="position:relative;width:100%;height:300px">
+    <div style="position:relative;width:100%;height:320px">
       <canvas id="verlauf-chart"></canvas>
     </div>
   </div>
 
-  <!-- MANUELLER EINTRAG -->
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:16px">
-    <div style="font-family:var(--serif);font-size:14px;font-weight:600;margin-bottom:12px">➕ Eintrag erfassen</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px">
+  <!-- EINTRAG HINZUFÜGEN -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);margin-bottom:20px">
+    <div style="font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:14px">➕ Datenpunkt erfassen</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:12px">
       <div>
-        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase">Datum</div>
-        <input type="date" id="vl-date" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Datum</div>
+        <input type="date" id="vl-date" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;font-family:var(--sans);outline:none">
       </div>
       <div>
-        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase">Marktwert CHF</div>
-        <input type="number" id="vl-mw" placeholder="z.B. 375000" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Marktwert (CHF)</div>
+        <input type="number" id="vl-mw" placeholder="z.B. 345000" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;font-family:var(--sans);outline:none">
       </div>
       <div>
-        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase">Einstand CHF</div>
-        <input type="number" id="vl-cost" placeholder="z.B. 340000" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Einstandswert (CHF)</div>
+        <input type="number" id="vl-cost" placeholder="z.B. 290000" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;font-family:var(--sans);outline:none">
       </div>
       <div>
-        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase">Notiz</div>
-        <input type="text" id="vl-note" placeholder="z.B. Nach Import" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Notiz (optional)</div>
+        <input type="text" id="vl-note" placeholder="z.B. Nach Saxo Import" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;font-family:var(--sans);outline:none">
       </div>
     </div>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-      <button class="btn-primary" onclick="addVerlaufPunkt()">Speichern</button>
-      <button class="btn-primary" style="background:var(--surface);color:var(--text2);border:1px solid var(--border2)" onclick="addVerlaufHeute()">📊 Alle Depots jetzt erfassen</button>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <button class="btn-primary" onclick="addVerlaufPunkt()">Eintrag speichern</button>
+      <button class="btn-primary" style="background:var(--surface);color:var(--text2);border:1px solid var(--border2)" onclick="addVerlaufHeute()">📊 Heutigen Depotstand übernehmen</button>
       <div id="vl-save-msg" style="font-size:12px;color:var(--success)"></div>
     </div>
   </div>
 
-  <!-- TABELLE -->
+  <!-- VERLAUF TABELLE -->
   <div class="section">
     <div class="section-header">
-      <div class="section-title" id="vl-table-title">Alle Einträge</div>
-      <button onclick="clearVerlauf()" style="font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline">Depot löschen</button>
+      <div class="section-title">Alle Einträge</div>
+      <button onclick="clearVerlauf()" style="font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline">Alle löschen</button>
     </div>
     <div class="table-wrap">
       <table>
         <thead><tr>
-          <th>Datum</th><th class="r">Marktwert CHF</th><th class="r">Einstand CHF</th>
-          <th class="r">G/V CHF</th><th class="r">G/V %</th><th>Notiz</th><th></th>
+          <th>Datum</th>
+          <th class="r">Marktwert CHF</th>
+          <th class="r">Einstand CHF</th>
+          <th class="r">G/V CHF</th>
+          <th class="r">G/V %</th>
+          <th>Notiz</th>
+          <th></th>
         </tr></thead>
         <tbody id="vl-tbody"></tbody>
       </table>
@@ -1381,7 +1341,7 @@ function apiHeaders() {
   if (key) h['x-api-key'] = key;
   return h;
 }
-let usdChf = 0.883, eurChf = 0.955, gbpChf = 1.135, nokChf = 0.082, jpyChf = 0.0060, dkkChf = 0.128, sekChf = 0.084;
+let usdChf = 0.883, eurChf = 0.955, gbpChf = 1.135, nokChf = 0.082, jpyChf = 0.0060;
 
 function toChf(price, ccy) {
   if (!price || price <= 0) return null;
@@ -1393,8 +1353,6 @@ function toChf(price, ccy) {
     case 'GBP': return price * gbpChf;
     case 'NOK': return price * nokChf;
     case 'JPY': return price * jpyChf;
-    case 'DKK': return price * dkkChf;
-    case 'SEK': return price * sekChf;
     default:    return price;
   }
 }
@@ -1471,7 +1429,7 @@ async function refreshPrices() {
     });
 
     // FX + Crypto als Extra-Ticker
-    const extras = ['USDCHF=X','EURCHF=X','GBPCHF=X','NOKCHF=X','JPYCHF=X','DKKCHF=X','SEKCHF=X','BTC-USD','ETH-USD','SOL-USD','XRP-USD'];
+    const extras = ['USDCHF=X','EURCHF=X','GBPCHF=X','NOKCHF=X','JPYCHF=X','BTC-USD','ETH-USD','SOL-USD','XRP-USD'];
     const allTickers = [...new Set([...Object.keys(tickerMap), ...extras])];
 
     setPriceStatus('loading', allTickers.length + ' Ticker werden abgerufen…');
@@ -1483,8 +1441,6 @@ async function refreshPrices() {
     if (prices['GBPCHF=X'] > 0.5) gbpChf = prices['GBPCHF=X'];
     if (prices['NOKCHF=X'] > 0.05) nokChf = prices['NOKCHF=X'];
     if (prices['JPYCHF=X'] > 0.001) jpyChf = prices['JPYCHF=X'];
-    if (prices['DKKCHF=X'] > 0.05)  dkkChf = prices['DKKCHF=X'];
-    if (prices['SEKCHF=X'] > 0.05)  sekChf = prices['SEKCHF=X'];
 
     // Bitcoin Relai
     const btcUsd = prices['BTC-USD'];
@@ -1494,46 +1450,19 @@ async function refreshPrices() {
       localStorage.setItem('relai_data', JSON.stringify(relai));
     }
 
-    // Ticker-spezifische Währungsoverrides (Yahoo gibt manchmal falsche Einheit)
-    const CCY_OVERRIDE = {
-      'RIO.L':'GBp', 'EMIM.L':'GBp', 'INRG.L':'GBp', 'ISPY.L':'GBp',
-      'GLEN.L':'GBp', 'NG.L':'GBp', 'BTI.L':'GBp', 'DEO.L':'GBp',
-      'NOVO-B.CO':'DKK', 'AKRBP.OL':'NOK', 'DNB.OL':'NOK', 'NDA-FI.HE':'EUR',
-    };
-
     // Positionen aktualisieren
     let updated = 0, skipped = 0;
     for (const [ticker, positions] of Object.entries(tickerMap)) {
       const raw = prices[ticker];
       if (!raw || raw <= 0) { skipped += positions.length; continue; }
       for (const p of positions) {
-        const effectiveCcy = CCY_OVERRIDE[ticker] || p.ccy;
-        const chf = toChf(raw, effectiveCcy);
+        const chf = toChf(raw, p.ccy);
         if (!chf) { skipped++; continue; }
         const newMw = Math.round(chf * p.qty * 100) / 100;
         const dev = p.mw > 0 ? Math.abs(newMw - p.mw) / p.mw : 0;
         const maxDev = p.type === 'Crypto' ? 0.99 : 0.60;
-        if (dev < maxDev) {
-          p.mw = newMw; p.gnv = Math.round((p.mw - p.cost)*100)/100; updated++;
-        } else {
-          // London .L Titel: Yahoo gibt Pence, nicht GBP → durch 100
-          if (ticker.endsWith('.L') && p.ccy === 'GBP') {
-            const chfP = toChf(raw / 100, 'GBP');
-            const mwP  = chfP ? Math.round(chfP * p.qty * 100)/100 : 0;
-            const devP = p.mw > 0 ? Math.abs(mwP - p.mw)/p.mw : 1;
-            if (devP < 0.60) { p.mw = mwP; p.gnv = Math.round((p.mw-p.cost)*100)/100; updated++; }
-            else { console.warn('Plausib.', ticker, p.mw, '->', newMw, '(auch GBp geprüft:', mwP+')'); skipped++; }
-          // DKK Titel (Novo-B.CO etc)
-          } else if (ticker.endsWith('.CO') && p.ccy !== 'DKK') {
-            const chfD = toChf(raw, 'DKK');
-            const mwD  = chfD ? Math.round(chfD * p.qty * 100)/100 : 0;
-            const devD = p.mw > 0 ? Math.abs(mwD - p.mw)/p.mw : 1;
-            if (devD < 0.60) { p.mw = mwD; p.gnv = Math.round((p.mw-p.cost)*100)/100; updated++; }
-            else { console.warn('Plausib.', ticker, p.mw, '->', newMw, '(DKK:', mwD+')'); skipped++; }
-          } else {
-            console.warn('Plausib.', ticker, p.mw, '->', newMw); skipped++;
-          }
-        }
+        if (dev < maxDev) { p.mw = newMw; p.gnv = Math.round((p.mw - p.cost)*100)/100; updated++; }
+        else { console.warn('Plausib.', ticker, p.mw, '->', newMw); skipped++; }
       }
     }
 
@@ -1963,7 +1892,6 @@ function renderAll() {
   renderWinnersLosers([...SAXO_DATA,...NEON_DATA,...SWISSQUOTE_DATA,...SELMA_DATA]);
   renderWarnings([...SAXO_DATA,...NEON_DATA,...SWISSQUOTE_DATA,...SELMA_DATA], totMW);
   renderWatchlist();
-  if (typeof renderDividenden === 'function') renderDividenden();
 }
 
 function renderBars(elId, data, total) {
@@ -2376,25 +2304,6 @@ function renderWarnings(all, totMW) {
 // ══════════════════════════════════════════
 // WATCHLIST / OFFENE ORDERS
 // ══════════════════════════════════════════
-function renderDividenden() {
-  const allPos = [...SAXO_DATA, ...NEON_DATA, ...SWISSQUOTE_DATA, ...SELMA_DATA];
-  let annualEst = 0;
-  const divLines = [];
-  allPos.forEach(p => {
-    const y = DIV_YIELDS[p.n] || 0;
-    if (y > 0) { const a = Math.round(p.mw * y / 100); annualEst += a; divLines.push({n:p.n,mw:p.mw,yield:y,annual:a}); }
-  });
-  if (SELMA_DATA.length === 0) { const sd = getSelmaData(); if (sd.mw > 0) annualEst += Math.round(sd.mw * 0.022); }
-  const monthly = Math.round(annualEst / 12);
-  const el = document.getElementById('div-annual'); if (el) el.textContent = 'CHF ' + fmt(annualEst);
-  const el2 = document.getElementById('div-monthly'); if (el2) el2.textContent = 'CHF ' + fmt(monthly);
-  divLines.sort((a,b) => b.annual - a.annual);
-  const tbody = document.getElementById('div-body');
-  if (tbody) tbody.innerHTML = divLines.slice(0,15).map(d =>
-    '<tr><td>'+d.n+'</td><td class="r">'+d.yield.toFixed(1)+'%</td><td class="r">CHF '+fmt(d.mw)+'</td><td class="r"><strong>CHF '+fmt(d.annual)+'</strong></td></tr>'
-  ).join('') || '<tr><td colspan="4" style="color:var(--muted)">Keine Daten</td></tr>';
-}
-
 function renderWatchlist() {
   const orders = [
     {name:'Amrize Ltd', type:'gtc', detail:'GTC Limit', limit:'CHF 37.50', ziel:'CHF 5\'000', aktuell:3277, zielVal:5000},
@@ -3000,93 +2909,81 @@ function initRelaiForm() {
 
 
 // ══════════════════════════════════════════
-// VERLAUF — Multi-Depot
+// VERLAUF
 // ══════════════════════════════════════════
-const DEPOTS = ['gesamt','saxo','neon','swissquote','selma','relai'];
-const DEPOT_LABELS = {
-  gesamt:'Gesamtportfolio', saxo:'Saxo', neon:'Neon',
-  swissquote:'Swissquote', selma:'Selma', relai:'Relai BTC'
-};
-const DEPOT_COLORS = {
-  gesamt:'#d97706', saxo:'#2563eb', neon:'#16a34a',
-  swissquote:'#7c3aed', selma:'#db2777', relai:'#f59e0b'
-};
+const VERLAUF_KEY = 'portfolio_verlauf_michel';
 
-function verlaufKey(depot) { return 'portfolio_verlauf_' + depot; }
-
-function loadVerlaufData(depot) {
-  try { return JSON.parse(localStorage.getItem(verlaufKey(depot || activeDepot)) || '[]'); } catch(e) { return []; }
-}
-function saveVerlaufData(data, depot) {
-  localStorage.setItem(verlaufKey(depot || activeDepot), JSON.stringify(data));
+function loadVerlaufData() {
+  try {
+    return JSON.parse(localStorage.getItem(VERLAUF_KEY) || '[]');
+  } catch(e) { return []; }
 }
 
-// Berechne aktuellen Stand eines Depots
-function getDepotStand(depot) {
-  switch(depot) {
-    case 'saxo': {
-      const mw = SAXO_DATA.reduce((s,p)=>s+p.mw,0);
-      const cost = SAXO_DATA.reduce((s,p)=>s+p.cost,0);
-      return {mw:Math.round(mw), cost:Math.round(cost)};
-    }
-    case 'neon': {
-      const mw = NEON_DATA.reduce((s,p)=>s+p.mw,0);
-      const cost = NEON_DATA.reduce((s,p)=>s+p.cost,0);
-      return {mw:Math.round(mw), cost:Math.round(cost)};
-    }
-    case 'swissquote': {
-      const mw = SWISSQUOTE_DATA.reduce((s,p)=>s+p.mw,0);
-      const cost = SWISSQUOTE_DATA.reduce((s,p)=>s+p.cost,0);
-      return {mw:Math.round(mw), cost:Math.round(cost)};
-    }
-    case 'selma': {
-      const d = getSelmaData();
-      const mw = SELMA_DATA.length > 0 ? Math.round(SELMA_DATA.reduce((s,p)=>s+p.mw,0)+31.75) : (d.mw||0);
-      return {mw, cost: d.cost||0};
-    }
-    case 'relai': {
-      const d = getRelaiData();
-      const mw = d.priceCHF > 0 ? Math.round(d.btc * d.priceCHF) : 0;
-      return {mw, cost: d.cost||0};
-    }
-    case 'gesamt':
-    default: {
-      const saxoMW = SAXO_DATA.reduce((s,p)=>s+p.mw,0);
-      const neonMW = NEON_DATA.reduce((s,p)=>s+p.mw,0);
-      const sqMW   = SWISSQUOTE_DATA.reduce((s,p)=>s+p.mw,0);
-      const sd = getSelmaData();
-      const selmaMW = SELMA_DATA.length > 0 ? SELMA_DATA.reduce((s,p)=>s+p.mw,0)+31.75 : (sd.mw||0);
-      const rd = getRelaiData();
-      const relaiMW = rd.priceCHF > 0 ? Math.round(rd.btc * rd.priceCHF) : 0;
-      const saxoCost = SAXO_DATA.reduce((s,p)=>s+p.cost,0);
-      const neonCost = NEON_DATA.reduce((s,p)=>s+p.cost,0);
-      const sqCost   = SWISSQUOTE_DATA.reduce((s,p)=>s+p.cost,0);
-      const selmaCost= SELMA_DATA.length>0 ? SELMA_DATA.reduce((s,p)=>s+p.cost,0) : (sd.cost||0);
-      return {
-        mw: Math.round(saxoMW+neonMW+sqMW+selmaMW+relaiMW),
-        cost: Math.round(saxoCost+neonCost+sqCost+selmaCost+(rd.cost||0))
-      };
-    }
+function saveVerlaufData(data) {
+  localStorage.setItem(VERLAUF_KEY, JSON.stringify(data));
+}
+
+function addVerlaufPunkt() {
+  const date = document.getElementById('vl-date').value;
+  const mw   = parseFloat(document.getElementById('vl-mw').value);
+  const cost = parseFloat(document.getElementById('vl-cost').value);
+  const note = document.getElementById('vl-note').value.trim();
+
+  if (!date || isNaN(mw) || mw <= 0) {
+    alert('Datum und Marktwert sind erforderlich.');
+    return;
   }
+
+  const data = loadVerlaufData();
+  // Bestehenden Eintrag für dieses Datum überschreiben
+  const idx = data.findIndex(d => d.date === date);
+  const entry = { date, mw: Math.round(mw), cost: isNaN(cost) ? null : Math.round(cost), note };
+  if (idx >= 0) data[idx] = entry; else data.push(entry);
+  data.sort((a,b) => a.date.localeCompare(b.date));
+  saveVerlaufData(data);
+
+  // Felder leeren
+  document.getElementById('vl-mw').value = '';
+  document.getElementById('vl-cost').value = '';
+  document.getElementById('vl-note').value = '';
+
+  const msg = document.getElementById('vl-save-msg');
+  msg.textContent = '✓ Gespeichert';
+  setTimeout(() => msg.textContent = '', 2500);
+  renderVerlauf();
 }
 
-let activeDepot = 'gesamt';
+function addVerlaufHeute() {
+  // Aktuellen Depotstand aus den geladenen Daten übernehmen
+  const saxoMW = SAXO_DATA.reduce((s,p) => s+p.mw, 0);
+  const neonMW = NEON_DATA.reduce((s,p) => s+p.mw, 0);
+  const saxoCost = SAXO_DATA.reduce((s,p) => s+p.cost, 0);
+  const neonCost = NEON_DATA.reduce((s,p) => s+p.cost, 0);
+  const totalMW   = Math.round(saxoMW + neonMW);
+  const totalCost = Math.round(saxoCost + neonCost);
+  const today = new Date().toISOString().split('T')[0];
+
+  document.getElementById('vl-date').value = today;
+  document.getElementById('vl-mw').value   = totalMW;
+  document.getElementById('vl-cost').value = totalCost;
+  document.getElementById('vl-note').value = 'Import-Stand';
+}
+
+function deleteVerlaufPunkt(date) {
+  const data = loadVerlaufData().filter(d => d.date !== date);
+  saveVerlaufData(data);
+  renderVerlauf();
+}
+
+function clearVerlauf() {
+  if (!confirm('Wirklich alle Verlaufsdaten löschen?')) return;
+  localStorage.removeItem(VERLAUF_KEY);
+  renderVerlauf();
+}
+
 let verlaufMode  = 'chf';
 let verlaufRange = 'all';
 let verlaufChart = null;
-
-function setVerlaufDepot(depot, btn) {
-  activeDepot = depot;
-  document.querySelectorAll('[id^="vl-depot-"]').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const lbl = document.getElementById('vl-depot-label');
-  if (lbl) lbl.textContent = DEPOT_LABELS[depot];
-  const title = document.getElementById('vl-chart-title');
-  if (title) title.textContent = DEPOT_LABELS[depot] + ' Verlauf';
-  const tbl = document.getElementById('vl-table-title');
-  if (tbl) tbl.textContent = DEPOT_LABELS[depot] + ' — Einträge';
-  renderVerlauf();
-}
 
 function setVerlaufMode(mode, btn) {
   verlaufMode = mode;
@@ -3104,169 +3001,189 @@ function setVerlaufRange(range, btn) {
 
 function filterByRange(data) {
   if (verlaufRange === 'all' || data.length === 0) return data;
-  const cutoff = new Date();
-  if (verlaufRange === '1y') cutoff.setFullYear(cutoff.getFullYear()-1);
-  if (verlaufRange === '6m') cutoff.setMonth(cutoff.getMonth()-6);
-  if (verlaufRange === '3m') cutoff.setMonth(cutoff.getMonth()-3);
-  const cut = cutoff.toISOString().split('T')[0];
-  return data.filter(d => d.date >= cut);
-}
-
-function addVerlaufPunkt() {
-  const date = document.getElementById('vl-date').value;
-  const mw   = parseFloat(document.getElementById('vl-mw').value);
-  const cost = parseFloat(document.getElementById('vl-cost').value);
-  const note = document.getElementById('vl-note').value.trim();
-  if (!date || isNaN(mw) || mw <= 0) { alert('Datum und Marktwert erforderlich.'); return; }
-  const data = loadVerlaufData();
-  const idx = data.findIndex(d => d.date === date);
-  const entry = {date, mw:Math.round(mw), cost:isNaN(cost)?null:Math.round(cost), note};
-  if (idx >= 0) data[idx] = entry; else data.push(entry);
-  data.sort((a,b) => a.date.localeCompare(b.date));
-  saveVerlaufData(data);
-  document.getElementById('vl-mw').value = '';
-  document.getElementById('vl-cost').value = '';
-  document.getElementById('vl-note').value = '';
-  const msg = document.getElementById('vl-save-msg');
-  msg.textContent = '✓ Gespeichert für ' + DEPOT_LABELS[activeDepot];
-  setTimeout(() => msg.textContent = '', 3000);
-  renderVerlauf();
-}
-
-function addVerlaufHeute() {
-  // Alle Depots auf einmal erfassen
-  const today = new Date().toISOString().split('T')[0];
-  let saved = 0;
-  for (const depot of DEPOTS) {
-    const stand = getDepotStand(depot);
-    if (stand.mw <= 0) continue;
-    const data = loadVerlaufData(depot);
-    const idx = data.findIndex(d => d.date === today);
-    const entry = {date: today, mw: stand.mw, cost: stand.cost, note:'Auto-Snapshot'};
-    if (idx >= 0) data[idx] = entry; else data.push(entry);
-    data.sort((a,b) => a.date.localeCompare(b.date));
-    saveVerlaufData(data, depot);
-    saved++;
-  }
-  localStorage.setItem('vl_last_snapshot', today);
-  const msg = document.getElementById('vl-save-msg');
-  msg.textContent = '✓ ' + saved + ' Depots gespeichert (' + today + ')';
-  setTimeout(() => msg.textContent = '', 4000);
-  hideReminder();
-  renderVerlauf();
-}
-
-// Alias für den "Alle speichern"-Button in der Erinnerung
-function autoSnapshotAll() { addVerlaufHeute(); }
-
-function dismissReminder() { hideReminder(); localStorage.setItem('vl_remind_dismissed', new Date().toISOString().split('T')[0]); }
-function hideReminder() { const el = document.getElementById('vl-reminder'); if (el) el.style.display = 'none'; }
-
-function checkDailyReminder() {
-  const today = new Date().toISOString().split('T')[0];
-  const lastSnap = localStorage.getItem('vl_last_snapshot') || '';
-  const dismissed = localStorage.getItem('vl_remind_dismissed') || '';
-  if (lastSnap === today || dismissed === today) return; // bereits heute gespeichert oder weggeklickt
-  // Nur zeigen wenn mindestens 1 Eintrag vorhanden (hat schon mal benutzt)
-  const hasData = DEPOTS.some(d => loadVerlaufData(d).length > 0);
-  if (!hasData) return;
-  const el = document.getElementById('vl-reminder');
-  if (el) el.style.display = 'flex';
-}
-
-function deleteVerlaufPunkt(date) {
-  const data = loadVerlaufData().filter(d => d.date !== date);
-  saveVerlaufData(data);
-  renderVerlauf();
-}
-
-function clearVerlauf() {
-  if (!confirm('Verlauf für ' + DEPOT_LABELS[activeDepot] + ' löschen?')) return;
-  localStorage.removeItem(verlaufKey(activeDepot));
-  renderVerlauf();
+  const now = new Date();
+  const cutoff = new Date(now);
+  if (verlaufRange === '1y') cutoff.setFullYear(now.getFullYear() - 1);
+  if (verlaufRange === '6m') cutoff.setMonth(now.getMonth() - 6);
+  if (verlaufRange === '3m') cutoff.setMonth(now.getMonth() - 3);
+  const cutStr = cutoff.toISOString().split('T')[0];
+  return data.filter(d => d.date >= cutStr);
 }
 
 function renderVerlauf() {
   const raw  = loadVerlaufData();
   const data = filterByRange(raw);
 
-  // Karten aktualisieren
-  const latest = raw.length > 0 ? raw[raw.length-1] : null;
-  if (latest) {
-    document.getElementById('vl-current').textContent = 'CHF ' + fmt(latest.mw);
-    if (latest.cost) {
-      const gnv = latest.mw - latest.cost;
-      const pct = (gnv / latest.cost * 100).toFixed(1);
-      const pctEl = document.getElementById('vl-total-pct');
-      pctEl.textContent = (gnv >= 0 ? '+' : '') + pct + '%';
-      pctEl.className = 'card-value ' + gc(gnv);
-      document.getElementById('vl-total-chf').textContent = (gnv>=0?'+':'') + 'CHF ' + fmt(gnv) + ' G/V';
-      document.getElementById('vl-cost-card').textContent = 'CHF ' + fmt(latest.cost);
+  // Karten
+  const latestAll = raw.length > 0 ? raw[raw.length-1] : null;
+  const firstAll  = raw.length > 0 ? raw[0] : null;
+  if (latestAll) {
+    document.getElementById('vl-current').textContent = 'CHF ' + fmt(latestAll.mw);
+    if (latestAll.cost) {
+      const gnv = latestAll.mw - latestAll.cost;
+      const pct = (gnv / latestAll.cost * 100).toFixed(1);
+      document.getElementById('vl-total-pct').textContent = (gnv >= 0 ? '+' : '') + pct + '%';
+      document.getElementById('vl-total-pct').className = 'card-value ' + (gnv >= 0 ? 'pos' : 'neg');
+      document.getElementById('vl-total-chf').textContent = (gnv >= 0 ? '+' : '') + 'CHF ' + fmt(gnv) + ' G/V';
+      document.getElementById('vl-cost').textContent = 'CHF ' + fmt(latestAll.cost);
     }
   } else {
     document.getElementById('vl-total-pct').textContent = '—';
     document.getElementById('vl-current').textContent = '—';
-    document.getElementById('vl-cost-card').textContent = '—';
+    document.getElementById('vl-cost').textContent = '—';
     document.getElementById('vl-total-chf').textContent = 'Noch keine Daten';
   }
   document.getElementById('vl-count').textContent = raw.length;
 
   // Chart
-  const color = DEPOT_COLORS[activeDepot] || '#d97706';
-  const labels = data.map(d => { const [y,m,day]=d.date.split('-'); return day+'.'+m+'.'+String(y).slice(2); });
-  const mwVals   = data.map(d => d.mw);
+  const labels = data.map(d => {
+    const [y,m,day] = d.date.split('-');
+    return `${day}.${m}.${String(y).slice(2)}`;
+  });
+  const mwVals  = data.map(d => d.mw);
   const costVals = data.map(d => d.cost || null);
-  const pctVals  = data.map(d => d.cost ? +((d.mw-d.cost)/d.cost*100).toFixed(2) : null);
+  const pctVals = data.map(d => d.cost ? +((d.mw - d.cost) / d.cost * 100).toFixed(2) : null);
 
-  const wrapper = document.querySelector('#tab-verlauf [style*="height:300px"]');
+  const ctx = document.getElementById('verlauf-chart');
+  if (!ctx) return;
+
+  if (verlaufChart) { verlaufChart.destroy(); verlaufChart = null; }
+
+  // Canvas nach destroy() immer neu erstellen (Chart.js Requirement)
+  const wrapper = document.querySelector('#tab-verlauf [style*="height:320px"]');
   if (wrapper) wrapper.innerHTML = '<canvas id="verlauf-chart"></canvas>';
-  if (verlaufChart) { try { verlaufChart.destroy(); } catch(e){} verlaufChart = null; }
 
   if (data.length < 2) {
-    if (wrapper) wrapper.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);font-size:13px;flex-direction:column;gap:8px"><div style="font-size:28px">📈</div><div>Noch keine Verlaufsdaten für ' + DEPOT_LABELS[activeDepot] + '</div><div style="font-size:12px">Klicke «Alle Depots jetzt erfassen» um zu starten</div></div>';
+    if (wrapper) wrapper.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#78716c;font-size:13px;flex-direction:column;gap:8px"><div style="font-size:28px">📈</div><div>Noch keine Verlaufsdaten</div><div style="font-size:12px">Füge mindestens 2 Datenpunkte hinzu</div></div>';
     renderVerlaufTable(raw);
     return;
   }
 
   const datasets = [];
+
   if (verlaufMode === 'chf' || verlaufMode === 'both') {
-    datasets.push({label:'Marktwert CHF',data:mwVals,borderColor:color,backgroundColor:color+'15',fill:true,tension:0.35,pointRadius:data.length<=20?4:2,pointHoverRadius:7,borderWidth:2.5,yAxisID:'y'});
-    if (costVals.some(v=>v!==null)) datasets.push({label:'Einstand CHF',data:costVals,borderColor:'#78716c',backgroundColor:'transparent',fill:false,tension:0.3,pointRadius:0,borderWidth:1.5,borderDash:[5,4],yAxisID:'y'});
+    datasets.push({
+      label: 'Marktwert CHF',
+      data: mwVals,
+      borderColor: '#d97706',
+      backgroundColor: 'rgba(217,119,6,0.08)',
+      fill: true,
+      tension: 0.35,
+      pointRadius: data.length <= 20 ? 4 : 2,
+      pointHoverRadius: 7,
+      borderWidth: 2.5,
+      yAxisID: 'y',
+    });
+    if (costVals.some(v => v !== null)) {
+      datasets.push({
+        label: 'Einstand CHF',
+        data: costVals,
+        borderColor: '#78716c',
+        backgroundColor: 'transparent',
+        fill: false,
+        tension: 0.3,
+        pointRadius: 0,
+        borderWidth: 1.5,
+        borderDash: [5,4],
+        yAxisID: 'y',
+      });
+    }
   }
+
   if (verlaufMode === 'pct' || verlaufMode === 'both') {
-    datasets.push({label:'Performance %',data:pctVals,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.07)',fill:verlaufMode==='pct',tension:0.35,pointRadius:data.length<=20?4:2,pointHoverRadius:7,borderWidth:2.5,yAxisID:verlaufMode==='both'?'y2':'y'});
+    datasets.push({
+      label: 'Performance %',
+      data: pctVals,
+      borderColor: '#2563eb',
+      backgroundColor: 'rgba(37,99,235,0.07)',
+      fill: verlaufMode === 'pct',
+      tension: 0.35,
+      pointRadius: data.length <= 20 ? 4 : 2,
+      pointHoverRadius: 7,
+      borderWidth: 2.5,
+      yAxisID: verlaufMode === 'both' ? 'y2' : 'y',
+    });
   }
 
   const scales = {};
-  if (verlaufMode==='chf'||verlaufMode==='both') scales.y={position:'left',grid:{color:'rgba(0,0,0,0.05)'},ticks:{color:'#78716c',font:{size:11},callback:v=>'CHF '+(v>=1000?Math.round(v/1000)+'k':v)}};
-  if (verlaufMode==='pct'||verlaufMode==='both') scales[verlaufMode==='both'?'y2':'y']={position:verlaufMode==='both'?'right':'left',grid:verlaufMode==='both'?{drawOnChartArea:false}:{color:'rgba(0,0,0,0.05)'},ticks:{color:'#2563eb',font:{size:11},callback:v=>v.toFixed(1)+'%'}};
-  scales.x={grid:{display:false},ticks:{color:'#78716c',font:{size:11},maxTicksLimit:12,maxRotation:30}};
+  if (verlaufMode === 'chf' || verlaufMode === 'both') {
+    scales.y = {
+      position: 'left',
+      grid: { color: 'rgba(0,0,0,0.05)' },
+      ticks: {
+        color: '#78716c', font: { size: 11 },
+        callback: v => 'CHF ' + (v >= 1000 ? Math.round(v/1000)+'k' : v)
+      }
+    };
+  }
+  if (verlaufMode === 'pct' || verlaufMode === 'both') {
+    scales[verlaufMode === 'both' ? 'y2' : 'y'] = {
+      position: verlaufMode === 'both' ? 'right' : 'left',
+      grid: verlaufMode === 'both' ? { drawOnChartArea: false } : { color: 'rgba(0,0,0,0.05)' },
+      ticks: {
+        color: '#2563eb', font: { size: 11 },
+        callback: v => v.toFixed(1) + '%'
+      }
+    };
+  }
+  scales.x = {
+    grid: { display: false },
+    ticks: {
+      color: '#78716c', font: { size: 11 },
+      maxTicksLimit: 12,
+      maxRotation: 30
+    }
+  };
 
-  const ctx = document.getElementById('verlauf-chart');
-  if (!ctx) return;
-  verlaufChart = new Chart(ctx, {
-    type:'line', data:{labels,datasets},
-    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
-      plugins:{legend:{display:datasets.length>1,position:'top',labels:{font:{size:12},color:'#44403c',boxWidth:12,padding:16}},
-        tooltip:{backgroundColor:'rgba(28,25,23,0.9)',titleFont:{size:12},bodyFont:{size:12},
-          callbacks:{label:ctx=>{const v=ctx.parsed.y;if(v===null)return null;return ctx.dataset.label.includes('%')?' '+ctx.dataset.label+': '+(v>=0?'+':'')+v.toFixed(2)+'%':' '+ctx.dataset.label+': CHF '+Math.round(v).toLocaleString('de-CH');}}}},
-      scales}
+  verlaufChart = new Chart(document.getElementById('verlauf-chart'), {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: datasets.length > 1, position: 'top', labels: { font: { size: 12 }, color: '#44403c', boxWidth: 12, padding: 16 } },
+        tooltip: {
+          backgroundColor: 'rgba(28,25,23,0.9)',
+          titleFont: { size: 12 }, bodyFont: { size: 12 },
+          callbacks: {
+            label: ctx => {
+              const v = ctx.parsed.y;
+              if (v === null) return null;
+              if (ctx.dataset.label.includes('%')) return ' ' + ctx.dataset.label + ': ' + (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
+              return ' ' + ctx.dataset.label + ': CHF ' + Math.round(v).toLocaleString('de-CH');
+            }
+          }
+        }
+      },
+      scales
+    }
   });
+
   renderVerlaufTable(raw);
 }
 
 function renderVerlaufTable(data) {
   const tbody = document.getElementById('vl-tbody');
   if (!tbody) return;
-  tbody.innerHTML = [...data].reverse().map(d => {
-    const gnv = d.cost ? d.mw-d.cost : null;
-    const pct = d.cost ? ((gnv/d.cost)*100).toFixed(1)+'%' : '—';
-    const gnvFmt = gnv!==null ? '<span class="'+gc(gnv)+'">'+(gnv>=0?'+':'')+'CHF '+fmt(gnv)+'</span>' : '—';
-    const pctFmt = gnv!==null ? '<span class="'+gc(gnv)+'">'+(gnv>=0?'+':'')+pct+'</span>' : '—';
+  const sorted = [...data].reverse();
+  tbody.innerHTML = sorted.map(d => {
+    const gnv  = d.cost ? d.mw - d.cost : null;
+    const pct  = d.cost ? ((gnv / d.cost) * 100).toFixed(1) + '%' : '—';
+    const gnvFmt = gnv !== null ? `<span class="${gnv >= 0 ? 'pos' : 'neg'}">${gnv >= 0 ? '+' : ''}CHF ${fmt(gnv)}</span>` : '—';
+    const pctFmt = gnv !== null ? `<span class="${gnv >= 0 ? 'pos' : 'neg'}">${gnv >= 0 ? '+' : ''}${pct}</span>` : '—';
     const [y,m,day] = d.date.split('-');
-    const rowId = d.date;
-    return '<tr><td>'+day+'.'+m+'.'+y+'</td><td class="r"><strong>CHF '+fmt(d.mw)+'</strong></td><td class="r">'+(d.cost?'CHF '+fmt(d.cost):'—')+'</td><td class="r">'+gnvFmt+'</td><td class="r">'+pctFmt+'</td><td style="color:var(--muted);font-size:12px">'+(d.note||'')+'</td><td class="r"><button onclick="deleteVerlaufPunkt(this.dataset.date)" data-date="'+rowId+'" style="font-size:10px;color:var(--muted);background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px" title="Löschen">✕</button></td></tr>';
-  }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">Noch keine Einträge</td></tr>';
+    return `<tr>
+      <td>${day}.${m}.${y}</td>
+      <td class="r"><strong>CHF ${fmt(d.mw)}</strong></td>
+      <td class="r">${d.cost ? 'CHF ' + fmt(d.cost) : '—'}</td>
+      <td class="r">${gnvFmt}</td>
+      <td class="r">${pctFmt}</td>
+      <td style="color:var(--muted);font-size:12px">${d.note || ''}</td>
+      <td class="r"><button onclick="deleteVerlaufPunkt('${d.date}')" style="font-size:10px;color:var(--muted);background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px" title="Löschen">✕</button></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">Noch keine Einträge – füge den ersten Datenpunkt hinzu</td></tr>';
 }
 
 // ══════════════════════════════════════════
@@ -3279,13 +3196,11 @@ renderTodo();
 initRelaiForm();
 initSelmaForm();
 initSwissquoteForm();
-// Verlauf initialisieren
+// Verlauf initialisieren (heute als Default-Datum setzen)
 const _todayIso = new Date().toISOString().split('T')[0];
 const _vlDateEl = document.getElementById('vl-date');
 if (_vlDateEl) _vlDateEl.value = _todayIso;
 renderVerlauf();
-// Tägliche Erinnerung prüfen (nach kurzem Delay damit Daten geladen sind)
-setTimeout(checkDailyReminder, 1500);
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
