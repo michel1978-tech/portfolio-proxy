@@ -1,0 +1,3578 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Michel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #f5f0e8;
+  --bg2:      #ede8de;
+  --surface:  #faf7f2;
+  --surface2: #f0ebe0;
+  --border:   #ddd5c4;
+  --border2:  #ccc3b0;
+  --accent:   #d97706;
+  --accent2:  #b45309;
+  --accent-light: #fef3c7;
+  --blue:     #2563eb;
+  --success:  #16a34a;
+  --danger:   #dc2626;
+  --warn:     #d97706;
+  --text:     #1c1917;
+  --text2:    #44403c;
+  --muted:    #78716c;
+  --muted2:   #a8a29e;
+  --sans:     'Inter', sans-serif;
+  --serif:    'Playfair Display', serif;
+  --radius:   12px;
+  --shadow:   0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; font-size: 14px; }
+
+/* ── HEADER ── */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+  box-shadow: var(--shadow);
+  position: sticky; top: 0; z-index: 100;
+}
+.logo {
+  font-family: var(--serif); font-size: 22px; color: var(--text);
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.header-right { display: flex; align-items: center; gap: 28px; }
+.header-stat { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
+.header-stat .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); font-weight: 500; }
+.header-stat .value { font-size: 15px; font-weight: 600; color: var(--text); }
+.header-stat .value.pos { color: var(--success); }
+.header-stat .value.neg { color: var(--danger); }
+.refresh-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--accent); color: white; border: none;
+  padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: var(--sans); transition: background 0.15s;
+}
+.refresh-btn:hover { background: var(--accent2); }
+.refresh-btn:disabled { background: var(--muted2); cursor: default; }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── NAV ── */
+nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  display: flex; gap: 2px;
+}
+.tab-btn {
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  padding: 14px 18px; background: transparent; border: none;
+  color: var(--muted); cursor: pointer; position: relative;
+  transition: color 0.15s; white-space: nowrap;
+}
+.tab-btn::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px; background: var(--accent); transform: scaleX(0);
+  transition: transform 0.15s;
+}
+.tab-btn:hover { color: var(--text2); }
+.tab-btn.active { color: var(--accent); font-weight: 600; }
+.tab-btn.active::after { transform: scaleX(1); }
+
+/* ── MAIN ── */
+main { padding: 28px 32px; max-width: 1500px; margin: 0 auto; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── CARDS ── */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 22px;
+  box-shadow: var(--shadow);
+}
+.card.accent { background: var(--accent); border-color: var(--accent2); }
+.card.accent .card-label, .card.accent .card-sub { color: rgba(255,255,255,0.75); }
+.card.accent .card-value { color: white; }
+.card-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); font-weight: 600; margin-bottom: 8px; }
+.card-value { font-size: 24px; font-weight: 700; color: var(--text); line-height: 1; }
+.card-value.pos { color: var(--success); }
+.card-value.neg { color: var(--danger); }
+.card-value.amber { color: var(--accent); }
+.card-sub { font-size: 12px; color: var(--muted); margin-top: 5px; }
+
+/* ── SECTION ── */
+.section { margin-bottom: 28px; }
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.section-title { font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--text); }
+.badge {
+  font-size: 11px; font-weight: 600; padding: 3px 10px;
+  border-radius: 20px; background: var(--bg2); color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+/* ── TABLE ── */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+table { width: 100%; border-collapse: collapse; background: var(--surface); }
+thead tr { background: var(--surface2); }
+th {
+  padding: 11px 14px; text-align: left; font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted);
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+th.r, td.r { text-align: right; }
+td { padding: 11px 14px; border-bottom: 1px solid var(--border2); color: var(--text2); font-size: 13px; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg); }
+.pos { color: var(--success) !important; font-weight: 500; }
+.neg { color: var(--danger) !important; font-weight: 500; }
+.muted { color: var(--muted); font-size: 11px; }
+td strong { color: var(--text); font-weight: 600; }
+
+/* ── TAGS ── */
+.tag {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 4px; letter-spacing: 0.3px;
+}
+.tag-exit  { background: #fee2e2; color: #dc2626; }
+.tag-build { background: #dcfce7; color: #16a34a; }
+.tag-sell  { background: #fef3c7; color: #d97706; }
+
+/* ── ALLOC ── */
+.alloc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+.alloc-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
+.alloc-title { font-family: var(--serif); font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 16px; }
+.alloc-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; font-size: 12px; }
+.alloc-bar-label { width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text2); }
+.alloc-bar-track { flex: 1; height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
+.alloc-bar-fill { height: 100%; border-radius: 3px; }
+.alloc-pct { width: 42px; text-align: right; color: var(--muted); }
+.alloc-chf { width: 80px; text-align: right; color: var(--text); font-weight: 500; }
+.pie-wrap { display: flex; gap: 20px; align-items: center; }
+.pie-legend { display: flex; flex-direction: column; gap: 8px; font-size: 12px; }
+.pie-legend-item { display: flex; align-items: center; gap: 8px; color: var(--text2); }
+.pie-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── NEWS ── */
+.news-search { display: flex; gap: 10px; margin-bottom: 16px; }
+.search-input {
+  flex: 1; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 16px; color: var(--text);
+  font-family: var(--sans); font-size: 13px; outline: none;
+  transition: border-color 0.15s; box-shadow: var(--shadow);
+}
+.search-input:focus { border-color: var(--accent); }
+.btn-primary {
+  background: var(--accent); color: white; border: none;
+  border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: var(--sans); transition: background 0.15s;
+  white-space: nowrap;
+}
+.btn-primary:hover { background: var(--accent2); }
+.btn-secondary {
+  background: var(--surface); color: var(--text2); border: 1px solid var(--border2);
+  border-radius: 8px; padding: 10px 20px; font-size: 13px; font-weight: 600;
+  cursor: pointer; font-family: var(--sans); transition: all 0.15s; white-space: nowrap;
+}
+.btn-secondary:hover { background: var(--bg2); border-color: var(--muted2); }
+.chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.chip {
+  font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 20px;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--text2); cursor: pointer; transition: all 0.15s;
+}
+.chip:hover, .chip.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.ai-box {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 22px; font-size: 13px; line-height: 1.75; color: var(--text2);
+  white-space: pre-wrap; box-shadow: var(--shadow); margin-top: 16px;
+}
+.loading { display: flex; align-items: center; gap: 10px; padding: 20px; color: var(--muted); font-size: 13px; }
+.spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+
+/* ── IMPORT ── */
+.account-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.account-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
+.account-card.total { border-color: var(--accent); background: var(--accent-light); }
+.account-name { font-family: var(--serif); font-size: 17px; font-weight: 600; margin-bottom: 2px; }
+.account-broker { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+.account-total { font-size: 26px; font-weight: 700; color: var(--accent); }
+.account-pnl { font-size: 13px; margin-top: 4px; }
+.account-updated { font-size: 11px; color: var(--muted); margin-top: 12px; display: flex; align-items: center; gap: 6px; }
+.dot-live { width: 7px; height: 7px; border-radius: 50%; background: var(--success); }
+.dot-ok { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.import-zone {
+  border: 2px dashed var(--border2); border-radius: var(--radius);
+  padding: 40px; text-align: center; cursor: pointer;
+  transition: all 0.2s; margin-bottom: 16px; background: var(--surface);
+}
+.import-zone:hover, .import-zone.drag { border-color: var(--accent); background: var(--accent-light); }
+.import-icon { font-size: 36px; margin-bottom: 10px; }
+.import-title { font-family: var(--serif); font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+.import-sub { font-size: 13px; color: var(--muted); }
+
+/* ── PRICE STATUS ── */
+.price-status { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+.price-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted2); }
+.price-dot.live { background: var(--success); }
+.price-dot.loading { background: var(--warn); animation: pulse 1s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* ── CORE / SATELLITE ── */
+.cs-wrap { display: flex; flex-direction: column; gap: 10px; }
+.cs-row { display: flex; align-items: center; gap: 12px; font-size: 13px; }
+.cs-label { width: 80px; font-weight: 600; color: var(--text2); }
+.cs-track { flex: 1; height: 18px; background: var(--bg2); border-radius: 6px; overflow: hidden; position: relative; }
+.cs-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; transition: width 0.8s ease; }
+.cs-target { position: absolute; top: 0; bottom: 0; width: 2px; background: rgba(0,0,0,0.25); }
+.cs-pct { width: 44px; text-align: right; font-weight: 600; }
+.cs-chf { width: 90px; text-align: right; color: var(--muted); font-size: 12px; }
+
+/* ── RISK / WARNINGS ── */
+.warn-list { display: flex; flex-direction: column; gap: 8px; }
+.warn-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 8px; font-size: 13px; }
+.warn-item.red { background: #fee2e2; border: 1px solid #fca5a5; }
+.warn-item.amber { background: var(--accent-light); border: 1px solid #fde68a; }
+.warn-item.green { background: #dcfce7; border: 1px solid #86efac; }
+.warn-icon { font-size: 16px; flex-shrink: 0; }
+.warn-text strong { display: block; font-weight: 600; color: var(--text); }
+.warn-text span { font-size: 12px; color: var(--muted); }
+
+/* ── CURRENCY EXPOSURE ── */
+.fx-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+.fx-flag { width: 22px; text-align: center; font-size: 15px; }
+.fx-label { width: 38px; font-weight: 600; color: var(--text2); }
+.fx-track { flex: 1; height: 10px; background: var(--bg2); border-radius: 5px; overflow: hidden; }
+.fx-fill { height: 100%; border-radius: 5px; }
+.fx-pct { width: 42px; text-align: right; font-weight: 500; }
+.fx-chf { width: 90px; text-align: right; color: var(--muted); font-size: 12px; }
+
+/* ── WATCHLIST ── */
+.watch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.watch-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow); }
+.watch-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.watch-name { font-weight: 600; font-size: 13px; color: var(--text); }
+.watch-type { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; }
+.watch-type.gtc { background: #dbeafe; color: #1d4ed8; }
+.watch-type.target { background: #dcfce7; color: #15803d; }
+.watch-detail { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+.watch-detail strong { color: var(--text2); }
+.watch-progress { margin-top: 8px; height: 4px; background: var(--bg2); border-radius: 2px; overflow: hidden; }
+.watch-progress-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width 0.6s ease; }
+
+/* ── WINNERS / LOSERS ── */
+.wl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.wl-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+.wl-title { font-family: var(--serif); font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+.wl-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; font-size: 12px; }
+.wl-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text2); }
+.wl-bar-track { width: 80px; height: 8px; background: var(--bg2); border-radius: 4px; overflow: hidden; flex-shrink: 0; }
+.wl-bar-fill { height: 100%; border-radius: 4px; }
+.wl-val { width: 70px; text-align: right; font-weight: 600; }
+
+/* ── TODO ── */
+.todo-section { margin-bottom: 20px; }
+.todo-section-title { font-family: var(--serif); font-size: 16px; font-weight: 600; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.todo-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 14px 16px; border-radius: 10px; margin-bottom: 8px;
+  background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow);
+  cursor: pointer; transition: opacity 0.2s;
+}
+.todo-item.done { opacity: 0.45; }
+.todo-item.done .todo-text { text-decoration: line-through; }
+.todo-checkbox {
+  width: 20px; height: 20px; border-radius: 5px; border: 2px solid var(--border2);
+  flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; background: var(--surface);
+}
+.todo-item.done .todo-checkbox { background: var(--success); border-color: var(--success); color: white; font-size: 12px; }
+.todo-priority { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; margin-top: 2px; }
+.todo-priority.high   { background: #fee2e2; color: #dc2626; }
+.todo-priority.medium { background: var(--accent-light); color: var(--accent2); }
+.todo-priority.low    { background: #dcfce7; color: #16a34a; }
+.todo-text { font-size: 13px; color: var(--text2); line-height: 1.5; flex: 1; }
+.todo-text strong { color: var(--text); display: block; margin-bottom: 2px; }
+/* ── API KEY ── */
+.api-key-bar {
+  background: #fef3c7; border-bottom: 1px solid #fde68a;
+  padding: 10px 32px; display: flex; align-items: center; gap: 12px;
+  font-size: 13px; color: #92400e;
+}
+.api-key-bar.hidden { display: none; }
+.api-key-input {
+  flex: 1; max-width: 420px; background: white; border: 1px solid #fde68a;
+  border-radius: 6px; padding: 7px 12px; font-size: 13px; font-family: var(--mono);
+  outline: none; color: #1c1917;
+}
+.api-key-input:focus { border-color: var(--accent); }
+.api-key-save {
+  background: var(--accent); color: white; border: none; border-radius: 6px;
+  padding: 7px 16px; font-size: 13px; font-weight: 600; cursor: pointer;
+  font-family: var(--sans);
+}
+.api-key-ok {
+  display: flex; align-items: center; gap: 8px; font-size: 13px; color: #15803d;
+  background: #dcfce7; border: 1px solid #86efac; border-radius: 6px; padding: 7px 14px;
+}
+.api-key-change { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 12px; text-decoration: underline; margin-left: 8px; }
+.news-day { margin-bottom: 20px; }
+.news-date-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--muted); margin-bottom: 8px; padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.news-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 16px; margin-bottom: 8px;
+  box-shadow: var(--shadow);
+}
+.news-card-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.news-category {
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 1px;
+}
+.news-category.macro  { background: #dbeafe; color: #1d4ed8; }
+.news-category.equity { background: #dcfce7; color: #15803d; }
+.news-category.fx     { background: var(--accent-light); color: var(--accent2); }
+.news-category.crypto { background: #f3e8ff; color: #7c3aed; }
+.news-card-title { font-weight: 600; font-size: 13px; color: var(--text); line-height: 1.4; flex: 1; }
+.news-bullets { list-style: none; margin: 0; padding: 0; }
+.news-bullets li {
+  font-size: 12px; color: var(--text2); line-height: 1.6; padding: 4px 0 4px 14px;
+  position: relative; border-bottom: 1px solid var(--border2);
+}
+.news-bullets li:last-child { border-bottom: none; }
+.news-bullets li::before { content: '·'; position: absolute; left: 0; color: var(--accent); font-weight: 900; font-size: 16px; line-height: 1.2; }
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+@media (max-width: 768px) {
+  header { padding: 0 16px; }
+  nav { padding: 0 16px; overflow-x: auto; }
+  main { padding: 16px; }
+  .alloc-grid { grid-template-columns: 1fr; }
+  .header-right { gap: 14px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><div class="logo-dot"></div>Portfolio Michel</div>
+  <div class="header-right">
+    <div class="header-stat">
+      <span class="label">Gesamtwert</span>
+      <span class="value" id="h-total">Lädt…</span>
+    </div>
+    <div class="header-stat">
+      <span class="label">G/V Total</span>
+      <span class="value" id="h-gnv">—</span>
+    </div>
+    <div class="header-stat">
+      <span class="label">Positionen</span>
+      <span class="value" id="h-count">—</span>
+    </div>
+    <button class="refresh-btn" id="refresh-btn" onclick="refreshPrices()">
+      <span id="refresh-icon">↻</span> Kurse aktualisieren
+    </button>
+  </div>
+</header>
+
+<!-- API KEY BAR -->
+<div class="api-key-bar" id="api-key-bar">
+  <span>🔑 Anthropic API-Key eingeben für News & AI:</span>
+  <input type="password" class="api-key-input" id="api-key-input" placeholder="sk-ant-api03-..." onkeydown="if(event.key==='Enter')saveApiKey()">
+  <button class="api-key-save" onclick="saveApiKey()">Speichern</button>
+  <span style="color:var(--muted);font-size:11px">Wird nur lokal in deinem Browser gespeichert</span>
+</div>
+<div class="api-key-bar hidden" id="api-key-ok-bar">
+  <div class="api-key-ok">✓ API-Key gespeichert – News & AI aktiv</div>
+  <button class="api-key-change" onclick="changeApiKey()">Key ändern</button>
+</div>
+
+<nav>
+  <button class="tab-btn active" onclick="switchTab('uebersicht',this)">Übersicht</button>
+  <button class="tab-btn" onclick="switchTab('news',this)">News & AI</button>
+  <button class="tab-btn" onclick="switchTab('dividenden',this)">Dividenden</button>
+  <button class="tab-btn" onclick="switchTab('saxo',this)">Saxo</button>
+  <button class="tab-btn" onclick="switchTab('neon',this)">Neon</button>
+  <button class="tab-btn" onclick="switchTab('swissquote',this)">Swissquote</button>
+  <button class="tab-btn" onclick="switchTab('selma',this)">Selma</button>
+  <button class="tab-btn" onclick="switchTab('relai',this)">₿ Relai</button>
+  <button class="tab-btn" onclick="switchTab('todo',this)">📋 To-do</button>
+  <button class="tab-btn" onclick="switchTab('thesen',this)">💡 Thesen</button>
+  <button class="tab-btn" onclick="switchTab('verlauf',this)">📈 Verlauf</button>
+  <button class="tab-btn" onclick="switchTab('import',this)">Import / Konten</button>
+</nav>
+
+<main>
+
+<!-- ÜBERSICHT -->
+<div class="tab-content active" id="tab-uebersicht">
+  <div class="price-status"><div class="price-dot" id="price-dot"></div><span id="price-status-text">Letzte Kurse vom Import</span></div>
+  <div class="cards">
+    <div class="card accent">
+      <div class="card-label">Gesamtportfolio</div>
+      <div class="card-value" id="ov-total">—</div>
+      <div class="card-sub">Alle 5 Depots kombiniert</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Gesamt G/V</div>
+      <div class="card-value" id="ov-gnv">—</div>
+      <div class="card-sub" id="ov-gnv-pct">—</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Saxo Bank</div>
+      <div class="card-value amber" id="ov-saxo">—</div>
+      <div class="card-sub" id="ov-saxo-gnv">—</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Neon</div>
+      <div class="card-value amber" id="ov-neon">—</div>
+      <div class="card-sub" id="ov-neon-gnv">—</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Swissquote</div>
+      <div class="card-value amber" id="ov-swissquote">—</div>
+      <div class="card-sub" id="ov-swissquote-gnv">—</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Selma</div>
+      <div class="card-value amber" id="ov-selma">—</div>
+      <div class="card-sub" id="ov-selma-gnv">—</div>
+    </div>
+    <div class="card">
+      <div class="card-label">₿ Relai</div>
+      <div class="card-value amber" id="ov-relai">—</div>
+      <div class="card-sub" id="ov-relai-sub">0.11 BTC · 100 CHF/Woche</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Sparpläne total</div>
+      <div class="card-value amber" id="ov-sparplan-total">—</div>
+      <div class="card-sub" id="ov-sparplan-sub">CHF / Monat</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+    <div class="alloc-box">
+      <div class="alloc-title">Top ETF-Kategorien</div>
+      <div id="ov-bars-etf"></div>
+    </div>
+    <div class="alloc-box">
+      <div class="alloc-title">Top Einzelaktien</div>
+      <div id="ov-bars-akt"></div>
+    </div>
+  </div>
+  <div class="alloc-grid">
+    <div class="alloc-box" style="grid-column:1/-1">
+      <div class="alloc-title">Asset-Allokation nach Depot</div>
+      <div class="pie-wrap">
+        <svg id="ov-pie" width="150" height="150" viewBox="0 0 150 150"></svg>
+        <div class="pie-legend" id="ov-pie-legend"></div>
+      </div>
+    </div>
+  </div>
+  <!-- CORE vs SATELLITE + WINNERS/LOSERS -->
+  <div class="alloc-grid" style="margin-bottom:20px">
+    <div class="alloc-box">
+      <div class="alloc-title">Core vs. Satellite</div>
+      <div class="cs-wrap" id="cs-wrap"></div>
+    </div>
+    <div class="alloc-box">
+      <div class="alloc-title">Währungsexposure</div>
+      <div id="fx-wrap"></div>
+    </div>
+  </div>
+
+  <!-- WINNERS / LOSERS -->
+  <div class="wl-grid" style="margin-bottom:20px">
+    <div class="wl-box">
+      <div class="wl-title">🟢 Top Gewinner (G/V CHF)</div>
+      <div id="wl-winners"></div>
+    </div>
+    <div class="wl-box">
+      <div class="wl-title">🔴 Top Verlierer (G/V CHF)</div>
+      <div id="wl-losers"></div>
+    </div>
+  </div>
+
+  <!-- WARNINGS + WATCHLIST -->
+  <div class="alloc-grid" style="margin-bottom:20px">
+    <div class="alloc-box">
+      <div class="alloc-title">⚠️ Risikohinweise</div>
+      <div class="warn-list" id="warn-list"></div>
+    </div>
+    <div class="alloc-box">
+      <div class="alloc-title">📋 Watchlist & Offene Orders</div>
+      <div class="watch-grid" id="watch-grid"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">Alle Positionen</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="badge" id="ov-count">—</span>
+        <input class="search-input" style="width:180px;padding:7px 12px" placeholder="Suche…" oninput="filterTable('ov-table',this.value)">
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="ov-table">
+        <thead><tr>
+          <th>Position</th><th>Depot</th>
+          <th class="r">Marktwert CHF</th><th class="r">G/V CHF</th><th class="r">G/V %</th><th>Status</th>
+        </tr></thead>
+        <tbody id="ov-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- NEWS & AI -->
+<div class="tab-content" id="tab-news">
+  <div class="news-search">
+    <input id="ai-q" class="search-input" placeholder="Frage stellen… z.B. 'Soll ich Novo Nordisk jetzt verkaufen?' oder 'Analysiere meine Dividendenstrategie'">
+    <button class="btn-primary" onclick="askAI()">Fragen →</button>
+  </div>
+  <div class="chip-row" id="chips"></div>
+  <div id="ai-out"></div>
+
+  <!-- Makro News -->
+  <div style="margin-top:24px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="font-family:var(--serif);font-size:18px;font-weight:600">Markt & Makro</div>
+      <button class="btn-primary" style="padding:7px 14px;font-size:12px" onclick="loadMacroNews()">↻ Aktualisieren</button>
+    </div>
+    <div id="macro-out">
+      <div style="display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;padding:16px 0">
+        <div class="spinner"></div>Makro-News werden geladen…
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DIVIDENDEN -->
+<div class="tab-content" id="tab-dividenden">
+  <div class="cards">
+    <div class="card accent">
+      <div class="card-label">Est. Dividenden p.a.</div>
+      <div class="card-value" id="div-pa">—</div>
+      <div class="card-sub">Saxo + Neon kombiniert</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Ø Dividendenrendite</div>
+      <div class="card-value amber" id="div-yield">—</div>
+      <div class="card-sub">auf Gesamtportfolio</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Ausschüttende Positionen</div>
+      <div class="card-value amber" id="div-count">—</div>
+      <div class="card-sub">Aktien &amp; ETFs</div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header"><div class="section-title">Dividenden-Positionen</div></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Position</th><th>Depot</th>
+          <th class="r">Marktwert CHF</th><th class="r">Est. Rendite</th><th class="r">Est. p.a. CHF</th>
+        </tr></thead>
+        <tbody id="div-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SAXO DEPOT -->
+<div class="tab-content" id="tab-saxo">
+  <div class="cards">
+    <div class="card accent">
+      <div class="card-label">Saxo Marktwert</div>
+      <div class="card-value" id="saxo-total">—</div>
+      <div class="card-sub">CHF</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Aktien G/V</div>
+      <div class="card-value" id="saxo-akt-gnv">—</div>
+      <div class="card-sub" id="saxo-akt-pct">—</div>
+    </div>
+    <div class="card">
+      <div class="card-label">ETF G/V</div>
+      <div class="card-value" id="saxo-etf-gnv">—</div>
+      <div class="card-sub" id="saxo-etf-pct">—</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Positionen</div>
+      <div class="card-value amber" id="saxo-count">—</div>
+      <div class="card-sub">Aktien &amp; ETFs</div>
+    </div>
+  </div>
+  <div class="alloc-grid">
+    <div class="alloc-box">
+      <div class="alloc-title">Top Saxo-Positionen</div>
+      <div id="saxo-bars"></div>
+    </div>
+    <div class="alloc-box">
+      <div class="alloc-title">Saxo Asset-Mix</div>
+      <div class="pie-wrap">
+        <svg id="saxo-pie" width="150" height="150" viewBox="0 0 150 150"></svg>
+        <div class="pie-legend" id="saxo-pie-legend"></div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">Aktien</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="badge" id="saxo-akt-count">—</span>
+        <input class="search-input" style="width:180px;padding:7px 12px" placeholder="Suche…" oninput="filterTable('saxo-akt-table',this.value)">
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="saxo-akt-table">
+        <thead><tr>
+          <th>Instrument</th><th class="r">Menge</th><th class="r">Kurs CHF</th>
+          <th class="r">Marktwert CHF</th><th class="r">G/V CHF</th><th class="r">G/V %</th><th>Status</th>
+        </tr></thead>
+        <tbody id="saxo-akt-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">ETFs</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="badge" id="saxo-etf-count">—</span>
+        <input class="search-input" style="width:180px;padding:7px 12px" placeholder="Suche…" oninput="filterTable('saxo-etf-table',this.value)">
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="saxo-etf-table">
+        <thead><tr>
+          <th>ETF</th><th class="r">Menge</th><th class="r">Kurs CHF</th>
+          <th class="r">Marktwert CHF</th><th class="r">G/V CHF</th><th class="r">G/V %</th><th>Status</th>
+        </tr></thead>
+        <tbody id="saxo-etf-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- NEON DEPOT -->
+<div class="tab-content" id="tab-neon">
+  <div class="cards">
+    <div class="card accent">
+      <div class="card-label">Neon Marktwert</div>
+      <div class="card-value" id="neon-total">—</div>
+      <div class="card-sub">CHF</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Total G/V</div>
+      <div class="card-value" id="neon-gnv">—</div>
+      <div class="card-sub" id="neon-gnv-pct">—</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Positionen</div>
+      <div class="card-value amber" id="neon-count">—</div>
+      <div class="card-sub">Aktien &amp; ETFs/ETPs</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Anteil Gesamt</div>
+      <div class="card-value amber" id="neon-share">—</div>
+      <div class="card-sub">% des Gesamtportfolios</div>
+    </div>
+  </div>
+  <div class="alloc-grid">
+    <div class="alloc-box">
+      <div class="alloc-title">Top Neon-Positionen</div>
+      <div id="neon-bars"></div>
+    </div>
+    <div class="alloc-box">
+      <div class="alloc-title">Neon Asset-Mix</div>
+      <div class="pie-wrap">
+        <svg id="neon-pie" width="150" height="150" viewBox="0 0 150 150"></svg>
+        <div class="pie-legend" id="neon-pie-legend"></div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">Aktien</div>
+      <span class="badge" id="neon-akt-count">—</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Instrument</th><th class="r">Menge</th>
+          <th class="r">Marktwert CHF</th><th class="r">G/V CHF</th><th class="r">G/V %</th>
+        </tr></thead>
+        <tbody id="neon-akt-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">ETFs &amp; ETPs</div>
+      <span class="badge" id="neon-etf-count">—</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>ETF / ETP</th><th class="r">Menge</th>
+          <th class="r">Marktwert CHF</th><th class="r">G/V CHF</th><th class="r">G/V %</th>
+        </tr></thead>
+        <tbody id="neon-etf-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- TO-DO / EMPFEHLUNGEN -->
+<div class="tab-content" id="tab-todo">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+    <div>
+      <div style="font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:4px">Portfolio To-do</div>
+      <div style="font-size:13px;color:var(--muted)">AI-Analyse basierend auf deinem aktuellen Portfolio</div>
+    </div>
+    <button class="btn-primary" onclick="generateTodo()">↻ Neu generieren</button>
+  </div>
+  <div id="todo-out">
+    <div style="display:flex;align-items:center;gap:12px;padding:40px;justify-content:center;color:var(--muted);font-size:13px">
+      <div class="spinner"></div>
+      Analyse wird generiert…
+    </div>
+  </div>
+</div>
+
+<!-- IMPORT / KONTEN -->
+<div class="tab-content" id="tab-import">
+  <div class="account-cards">
+    <div class="account-card">
+      <div class="account-name">Saxo Bank</div>
+      <div class="account-broker">Haupt-Depot · Zürich</div>
+      <div class="account-total" id="imp-saxo">—</div>
+      <div class="account-pnl" id="imp-saxo-gnv">—</div>
+      <div class="account-updated"><div class="dot-ok"></div>Import: <span id="imp-saxo-date">Apr 2025</span></div>
+    </div>
+    <div class="account-card">
+      <div class="account-name">Neon</div>
+      <div class="account-broker">Zweites Depot · Schweiz</div>
+      <div class="account-total" id="imp-neon">CHF 122'205</div>
+      <div class="account-pnl" id="imp-neon-gnv">—</div>
+      <div class="account-updated"><div class="dot-ok"></div>Import: April 2026</div>
+    </div>
+    <div class="account-card">
+      <div class="account-name">Swissquote</div>
+      <div class="account-broker">Drittes Depot</div>
+      <div class="account-total" id="imp-swissquote">—</div>
+      <div class="account-pnl" id="imp-swissquote-gnv">—</div>
+      <div class="account-updated"><div class="dot-ok" id="sq-dot"></div><span id="imp-sq-date">Noch kein Import</span></div>
+    </div>
+    <div class="account-card">
+      <div class="account-name">Selma</div>
+      <div class="account-broker">Robo-Advisor</div>
+      <div class="account-total" id="imp-selma">—</div>
+      <div class="account-pnl" id="imp-selma-gnv">—</div>
+      <div class="account-updated"><div class="dot-ok" id="selma-dot"></div><span id="imp-selma-date">Noch kein Import</span></div>
+    </div>
+    <div class="account-card">
+      <div class="account-name">Relai</div>
+      <div class="account-broker">Bitcoin · 0.11 BTC + Sparplan</div>
+      <div class="account-total" id="imp-relai">—</div>
+      <div class="account-pnl" id="imp-relai-gnv">—</div>
+      <div class="account-updated"><div class="dot-live"></div>Manuell / wöchentlicher Sparplan</div>
+    </div>
+    <div class="account-card total">
+      <div class="account-name">Gesamt</div>
+      <div class="account-broker">Alle 5 Depots kombiniert</div>
+      <div class="account-total" id="imp-total">—</div>
+      <div class="account-pnl" id="imp-total-gnv">—</div>
+      <div class="account-updated"><div class="dot-live"></div>Gesamtsicht</div>
+    </div>
+  </div>
+
+  <!-- IMPORT ZONEN -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+    <div class="import-zone" style="padding:24px" onclick="document.getElementById('file-saxo-neon').click()">
+      <div class="import-icon" style="font-size:24px">📂</div>
+      <div class="import-title" style="font-size:14px">Saxo / Neon</div>
+      <div class="import-sub">.xlsx oder .csv</div>
+      <input type="file" id="file-saxo-neon" accept=".xlsx,.csv" style="display:none" onchange="handleImport(this.files[0],'auto')">
+    </div>
+    <div class="import-zone" style="padding:24px" onclick="document.getElementById('file-swissquote').click()">
+      <div class="import-icon" style="font-size:24px">📂</div>
+      <div class="import-title" style="font-size:14px">Swissquote</div>
+      <div class="import-sub">.xlsx oder .csv</div>
+      <input type="file" id="file-swissquote" accept=".xlsx,.csv" style="display:none" onchange="handleImport(this.files[0],'swissquote')">
+    </div>
+    <div class="import-zone" style="padding:24px" onclick="switchTab('selma', document.querySelectorAll('.tab-btn')[4])">
+      <div class="import-icon" style="font-size:24px">✏️</div>
+      <div class="import-title" style="font-size:14px">Selma</div>
+      <div class="import-sub">Wert manuell eingeben</div>
+    </div>
+    <div class="import-zone" style="padding:24px" onclick="updateRelaiManual()">
+      <div class="import-icon" style="font-size:24px">₿</div>
+      <div class="import-title" style="font-size:14px">Relai / Bitcoin</div>
+      <div class="import-sub">Manuell aktualisieren</div>
+    </div>
+  </div>
+
+  <!-- RELAI MANUELL -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);margin-bottom:16px" id="relai-manual-box">
+    <div style="font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:12px">₿ Relai – Bitcoin</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px">
+      <div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase">BTC Bestand</div>
+        <input type="number" id="relai-btc" step="0.00001" placeholder="0.11" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase">BTC/CHF Kurs</div>
+        <input type="number" id="relai-price" placeholder="z.B. 90000" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase">Einstand CHF</div>
+        <input type="number" id="relai-cost" placeholder="z.B. 8000" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase">Sparplan CHF/Woche</div>
+        <input type="number" id="relai-sparplan" placeholder="z.B. 50" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="btn-primary" onclick="saveRelai()">Speichern</button>
+      <button class="btn-primary" style="background:var(--surface);color:var(--text2);border:1px solid var(--border2)" onclick="fetchBtcPrice()">₿ Kurs abrufen</button>
+      <span id="relai-msg" style="font-size:12px;color:var(--success)"></span>
+    </div>
+  </div>
+
+  <div id="imp-status" style="color:var(--muted);font-size:13px;text-align:center;margin-bottom:12px"></div>
+
+  <!-- LEGACY single file input (hidden, kept for old ondrop) -->
+  <input type="file" id="file-in" accept=".xlsx,.csv" style="display:none" onchange="handleImport(this.files[0],'auto')">
+
+
+  <!-- KURSDATEN INFO -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:20px;box-shadow:var(--shadow)">
+    <div style="font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:12px">📡 Kursdaten-Quellen</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px">
+      Kurse werden via <strong>Yahoo Finance</strong> abgerufen (Proxy: portfolio-proxy-eight.vercel.app). Kein API-Key nötig — einfach «Kurse aktualisieren» klicken.
+      Klicke auf <em>Kurse aktualisieren</em>. Pro 10 Ticker 1 Web-Search-Call, ~1–2 Min total.<br>
+      <span style="color:var(--muted);font-size:12px">Tagesschlusskurse. Fehlende Ticker bleiben auf Importwert.</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px">
+      <div style="background:var(--bg2);border-radius:8px;padding:12px 14px">
+        <div style="font-weight:600;font-size:12px;margin-bottom:4px">✅ Yahoo Finance (aktiv)</div>
+        <div style="font-size:11px;color:var(--muted)">Kostenlos · ~15 Min Verzögerung<br>US, CH, DE, GB, NO Ticker</div>
+      </div>
+      <div style="background:var(--bg2);border-radius:8px;padding:12px 14px">
+        <div style="font-weight:600;font-size:12px;margin-bottom:4px">💰 Tiingo (~$10/Monat)</div>
+        <div style="font-size:11px;color:var(--muted)">Realtime US-Kurse, sehr zuverlässig<br><a href="https://api.tiingo.com" target="_blank" style="color:var(--blue)">api.tiingo.com</a> · Key unten eingeben</div>
+        <div style="margin-top:8px;display:flex;gap:6px">
+          <input type="text" id="tiingo-key" placeholder="Token hier…" style="flex:1;font-size:11px;padding:4px 8px;border:1px solid var(--border2);border-radius:5px;background:var(--surface);color:var(--text);outline:none" value="">
+          <button onclick="saveTiingoKey()" style="font-size:11px;padding:4px 10px;background:var(--accent);color:white;border:none;border-radius:5px;cursor:pointer">Speichern</button>
+        </div>
+        <div id="tiingo-status" style="font-size:10px;color:var(--muted);margin-top:4px"></div>
+      </div>
+      <div style="background:var(--bg2);border-radius:8px;padding:12px 14px">
+        <div style="font-weight:600;font-size:12px;margin-bottom:4px">🚀 Polygon.io (ab $30/Monat)</div>
+        <div style="font-size:11px;color:var(--muted)">Realtime US+Global, Profi-Qualität<br><a href="https://polygon.io" target="_blank" style="color:var(--blue)">polygon.io</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header"><div class="section-title">Sparplan</div></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ETF / Asset</th><th class="r">CHF / Monat</th><th>Typ</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Vanguard FTSE All-World (VWCE)</strong><br><span style="font-size:11px;color:var(--muted)">Neon · 0% Gebühren · ersetzte Global Stocks FWRN</span></td><td class="r">1'200</td><td><span class="tag tag-build">Core</span></td></tr>
+          <tr><td><strong>iShares MSCI World (SWDA)</strong><br><span style="font-size:11px;color:var(--muted)">Saxo · Hypotheken-Topf</span></td><td class="r">800</td><td><span class="tag tag-build">Core</span></td></tr>
+          <tr><td><strong>Amundi STOXX 600</strong><br><span style="font-size:11px;color:var(--muted)">Saxo</span></td><td class="r">500</td><td><span class="tag tag-build">Core</span></td></tr>
+          <tr><td><strong>iShares Japan IMI (SJPA)</strong><br><span style="font-size:11px;color:var(--muted)">Saxo</span></td><td class="r">400</td><td><span class="tag tag-build">Core</span></td></tr>
+          <tr><td><strong>iShares MSCI Global Semiconductors (SEMI)</strong><br><span style="font-size:11px;color:var(--muted)">Saxo · neu · Aufbau auf CHF 6'000–8'000</span></td><td class="r">500</td><td><span class="tag tag-sell">Satellite</span></td></tr>
+          <tr><td><strong>Relai Bitcoin</strong><br><span style="font-size:11px;color:var(--muted)">CHF 100/Woche · ~CHF 433/Mt</span></td><td class="r">~433</td><td><span class="tag tag-sell">Satellite</span></td></tr>
+          <tr style="background:var(--bg2)"><td><strong>Total</strong></td><td class="r"><strong>~3'833</strong></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- THESEN -->
+<div class="tab-content" id="tab-thesen">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:4px">Investitionsthesen</div>
+      <div style="font-size:13px;color:var(--muted)">Warum ich was halte — direkt hier bearbeitbar, lokal gespeichert</div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn-primary" onclick="thesenNeuDialog()">+ Neue These</button>
+      <button class="btn-secondary" onclick="thesenExportieren()">↓ Export</button>
+    </div>
+  </div>
+
+  <!-- Filter-Chips -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px" id="thesen-filter-bar">
+    <button class="chip active" onclick="thesenFilter('alle',this)">Alle</button>
+    <button class="chip" onclick="thesenFilter('Satelliten-ETF',this)">Satelliten-ETFs</button>
+    <button class="chip" onclick="thesenFilter('Einzeltitel',this)">Einzeltitel</button>
+    <button class="chip" onclick="thesenFilter('Nicht gespielt',this)">Nicht gespielt</button>
+    <button class="chip" onclick="thesenFilter('Beobachtung',this)">Beobachtung</button>
+  </div>
+
+  <div id="thesen-list" style="display:grid;gap:12px"></div>
+
+  <!-- MODAL: These bearbeiten / neu -->
+  <div id="thesen-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;align-items:center;justify-content:center">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:min(600px,95vw);max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
+      <div style="font-family:var(--serif);font-size:18px;font-weight:600;margin-bottom:20px" id="modal-title">These bearbeiten</div>
+      <div style="display:grid;gap:14px">
+        <div>
+          <label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);display:block;margin-bottom:6px">Titel / Position</label>
+          <input id="t-titel" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);font-family:var(--sans);font-size:13px;color:var(--text);box-sizing:border-box" placeholder="z.B. Schneider Electric — Strom &amp; Infrastruktur-Play">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);display:block;margin-bottom:6px">Kategorie</label>
+            <select id="t-kategorie" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);font-family:var(--sans);font-size:13px;color:var(--text)">
+              <option>Satelliten-ETF</option>
+              <option>Einzeltitel</option>
+              <option>Nicht gespielt</option>
+              <option>Beobachtung</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);display:block;margin-bottom:6px">Status</label>
+            <select id="t-status" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);font-family:var(--sans);font-size:13px;color:var(--text)">
+              <option>Aufbauen</option>
+              <option>Halten</option>
+              <option>In Stärke verkaufen</option>
+              <option>Exit</option>
+              <option>Verkauft</option>
+              <option>Beobachten</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);display:block;margin-bottom:6px">Ziel / Label</label>
+          <input id="t-ziel" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);font-family:var(--sans);font-size:13px;color:var(--text);box-sizing:border-box" placeholder="z.B. Ziel CHF 5–7k · GTC 37.50">
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);display:block;margin-bottom:6px">These (Bull-Case)</label>
+          <textarea id="t-these" rows="4" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);font-family:var(--sans);font-size:13px;color:var(--text);resize:vertical;box-sizing:border-box" placeholder="Warum ich das halte / kaufe…"></textarea>
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);display:block;margin-bottom:6px">Verkaufen wenn (Bear-Case / Exit-Trigger)</label>
+          <textarea id="t-exit" rows="2" style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;background:var(--bg);font-family:var(--sans);font-size:13px;color:var(--text);resize:vertical;box-sizing:border-box" placeholder="Klare Bedingungen für Exit…"></textarea>
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);display:block;margin-bottom:6px">Akzentfarbe</label>
+          <div style="display:flex;gap:10px;flex-wrap:wrap" id="color-picker">
+            <div class="color-swatch" data-color="#7c3aed" style="background:#7c3aed;width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent" onclick="selectColor(this)"></div>
+            <div class="color-swatch" data-color="#dc2626" style="background:#dc2626;width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent" onclick="selectColor(this)"></div>
+            <div class="color-swatch" data-color="#2563eb" style="background:#2563eb;width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent" onclick="selectColor(this)"></div>
+            <div class="color-swatch" data-color="#16a34a" style="background:#16a34a;width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent" onclick="selectColor(this)"></div>
+            <div class="color-swatch" data-color="#d97706" style="background:#d97706;width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent" onclick="selectColor(this)"></div>
+            <div class="color-swatch" data-color="#0891b2" style="background:#0891b2;width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent" onclick="selectColor(this)"></div>
+            <div class="color-swatch" data-color="#be185d" style="background:#be185d;width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent" onclick="selectColor(this)"></div>
+            <div class="color-swatch" data-color="#78716c" style="background:#78716c;width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent" onclick="selectColor(this)"></div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:24px;justify-content:flex-end">
+        <button class="btn-secondary" onclick="thesenModalClose()">Abbrechen</button>
+        <button id="modal-delete-btn" class="btn-secondary" style="color:var(--danger);border-color:var(--danger);display:none" onclick="thesenLoeschen()">Löschen</button>
+        <button class="btn-primary" onclick="thesenSpeichern()">Speichern</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VERLAUF -->
+<div class="tab-content" id="tab-verlauf">
+
+  <div class="cards" style="margin-bottom:20px">
+    <div class="card accent">
+      <div class="card-label">Gesamtrendite</div>
+      <div class="card-value" id="vl-total-pct">—</div>
+      <div class="card-sub" id="vl-total-chf">Seit erstem Eintrag</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Aktueller Wert</div>
+      <div class="card-value amber" id="vl-current">—</div>
+      <div class="card-sub">CHF</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Einstandswert (investiert)</div>
+      <div class="card-value" id="vl-cost">—</div>
+      <div class="card-sub">CHF gesamt</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Datenpunkte</div>
+      <div class="card-value amber" id="vl-count">—</div>
+      <div class="card-sub">Manuelle Einträge</div>
+    </div>
+  </div>
+
+  <!-- CHART BEREICH -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);margin-bottom:20px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+      <div style="font-family:var(--serif);font-size:18px;font-weight:600">Portfolio-Verlauf</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button class="chip active" id="vl-mode-chf" onclick="setVerlaufMode('chf',this)">CHF Wert</button>
+        <button class="chip" id="vl-mode-pct" onclick="setVerlaufMode('pct',this)">% Performance</button>
+        <button class="chip" id="vl-mode-both" onclick="setVerlaufMode('both',this)">Beide</button>
+        <span style="width:1px;height:20px;background:var(--border);margin:0 4px"></span>
+        <button class="chip active" id="vl-range-all" onclick="setVerlaufRange('all',this)">Alle</button>
+        <button class="chip" id="vl-range-1y" onclick="setVerlaufRange('1y',this)">1J</button>
+        <button class="chip" id="vl-range-6m" onclick="setVerlaufRange('6m',this)">6M</button>
+        <button class="chip" id="vl-range-3m" onclick="setVerlaufRange('3m',this)">3M</button>
+      </div>
+    </div>
+    <div style="position:relative;width:100%;height:320px">
+      <canvas id="verlauf-chart"></canvas>
+    </div>
+  </div>
+
+  <!-- EINTRAG HINZUFÜGEN -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);margin-bottom:20px">
+    <div style="font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:14px">➕ Datenpunkt erfassen</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:12px">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Datum</div>
+        <input type="date" id="vl-date" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;font-family:var(--sans);outline:none">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Marktwert (CHF)</div>
+        <input type="number" id="vl-mw" placeholder="z.B. 345000" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;font-family:var(--sans);outline:none">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Einstandswert (CHF)</div>
+        <input type="number" id="vl-cost" placeholder="z.B. 290000" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;font-family:var(--sans);outline:none">
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px">Notiz (optional)</div>
+        <input type="text" id="vl-note" placeholder="z.B. Nach Saxo Import" style="width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;font-family:var(--sans);outline:none">
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <button class="btn-primary" onclick="addVerlaufPunkt()">Eintrag speichern</button>
+      <button class="btn-primary" style="background:var(--surface);color:var(--text2);border:1px solid var(--border2)" onclick="addVerlaufHeute()">📊 Heutigen Depotstand übernehmen</button>
+      <div id="vl-save-msg" style="font-size:12px;color:var(--success)"></div>
+    </div>
+  </div>
+
+  <!-- VERLAUF TABELLE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-title">Alle Einträge</div>
+      <button onclick="clearVerlauf()" style="font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline">Alle löschen</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Datum</th>
+          <th class="r">Marktwert CHF</th>
+          <th class="r">Einstand CHF</th>
+          <th class="r">G/V CHF</th>
+          <th class="r">G/V %</th>
+          <th>Notiz</th>
+          <th></th>
+        </tr></thead>
+        <tbody id="vl-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- SWISSQUOTE -->
+<div class="tab-content" id="tab-swissquote">
+  <div class="cards">
+    <div class="card accent"><div class="card-label">Swissquote Marktwert</div><div class="card-value" id="sq-total">—</div><div class="card-sub">CHF</div></div>
+    <div class="card"><div class="card-label">G/V CHF</div><div class="card-value" id="sq-gnv">—</div><div class="card-sub" id="sq-gnv-pct">—</div></div>
+    <div class="card"><div class="card-label">Einstand</div><div class="card-value amber" id="sq-cost-display">—</div><div class="card-sub">CHF investiert</div></div>
+    <div class="card"><div class="card-label">Zuletzt aktualisiert</div><div class="card-value amber" id="sq-import-date">—</div><div class="card-sub">Manuell / Import</div></div>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);margin-bottom:20px">
+    <div style="font-family:var(--serif);font-size:16px;font-weight:600;margin-bottom:16px">Swissquote – manuell aktualisieren</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px">
+      <div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase">Aktueller Wert (CHF)</div>
+        <input type="number" id="sq-mw-input" placeholder="z.B. 42146" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase">Einstand (CHF)</div>
+        <input type="number" id="sq-cost-input" placeholder="z.B. 37630" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="btn-primary" onclick="saveSwissquote()">Speichern</button>
+      <button class="btn-primary" style="background:var(--surface);color:var(--text2);border:1px solid var(--border2)" onclick="document.getElementById('file-swissquote').click()">📂 Excel importieren</button>
+      <span id="sq-msg" style="font-size:12px;color:var(--success)"></span>
+    </div>
+    <input type="file" id="file-swissquote" accept=".xlsx,.csv" style="display:none" onchange="handleImport(this.files[0],'swissquote')">
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow)">
+    <div style="font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:14px">Übersicht</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px">
+      <div style="background:var(--bg2);border-radius:8px;padding:14px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Marktwert</div>
+        <div id="sq-detail-mw" style="font-size:20px;font-weight:700">—</div>
+      </div>
+      <div style="background:var(--bg2);border-radius:8px;padding:14px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">G/V CHF</div>
+        <div id="sq-detail-gnv" style="font-size:20px;font-weight:700">—</div>
+      </div>
+      <div style="background:var(--bg2);border-radius:8px;padding:14px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">G/V %</div>
+        <div id="sq-detail-pct" style="font-size:20px;font-weight:700">—</div>
+      </div>
+      <div style="background:var(--bg2);border-radius:8px;padding:14px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Einstand</div>
+        <div id="sq-detail-cost" style="font-size:20px;font-weight:700">—</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;font-size:12px;color:var(--muted);margin-bottom:10px">
+      16 Positionen · Import 23.04.2026 · Kurse via «Kurse aktualisieren»
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th>Position</th><th>Typ</th><th class="r">Qty</th>
+        <th class="r">Kurs</th><th class="r">Marktwert CHF</th>
+        <th class="r">G/V CHF</th><th class="r">G/V %</th>
+      </tr></thead>
+      <tbody id="sq-pos-body"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- SELMA -->
+<div class="tab-content" id="tab-selma">
+  <div class="cards">
+    <div class="card accent"><div class="card-label">Selma Marktwert</div><div class="card-value" id="selma-total">—</div><div class="card-sub">CHF</div></div>
+    <div class="card"><div class="card-label">G/V CHF</div><div class="card-value" id="selma-gnv">—</div><div class="card-sub" id="selma-gnv-pct">—</div></div>
+    <div class="card"><div class="card-label">Einstand</div><div class="card-value amber" id="selma-cost-display">—</div><div class="card-sub">CHF investiert</div></div>
+    <div class="card"><div class="card-label">Zuletzt aktualisiert</div><div class="card-value amber" id="selma-import-date">—</div><div class="card-sub">Manueller Eintrag</div></div>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);margin-bottom:20px">
+    <div style="font-family:var(--serif);font-size:16px;font-weight:600;margin-bottom:16px">Selma – Robo-Advisor</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px">
+      <div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase">Aktueller Wert (CHF)</div>
+        <input type="number" id="selma-mw-input" placeholder="z.B. 25000" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase">Einstand (CHF)</div>
+        <input type="number" id="selma-cost-input" placeholder="z.B. 22000" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase">Sparplan CHF/Monat</div>
+        <input type="number" id="selma-sparplan" placeholder="z.B. 500" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:4px;text-transform:uppercase">Strategie</div>
+        <input type="text" id="selma-strategy" placeholder="z.B. Ausgewogen" style="width:100%;padding:8px 10px;border:1px solid var(--border2);border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;outline:none">
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="btn-primary" onclick="saveSelma()">Speichern</button>
+      <span id="selma-msg" style="font-size:12px;color:var(--success)"></span>
+    </div>
+  </div>
+
+  <!-- Selma Details -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow)">
+    <div style="font-family:var(--serif);font-size:15px;font-weight:600;margin-bottom:14px">Übersicht</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;font-size:13px">
+      <div style="background:var(--bg2);border-radius:8px;padding:14px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Marktwert</div>
+        <div id="selma-detail-mw" style="font-size:20px;font-weight:700">—</div>
+      </div>
+      <div style="background:var(--bg2);border-radius:8px;padding:14px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">G/V CHF</div>
+        <div id="selma-detail-gnv" style="font-size:20px;font-weight:700">—</div>
+      </div>
+      <div style="background:var(--bg2);border-radius:8px;padding:14px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">G/V %</div>
+        <div id="selma-detail-pct" style="font-size:20px;font-weight:700">—</div>
+      </div>
+      <div style="background:var(--bg2);border-radius:8px;padding:14px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Sparplan</div>
+        <div id="selma-detail-sparplan" style="font-size:20px;font-weight:700">—</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;font-size:12px;color:var(--muted);margin-bottom:12px">
+      Positionen aus letztem Export (Apr 2025) · Kurse werden bei «Kurse aktualisieren» automatisch mitgeholt
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Position</th><th class="r">Qty</th><th class="r">Kurs CHF</th><th class="r">Marktwert CHF</th><th class="r">G/V CHF</th><th class="r">G/V %</th></tr></thead>
+      <tbody id="selma-pos-body"></tbody>
+    </table></div>
+    <div style="margin-top:8px;font-size:12px;color:var(--muted)">+ CHF 31.75 Cash</div>
+  </div>
+</div>
+
+<!-- RELAI -->
+<div class="tab-content" id="tab-relai">
+  <div class="cards">
+    <div class="card accent"><div class="card-label">Relai Marktwert</div><div class="card-value" id="relai-total">—</div><div class="card-sub">CHF</div></div>
+    <div class="card"><div class="card-label">BTC Bestand</div><div class="card-value amber" id="relai-btc-display">0.11 BTC</div><div class="card-sub">+ wöchentlicher Sparplan</div></div>
+    <div class="card"><div class="card-label">G/V CHF</div><div class="card-value" id="relai-gnv-display">—</div><div class="card-sub" id="relai-gnv-pct">—</div></div>
+    <div class="card"><div class="card-label">BTC/CHF</div><div class="card-value amber" id="relai-btc-price">—</div><div class="card-sub">Aktueller Kurs</div></div>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:20px">
+    <div style="font-family:var(--serif);font-size:16px;font-weight:600;margin-bottom:16px">Bitcoin Position</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;font-size:13px">
+      <div style="background:var(--bg2);border-radius:8px;padding:14px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Bestand</div>
+        <div id="relai-detail-btc" style="font-size:20px;font-weight:700">0.11 BTC</div>
+      </div>
+      <div style="background:var(--bg2);border-radius:8px;padding:14px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Wert CHF</div>
+        <div id="relai-detail-chf" style="font-size:20px;font-weight:700">—</div>
+      </div>
+      <div style="background:var(--bg2);border-radius:8px;padding:14px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Einstand</div>
+        <div id="relai-detail-cost" style="font-size:20px;font-weight:700">—</div>
+      </div>
+      <div style="background:var(--bg2);border-radius:8px;padding:14px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Sparplan</div>
+        <div id="relai-detail-sparplan" style="font-size:20px;font-weight:700">—/Woche</div>
+      </div>
+    </div>
+    <div style="margin-top:16px">
+      <button class="btn-primary" style="font-size:12px;padding:6px 14px" onclick="switchTab('import', document.querySelectorAll('.tab-btn')[7])">✏️ Bestand aktualisieren</button>
+      <button class="btn-primary" style="font-size:12px;padding:6px 14px;background:var(--surface);color:var(--text2);border:1px solid var(--border2);margin-left:8px" onclick="fetchBtcPrice()">₿ BTC Kurs holen</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ══════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════
+const NEON_DATA = [
+  {n:"Vanguard FTSE All-World (Neon)",ccy:"EUR",qty:27,cost:3900.00,mw:3900.00,gnv:0,isin:"IE00BK5BQT80",type:"ETF",ticker:"VWCE.DE"},
+  {n:"Global Stocks FTSE All-World (alt)",ccy:"CHF",qty:3711,cost:24485.18-1092.94,mw:24485.18,gnv:1092.94,isin:"IE000716YHJ7",type:"ETF",ticker:"FWRN.SW"},
+  {n:"S&P 500 (Xtrackers)",ccy:"USD",qty:1302,cost:13256.96-1218.25,mw:13256.96,gnv:1218.25,isin:"IE000Z9SJA06",type:"ETF",ticker:"XDWU.DE"},
+  {n:"Allianz SE",ccy:"EUR",qty:24,cost:8194.56-2472.69,mw:8194.56,gnv:2472.69,isin:"DE0008404005",type:"Aktie",ticker:"ALV.DE"},
+  {n:"Europe Stocks Top 600",ccy:"EUR",qty:45,cost:6250.23-523.44,mw:6250.23,gnv:523.44,isin:"IE00B60SWW18",type:"ETF",ticker:"EXSA.DE"},
+  {n:"Emerging Markets (Invesco MSCI EM)",ccy:"USD",qty:1328,cost:5545.73-617.30,mw:5545.73,gnv:617.30,isin:"IE000PJL7R74",type:"ETF",ticker:"EMIM.L"},
+  {n:"Roche Partizipationsschein",ccy:"CHF",qty:17,cost:5341.59-741.01,mw:5341.59,gnv:741.01,isin:"CH0012032048",type:"Aktie",ticker:"ROG.SW"},
+  {n:"UBS Group AG",ccy:"CHF",qty:170,cost:5338.51-1301.01,mw:5338.51,gnv:1301.01,isin:"CH0244767585",type:"Aktie",ticker:"UBSG.SW"},
+  {n:"iShares Swiss Dividend (Neon)",ccy:"CHF",qty:29,cost:5224.73-601.70,mw:5224.73,gnv:601.70,isin:"CH0237935637",type:"ETF",ticker:"CHDVD.SW"},
+  {n:"China Technology ETF",ccy:"USD",qty:197,cost:4676.39+10.14,mw:4676.39,gnv:-10.14,isin:"IE00BM8QS095",type:"ETF",ticker:"2B76.DE"},
+  {n:"Zurich Insurance Group",ccy:"CHF",qty:8,cost:4583.97-696.24,mw:4583.97,gnv:696.24,isin:"CH0011075394",type:"Aktie",ticker:"ZURN.SW"},
+  {n:"Silver ZKB ETC",ccy:"CHF",qty:25,cost:4111.33-3702.70,mw:4111.33,gnv:3702.70,isin:"CH0183135976",type:"ETF",ticker:"ZSIL.SW"},
+  {n:"Ethereum (Xtrackers)",ccy:"CHF",qty:764,cost:3786.38+1673.48,mw:3786.38,gnv:-1673.48,isin:"CH1315732268",type:"ETF",ticker:"XETH.SW"},
+  {n:"Nestlé SA (Neon)",ccy:"CHF",qty:45,cost:3570.12+325.63,mw:3570.12,gnv:-325.63,isin:"CH0038863350",type:"Aktie",ticker:"NESN.SW"},
+  {n:"Gold ZKB ETC",ccy:"CHF",qty:3,cost:3312.45-1225.28,mw:3312.45,gnv:1225.28,isin:"CH0139101593",type:"ETF",ticker:"ZGLD.SW"},
+  {n:"BB Biotech AG (Neon)",ccy:"CHF",qty:70,cost:3093.23-352.29,mw:3093.23,gnv:352.29,isin:"CH0038389992",type:"Aktie",ticker:"BION.SW"},
+  {n:"Swiss Life Holding",ccy:"CHF",qty:3,cost:2669.54-732.85,mw:2669.54,gnv:732.85,isin:"CH0014852781",type:"Aktie",ticker:"SLHN.SW"},
+  {n:"Bitcoin (Xtrackers)",ccy:"CHF",qty:256,cost:2430.21+1265.37,mw:2430.21,gnv:-1265.37,isin:"CH1315732250",type:"ETF",ticker:"XBTC.SW"},
+  {n:"Ypsomed Holding",ccy:"CHF",qty:8,cost:2225.42+250.18,mw:2225.42,gnv:-250.18,isin:"CH0019396990",type:"Aktie",ticker:"YPSN.SW"},
+  {n:"BP Plc",ccy:"GBp",qty:401,cost:2507.45-728.14,mw:2507.45,gnv:728.14,isin:"GB0007980591",type:"Aktie",ticker:"BP.L"},
+  {n:"Gold Producers (iShares)",ccy:"USD",qty:63,cost:2173.50-1527.74,mw:2173.50,gnv:1527.74,isin:"IE00B6R52036",type:"ETF",ticker:"IAUP.MI"},
+  {n:"Gold Miners (VanEck)",ccy:"USD",qty:20,cost:1790.62-2174.03,mw:1790.62,gnv:2174.03,isin:"IE00BQQP9G91",type:"ETF",ticker:"GDX"},
+  {n:"Emerging Markets (iShares)",ccy:"USD",qty:47,cost:1753.85+7.58,mw:1753.85,gnv:-7.58,isin:"IE00BKM4GZ66",type:"ETF",ticker:"EIMI.L"},
+  {n:"Helvetia Baloise Holding",ccy:"CHF",qty:8,cost:1686.07,mw:1686.07,gnv:0,isin:"CH0466642201",type:"Aktie",ticker:"HELN.SW"},
+  {n:"Amazon.com (Neon)",ccy:"USD",qty:9,cost:1521.84-326.27,mw:1521.84,gnv:326.27,isin:"US0231351067",type:"Aktie",ticker:"AMZN"},
+  {n:"Novo Nordisk (Neon)",ccy:"EUR",qty:35,cost:1017.07+2232.27,mw:1017.07,gnv:-2232.27,isin:"DK0062498333",type:"Aktie",ticker:"NOVO-B.CO"},
+  {n:"ams OSRAM",ccy:"EUR",qty:35,cost:309.82+317.39,mw:309.82,gnv:-317.39,isin:"AT0000A3EPA4",type:"Aktie",ticker:"AMS.SW"},
+  {n:"Cardano ETP",ccy:"USD",qty:37,cost:88.17+294.58,mw:88.17,gnv:-294.58,isin:"GB00BNGJ9J32",type:"ETF",ticker:"ADAG.L"},
+  {n:"Polkadot ETP",ccy:"USD",qty:90,cost:49.59+294.96,mw:49.59,gnv:-294.96,isin:"GB00BNGJ9H18",type:"ETF",ticker:"PDOT.L"},
+];
+const NEON_COST_TOTAL = NEON_DATA.reduce((s,p)=>s+p.cost,0);
+
+// Swissquote, Selma, Relai — werden per Import befüllt
+// Swissquote Positionen (Import 23.04.2026)
+let SWISSQUOTE_DATA = [{"n": "Nordea Bank Abp (SQ)", "ticker": "NDA-FI.HE", "isin": "FI4000297767", "ccy": "EUR", "qty": 300, "mw": 4327.78, "cost": 2986.89, "gnv": 1340.89, "type": "Aktie"}, {"n": "AC Immune SA", "ticker": "ACIU", "isin": "", "ccy": "USD", "qty": 350, "mw": 825.85, "cost": 1424.36, "gnv": -598.51, "type": "Aktie"}, {"n": "Banque Cant. Vaudoise", "ticker": "BCVN.SW", "isin": "", "ccy": "CHF", "qty": 2, "mw": 135.3, "cost": 168.7, "gnv": -33.4, "type": "Aktie"}, {"n": "Calida Holding", "ticker": "CALN.SW", "isin": "", "ccy": "CHF", "qty": 20, "mw": 324.4, "cost": 543.14, "gnv": -218.74, "type": "Aktie"}, {"n": "Jacobs Holding", "ticker": "JFN.SW", "isin": "", "ccy": "CHF", "qty": 1, "mw": 282.0, "cost": 193.0, "gnv": 89.0, "type": "Aktie"}, {"n": "Reishauer AG", "ticker": "REHN.SW", "isin": "", "ccy": "CHF", "qty": 9, "mw": 450.0, "cost": 484.2, "gnv": -34.2, "type": "Aktie"}, {"n": "Uhren Holding", "ticker": "UH9.DE", "isin": "", "ccy": "EUR", "qty": 200, "mw": 321.19, "cost": 393.45, "gnv": -72.26, "type": "Aktie"}, {"n": "Audemars Piguet Holding", "ticker": "AUDN.SW", "isin": "", "ccy": "CHF", "qty": 5, "mw": 184.5, "cost": 197.0, "gnv": -12.5, "type": "Aktie"}, {"n": "iShares Core SPI (SQ)", "ticker": "CHSPI.SW", "isin": "", "ccy": "CHF", "qty": 55, "mw": 8772.5, "cost": 7504.5, "gnv": 1268.0, "type": "ETF"}, {"n": "Amundi MSCI EM (SQ)", "ticker": "EDM2.MI", "isin": "", "ccy": "USD", "qty": 1450, "mw": 10062.94, "cost": 6975.83, "gnv": 3087.11, "type": "ETF"}, {"n": "iShares MSCI World (SQ)", "ticker": "SWDA.SW", "isin": "", "ccy": "USD", "qty": 40, "mw": 4295.83, "cost": 3448.67, "gnv": 847.16, "type": "ETF"}, {"n": "Amundi World ETF (SQ)", "ticker": "WEBG.SW", "isin": "", "ccy": "EUR", "qty": 50, "mw": 566.48, "cost": 461.64, "gnv": 104.84, "type": "ETF"}, {"n": "Bitcoin (Swissquote)", "ticker": "BTC-USD", "isin": "", "ccy": "USD", "qty": 0.10607281, "mw": 6533.72, "cost": 7202.09, "gnv": -668.37, "type": "Crypto"}, {"n": "Ethereum (Swissquote)", "ticker": "ETH-USD", "isin": "", "ccy": "USD", "qty": 0.31828774, "mw": 583.58, "cost": 1055.4, "gnv": -471.82, "type": "Crypto"}, {"n": "Solana (Swissquote)", "ticker": "SOL-USD", "isin": "", "ccy": "USD", "qty": 13.98109, "mw": 947.16, "cost": 2120.72, "gnv": -1173.56, "type": "Crypto"}, {"n": "XRP (Swissquote)", "ticker": "XRP-USD", "isin": "", "ccy": "USD", "qty": 852.782, "mw": 958.53, "cost": 1482.12, "gnv": -523.59, "type": "Crypto"}];
+
+function loadSwissquoteData() {
+  try { return JSON.parse(localStorage.getItem('swissquote_data') || 'null'); } catch(e) { return null; }
+}
+function getSwissquoteData() {
+  return loadSwissquoteData() || { mw: 39571.76, cost: 36641.71, _date: '23.04.2026' };
+}
+// Selma Positionen (aus Excel-Import Apr 2025) — für Kursabruf
+let SELMA_DATA = [{"n": "Vanguard S&P 500 UCITS ETF", "ticker": "VUSA.SW", "isin": "IE00B3XXRP09", "ccy": "CHF", "qty": 173, "mw": 18293.02, "cost": 17258.48, "gnv": 1034.54, "type": "ETF"}, {"n": "Amundi MSCI Emerging Markets Swap", "ticker": "AEME.SW", "isin": "LU1681045370", "ccy": "CHF", "qty": 1812, "mw": 11859.84, "cost": 7972.8, "gnv": 3887.04, "type": "ETF"}, {"n": "iShares STOXX Europe 600 ETF", "ticker": "EXSA.DE", "isin": "DE0002635307", "ccy": "EUR", "qty": 101, "mw": 5675.22, "cost": 4747.0, "gnv": 928.22, "type": "ETF"}, {"n": "iShares Core MSCI Japan IMI ETF", "ticker": "SJPA.SW", "isin": "IE00B4L5YX21", "ccy": "CHF", "qty": 45, "mw": 2640.99, "cost": 2053.35, "gnv": 587.64, "type": "ETF"}, {"n": "UBS Core SPI ETF", "ticker": "SPICHA.SW", "isin": "CH0131872431", "ccy": "CHF", "qty": 77, "mw": 6503.42, "cost": 5708.01, "gnv": 795.41, "type": "ETF"}, {"n": "iShares Listed Private Equity ETF", "ticker": "IPRV.SW", "isin": "IE00B1TXHL60", "ccy": "CHF", "qty": 142, "mw": 3735.57, "cost": 3798.5, "gnv": -62.93, "type": "ETF"}, {"n": "iShares Global Corp Bond ETF", "ticker": "CORP.SW", "isin": "IE00BK0TB144", "ccy": "CHF", "qty": 2931, "mw": 13746.39, "cost": 13599.84, "gnv": 146.55, "type": "ETF"}, {"n": "iShares Global High Yield Bond ETF", "ticker": "GHYS.SW", "isin": "IE00B74DQ490", "ccy": "CHF", "qty": 23, "mw": 1625.39, "cost": 1704.53, "gnv": -79.14, "type": "ETF"}, {"n": "UBS Gold ETF", "ticker": "AUUSI.SW", "isin": "CH0106027193", "ccy": "CHF", "qty": 54, "mw": 6391.44, "cost": 4720.14, "gnv": 1671.3, "type": "ETF"}, {"n": "Swisscanto Silver ETF", "ticker": "ZSIL.SW", "isin": "CH0183135976", "ccy": "CHF", "qty": 12, "mw": 2085.36, "cost": 1073.28, "gnv": 1012.08, "type": "ETF"}];
+
+function loadSelmaData() {
+  try { return JSON.parse(localStorage.getItem('selma_data') || 'null'); } catch(e) { return null; }
+}
+function getSelmaData() {
+  return loadSelmaData() || { mw: 72588.39, cost: 62635.93, sparplan: 0, strategy: 'Robo-Advisor', _date: 'Apr 2025' };
+}
+
+// Relai: Bitcoin — aus localStorage laden oder Default
+function loadRelaiData() {
+  try { return JSON.parse(localStorage.getItem('relai_data') || 'null'); } catch(e) { return null; }
+}
+function getRelaiData() {
+  return loadRelaiData() || { btc: 0.11, priceCHF: 60836, cost: 8365, sparplanWeek: 100 };
+}
+
+const SAXO_DATA = [
+  // ── AKTIEN (Stand 02.06.2026 12:02) ──
+  {n:"Aker BP ASA",           ccy:"NOK",qty:74,  cost:1616.40, mw:2109.98,gnv:484.59,  isin:"NO0010345853",type:"Aktie",ticker:"AKERBP.OL"},
+  {n:"Alphabet Inc. Class A", ccy:"USD",qty:24,  cost:3612.20, mw:7100.45,gnv:3464.72, isin:"US02079K3059",type:"Aktie",ticker:"GOOGL"},
+  {n:"Amazon.com Inc.",       ccy:"USD",qty:25,  cost:3892.58, mw:5133.92,gnv:1219.83, isin:"US0231351067",type:"Aktie",ticker:"AMZN"},
+  {n:"Amrize Ltd",            ccy:"CHF",qty:131, cost:5288.18, mw:5546.54,gnv:236.79,  isin:"CH1430134226",type:"Aktie",ticker:"AMRZ.SW"},
+  {n:"Apple Inc.",            ccy:"USD",qty:12,  cost:2099.74, mw:2889.25,gnv:778.70,  isin:"US0378331005",type:"Aktie",ticker:"AAPL"},
+  {n:"BitMine Immersion Technologies",ccy:"USD",qty:5,cost:129.42,mw:74.08,gnv:-56.24,isin:"US09175A2069",type:"Aktie",ticker:"BMNR"},
+  {n:"Boston Scientific Corp.",ccy:"USD",qty:10, cost:846.22,  mw:377.13, gnv:-472.50, isin:"US1011371077",type:"Aktie",ticker:"BSX"},
+  {n:"British American Tobacco",ccy:"GBp",qty:25,cost:1005.67,mw:1164.99,gnv:144.68,  isin:"GB0002875804",type:"Aktie",ticker:"BATS.L"},
+  {n:"Capital B",             ccy:"EUR",qty:1810,cost:4892.44, mw:835.76, gnv:-4067.25,isin:"FR0011053636",type:"Aktie",ticker:"ALCPB.PA"},
+  {n:"Coinbase Global Inc.",  ccy:"USD",qty:4,   cost:639.10,  mw:574.14, gnv:-71.69,  isin:"US19260Q1076",type:"Aktie",ticker:"COIN"},
+  {n:"Diageo Plc",            ccy:"GBp",qty:123, cost:2182.23, mw:1942.71,gnv:-262.97, isin:"GB0002374006",type:"Aktie",ticker:"DGE.L"},
+  {n:"DNB Bank ASA",          ccy:"NOK",qty:38,  cost:857.40,  mw:918.92, gnv:57.16,   isin:"NO0010161896",type:"Aktie",ticker:"DNB.OL"},
+  {n:"Fielmann Group AG",     ccy:"EUR",qty:58,  cost:2731.91, mw:2343.23,gnv:-410.01, isin:"DE0005772206",type:"Aktie",ticker:"FIE.DE"},
+  {n:"Glencore Plc",          ccy:"GBp",qty:250, cost:818.94,  mw:1583.94,gnv:755.05,  isin:"JE00B4T3BW64",type:"Aktie",ticker:"GLEN.L"},
+  {n:"IBM Corp.",             ccy:"USD",qty:4,   cost:813.60,  mw:1007.43,gnv:189.48,  isin:"US4592001014",type:"Aktie",ticker:"IBM"},
+  {n:"Microsoft Corp.",       ccy:"USD",qty:21,  cost:6339.68, mw:7601.58,gnv:1229.68, isin:"US5949181045",type:"Aktie",ticker:"MSFT"},
+  {n:"National Grid Plc",     ccy:"GBp",qty:115, cost:1246.46, mw:1450.53,gnv:184.33,  isin:"GB00BDR05C01",type:"Aktie",ticker:"NG.L"},
+  {n:"Nestle SA",             ccy:"CHF",qty:68,  cost:5250.42, mw:5315.56,gnv:40.96,   isin:"CH0038863350",type:"Aktie",ticker:"NESN.SW"},
+  {n:"Netflix Inc.",          ccy:"USD",qty:41,  cost:3484.60, mw:2766.69,gnv:-726.38, isin:"US64110L1061",type:"Aktie",ticker:"NFLX"},
+  {n:"Nordea Bank Abp",       ccy:"EUR",qty:200, cost:2067.98, mw:2984.97,gnv:909.78,  isin:"FI4000297767",type:"Aktie",ticker:"NDA-FI.HE"},
+  {n:"Novo Nordisk B A/S",    ccy:"EUR",qty:82,  cost:4970.96, mw:2826.24,gnv:-2160.10,isin:"DK0062498333",type:"Aktie",ticker:"NOVO-B.CO"},
+  {n:"PayPal Holdings Inc.",  ccy:"USD",qty:35,  cost:2084.37, mw:1243.22,gnv:-847.44, isin:"US70450Y1038",type:"Aktie",ticker:"PYPL"},
+  {n:"Rio Tinto Plc",         ccy:"EUR",qty:20,  cost:934.29,  mw:1737.91,gnv:794.12,  isin:"GB0007188757",type:"Aktie",ticker:"RIO1.DE"},
+  {n:"Schneider Electric SE", ccy:"EUR",qty:18,  cost:4200.19, mw:4647.39,gnv:409.76,  isin:"FR0000121972",type:"Aktie",ticker:"SU.PA"},
+  {n:"Swiss Re Ltd",          ccy:"CHF",qty:46,  cost:5962.20, mw:5283.10,gnv:-706.77, isin:"CH0126881561",type:"Aktie",ticker:"SREN.SW"},
+  {n:"TKMS AG",               ccy:"EUR",qty:4,   cost:0,       mw:288.43, gnv:285.25,  isin:"DE000TKMS001",type:"Aktie",ticker:"TKMS.DE"},
+  {n:"TotalEnergies SE",      ccy:"EUR",qty:36,  cost:1741.02, mw:2494.42,gnv:736.26,  isin:"FR0000120271",type:"Aktie",ticker:"TTE.PA"},
+  {n:"UnitedHealth Group Inc.",ccy:"USD",qty:7,  cost:1964.30, mw:2090.06,gnv:116.28,  isin:"US91324P1021",type:"Aktie",ticker:"UNH"},
+  {n:"Visa Inc.",             ccy:"USD",qty:4,   cost:1012.65, mw:1014.82,gnv:-2.51,   isin:"US92826C8394",type:"Aktie",ticker:"V"},
+  // ── ETFs (Stand 02.06.2026 12:02) ──
+  {n:"Amundi EURO STOXX 50 (Acc)",     ccy:"EUR",qty:75, cost:9421.03, mw:11196.40,gnv:1733.21,isin:"LU1681047236",type:"ETF",ticker:"V50A.DE"},
+  {n:"Amundi STOXX Europe 600 ESG",    ccy:"EUR",qty:20, cost:2603.13, mw:2881.12, gnv:266.80, isin:"LU1681040223",type:"ETF",ticker:"C6E.SW"},
+  {n:"iShares Core EURO STOXX 50",     ccy:"EUR",qty:2,  cost:414.40,  mw:432.39,  gnv:13.72,  isin:"IE00B53L3W79",type:"ETF",ticker:"CSSX5E.SW"},
+  {n:"iShares Swiss Dividend (CHDVD)", ccy:"CHF",qty:68, cost:11423.83,mw:12061.84,gnv:587.86, isin:"CH0237935637",type:"ETF",ticker:"CHDVD.SW"},
+  {n:"iShares Japan IMI (SJPA)",       ccy:"JPY",qty:80, cost:4599.82, mw:4978.05, gnv:353.86, isin:"IE00B4L5YX21",type:"ETF",ticker:"SJPA.SW"},
+  {n:"iShares MSCI World (SWDA)",      ccy:"USD",qty:92, cost:9292.38, mw:10400.21,gnv:1067.00,isin:"IE00B4L5Y983",type:"ETF",ticker:"SWDA.SW"},
+  {n:"iShares MSCI Global Semiconductors",ccy:"USD",qty:291,cost:2716.97,mw:4977.24,gnv:2235.81,isin:"IE000I8KRLL9",type:"ETF",ticker:"SEMI.SW"},
+  {n:"iShares US Infrastructure ETF",  ccy:"USD",qty:20, cost:798.13,  mw:943.23,  gnv:140.89, isin:"US46435U7138",type:"ETF",ticker:"IFRA"},
+  {n:"UBS Core SPI ETF",               ccy:"CHF",qty:10, cost:694.20,  mw:863.60,  gnv:162.23, isin:"CH0131872431",type:"ETF",ticker:"SPICHA.SW"},
+  {n:"VanEck Space (JEDI)",            ccy:"EUR",qty:20, cost:600.52,  mw:1912.51, gnv:1302.72,isin:"IE000YU9K6K2",type:"ETF",ticker:"JEDI.DE"},
+  {n:"Vanguard FTSE All-World Acc (VWCE)",ccy:"EUR",qty:18,cost:2343.29,mw:2704.60,gnv:345.51,isin:"IE00BK5BQT80",type:"ETF",ticker:"VWCE.DE"},
+  {n:"Vanguard FTSE All-World Dist (VWRL)",ccy:"CHF",qty:134,cost:16874.54,mw:19604.20,gnv:2614.26,isin:"IE00B3RBWM25",type:"ETF",ticker:"VWRL.SW"},
+  {n:"WisdomTree Europe Defence (WDEF)",ccy:"EUR",qty:81, cost:2007.48, mw:2259.95, gnv:242.90, isin:"IE0002Y8CX98",type:"ETF",ticker:"WDEF.MI"},
+];
+const STATUS_MAP = {
+  // 🔴 Sofort liquidieren
+  "Capital B":"exit","PayPal Holdings Inc.":"exit",
+  "Novo Nordisk B A/S":"exit","Novo Nordisk (Neon)":"exit",
+  "Boston Scientific Corp.":"exit",
+  // 🟡 Welle 2
+  "Netflix Inc.":"sell","Fielmann Group AG":"sell",
+  "Coinbase Global Inc.":"sell","BitMine Immersion Technologies":"sell",
+  // 🟡 In Stärke
+  "iShares US Infrastructure ETF":"sell","WisdomTree Europe Defence (WDEF)":"sell",
+  // 🟢 Aufbauen
+  "Schneider Electric SE":"build","Microsoft Corp.":"build",
+  "Amrize Ltd":"build","iShares MSCI Global Semiconductors":"build",
+  "Swiss Re Ltd":"build",
+};
+const STATUS_LABELS = {exit:"🔴 Exit",build:"🟢 Aufbauen",sell:"🟡 In Stärke"};
+const STATUS_TAGS   = {exit:"tag-exit",build:"tag-build",sell:"tag-sell"};
+
+const DIV_YIELDS = {
+  "Aker BP ASA":8.5,"British American Tobacco":9.0,"DNB Bank ASA":6.5,"Diageo Plc":3.2,
+  "Nestle SA":3.5,"National Grid Plc":5.8,"Nordea Bank Abp":7.5,"Nordea Bank Abp (SQ)":7.5,"Rio Tinto Plc":6.0,
+  "Swiss Re Ltd":5.5,"TotalEnergies SE":4.8,"Glencore Plc":5.2,"Fresenius SE & Co. KGaA":2.8,
+  "iShares Swiss Dividend (CHDVD)":4.2,"Vanguard FTSE All-World Dist (VWRL)":1.8,
+  "Allianz SE":5.2,"Roche Partizipationsschein":4.1,"UBS Group AG":3.8,
+  "iShares Swiss Dividend (Neon)":4.2,"Zurich Insurance Group":4.5,"Swiss Life Holding":3.6,
+  "BB Biotech AG (Neon)":4.8,"Nestlé SA (Neon)":3.5,"BP Plc":6.2,"Helvetia Baloise Holding":4.0,
+};
+
+const COLORS = ['#d97706','#2563eb','#16a34a','#dc2626','#7c3aed','#0891b2','#be185d','#65a30d','#9a3412','#1d4ed8'];
+
+// ══════════════════════════════════════════
+// API KEY MANAGEMENT
+// ══════════════════════════════════════════
+function getApiKey() {
+  return localStorage.getItem('anthropic_api_key') || '';
+}
+
+function saveApiKey() {
+  const key = document.getElementById('api-key-input').value.trim();
+  if (!key.startsWith('sk-ant-')) {
+    alert('Ungültiger Key – muss mit sk-ant- beginnen');
+    return;
+  }
+  localStorage.setItem('anthropic_api_key', key);
+  document.getElementById('api-key-input').value = '';
+  showApiKeyStatus();
+}
+
+function changeApiKey() {
+  localStorage.removeItem('anthropic_api_key');
+  showApiKeyStatus();
+}
+
+function showApiKeyStatus() {
+  const key = getApiKey();
+  document.getElementById('api-key-bar').className    = key ? 'api-key-bar hidden' : 'api-key-bar';
+  document.getElementById('api-key-ok-bar').className = key ? 'api-key-bar'        : 'api-key-bar hidden';
+}
+
+function apiHeaders() {
+  const key = getApiKey();
+  const h = {
+    'Content-Type': 'application/json',
+    'anthropic-dangerous-direct-browser-access': 'true',
+    'anthropic-version': '2023-06-01'
+  };
+  if (key) h['x-api-key'] = key;
+  return h;
+}
+let usdChf = 0.883, eurChf = 0.955, gbpChf = 1.135, nokChf = 0.082, jpyChf = 0.0060;
+
+function toChf(price, ccy) {
+  if (!price || price <= 0) return null;
+  switch(ccy) {
+    case 'CHF': return price;
+    case 'USD': return price * usdChf;
+    case 'EUR': return price * eurChf;
+    case 'GBp': return (price / 100) * gbpChf;
+    case 'GBP': return price * gbpChf;
+    case 'NOK': return price * nokChf;
+    case 'JPY': return price * jpyChf;
+    default:    return price;
+  }
+}
+
+// Extrahiert JSON aus einem Text
+function extractJson(text) {
+  const s = text.indexOf('{');
+  const e = text.lastIndexOf('}');
+  if (s === -1 || e === -1) throw new Error('Kein JSON gefunden: ' + text.slice(0, 200));
+  return JSON.parse(text.slice(s, e + 1));
+}
+
+// Führt einen Anthropic API-Call durch und behandelt mehrstufige tool_use-Loops
+async function callWithWebSearch(messages, maxTokens) {
+  const headers = apiHeaders();
+  const body = { model: 'claude-sonnet-4-5', max_tokens: maxTokens,
+    tools: [{ type: 'web_search_20250305', name: 'web_search' }], messages };
+  
+  for (let round = 0; round < 4; round++) {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', headers, body: JSON.stringify({ ...body, messages })
+    });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      throw new Error('API ' + r.status + ': ' + (err?.error?.message || r.statusText));
+    }
+    const d = await r.json();
+
+    if (d.stop_reason === 'end_turn') {
+      // Fertig – Textblöcke zurückgeben
+      return (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+    }
+
+    if (d.stop_reason === 'tool_use') {
+      // Web Search wurde ausgeführt – Conversation fortführen
+      messages = [...messages, { role: 'assistant', content: d.content }];
+      const toolResults = (d.content || [])
+        .filter(b => b.type === 'tool_use')
+        .map(b => ({ type: 'tool_result', tool_use_id: b.id, content: '' }));
+      if (toolResults.length) messages = [...messages, { role: 'user', content: toolResults }];
+      continue;
+    }
+    // Unbekannter stop_reason – Text trotzdem versuchen
+    return (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('');
+  }
+  throw new Error('Zu viele Runden ohne end_turn');
+}
+
+// Holt Kurse für einen Batch von Positionen
+async function fetchPriceBatch(tickers) {
+  // Yahoo Finance via Vercel Proxy — kein API-Key, kein CORS Problem
+  const PROXY = 'https://portfolio-proxy-eight.vercel.app/api/quote';
+  const symbols = tickers.join(',');
+  const r = await fetch(PROXY + '?symbols=' + encodeURIComponent(symbols));
+  if (!r.ok) throw new Error('Proxy Fehler ' + r.status);
+  return r.json(); // { 'NESN.SW': 75.5, 'MSFT': 415.0, ... }
+}
+
+async function refreshPrices() {
+  const btn  = document.getElementById('refresh-btn');
+  const icon = document.getElementById('refresh-icon');
+  btn.disabled = true;
+  icon.classList.add('spin');
+  setPriceStatus('loading', 'Verbinde mit Yahoo Finance Proxy…');
+
+  try {
+    // Alle Ticker sammeln
+    const allPositions = [...SAXO_DATA, ...NEON_DATA, ...SELMA_DATA, ...SWISSQUOTE_DATA];
+    const tickerMap = {};
+    allPositions.forEach(p => {
+      if (!p.ticker) return;
+      if (!tickerMap[p.ticker]) tickerMap[p.ticker] = [];
+      tickerMap[p.ticker].push(p);
+    });
+
+    // FX + Crypto als Extra-Ticker
+    const extras = ['USDCHF=X','EURCHF=X','GBPCHF=X','NOKCHF=X','JPYCHF=X','BTC-USD','ETH-USD','SOL-USD','XRP-USD'];
+    const allTickers = [...new Set([...Object.keys(tickerMap), ...extras])];
+
+    setPriceStatus('loading', allTickers.length + ' Ticker werden abgerufen…');
+    const prices = await fetchPriceBatch(allTickers);
+
+    // FX setzen
+    if (prices['USDCHF=X'] > 0.5) usdChf = prices['USDCHF=X'];
+    if (prices['EURCHF=X'] > 0.5) eurChf = prices['EURCHF=X'];
+    if (prices['GBPCHF=X'] > 0.5) gbpChf = prices['GBPCHF=X'];
+    if (prices['NOKCHF=X'] > 0.05) nokChf = prices['NOKCHF=X'];
+    if (prices['JPYCHF=X'] > 0.001) jpyChf = prices['JPYCHF=X'];
+
+    // Bitcoin Relai
+    const btcUsd = prices['BTC-USD'];
+    if (btcUsd > 1000) {
+      const relai = getRelaiData();
+      relai.priceCHF = Math.round(btcUsd * usdChf);
+      localStorage.setItem('relai_data', JSON.stringify(relai));
+    }
+
+    // Positionen aktualisieren
+    let updated = 0, skipped = 0;
+    for (const [ticker, positions] of Object.entries(tickerMap)) {
+      const raw = prices[ticker];
+      if (!raw || raw <= 0) { skipped += positions.length; continue; }
+      for (const p of positions) {
+        const chf = toChf(raw, p.ccy);
+        if (!chf) { skipped++; continue; }
+        const newMw = Math.round(chf * p.qty * 100) / 100;
+        const dev = p.mw > 0 ? Math.abs(newMw - p.mw) / p.mw : 0;
+        const maxDev = p.type === 'Crypto' ? 0.99 : 0.60;
+        if (dev < maxDev) { p.mw = newMw; p.gnv = Math.round((p.mw - p.cost)*100)/100; updated++; }
+        else { console.warn('Plausib.', ticker, p.mw, '->', newMw); skipped++; }
+      }
+    }
+
+    renderAll();
+    const now = new Date().toLocaleTimeString('de-CH', {hour:'2-digit', minute:'2-digit'});
+    const btcNow = getRelaiData().priceCHF;
+    const btcStr = btcNow > 0 ? ' · BTC CHF ' + fmt(btcNow) : '';
+    setPriceStatus('live', 'Yahoo Finance · ' + now + ' · ' + updated + ' aktualisiert · USD ' + usdChf.toFixed(3) + ' · EUR ' + eurChf.toFixed(3) + btcStr);
+
+  } catch(e) {
+    setPriceStatus('', '✗ ' + e.message);
+    console.error('refreshPrices:', e);
+  }
+  icon.classList.remove('spin');
+  btn.disabled = false;
+}
+
+function setPriceStatus(state, text) {
+  document.getElementById('price-status-text').textContent = text;
+  const dot = document.getElementById('price-dot');
+  dot.className = 'price-dot' + (state ? ' '+state : '');
+}
+
+// ══════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════
+function fmt(n)  { return Math.round(n).toLocaleString('de-CH'); }
+function fmtd(n) { return (n>=0?'+':'')+n.toLocaleString('de-CH',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+function gc(v)   { return v>0?'pos':v<0?'neg':''; }
+function pctStr(gnv, cost) { return cost>0 ? ((gnv/cost)*100).toFixed(1)+'%' : '—'; }
+function tagHtml(name) {
+  const s = STATUS_MAP[name];
+  return s ? `<span class="tag ${STATUS_TAGS[s]}">${STATUS_LABELS[s]}</span>` : '';
+}
+function depotBadge(isSaxo) {
+  return isSaxo
+    ? `<span style="color:var(--blue);font-size:11px;font-weight:600">Saxo</span>`
+    : `<span style="color:var(--accent);font-size:11px;font-weight:600">Neon</span>`;
+}
+
+function filterTable(id, q) {
+  document.querySelectorAll(`#${id} tbody tr`).forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  if (el) el.classList.add('active');
+  // Auto-load macro news on first visit
+  if (tab === 'news' && !macroLoaded) loadMacroNews();
+}
+
+// ══════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════
+function renderAll() {
+  const saxoMW   = SAXO_DATA.reduce((s,p)=>s+p.mw,0);
+  const saxoGNV  = SAXO_DATA.reduce((s,p)=>s+p.gnv,0);
+  const saxoCost = SAXO_DATA.reduce((s,p)=>s+p.cost,0);
+  const neonMW   = NEON_DATA.reduce((s,p)=>s+p.mw,0);
+  const neonGNV  = NEON_DATA.reduce((s,p)=>s+p.gnv,0);
+  const neonCost = NEON_COST_TOTAL;
+  // Neue Depots
+  const sqMW    = SWISSQUOTE_DATA.reduce((s,p)=>s+p.mw,0);
+  const sqGNV   = SWISSQUOTE_DATA.reduce((s,p)=>s+p.gnv,0);
+  const sqCost  = SWISSQUOTE_DATA.reduce((s,p)=>s+p.cost,0);
+  const _selma   = getSelmaData();
+  // Selma: wenn Positionen aktualisiert wurden, Summe aus Positionen + Cash 31.75
+  const _selmaPosTotal = SELMA_DATA.length > 0 ? SELMA_DATA.reduce((s,p) => s+p.mw, 0) + 31.75 : 0;
+  const selmaMW  = _selmaPosTotal > 0 ? _selmaPosTotal : (_selma.mw || 0);
+  const _selmaCostPos = SELMA_DATA.length > 0 ? SELMA_DATA.reduce((s,p) => s+p.cost, 0) : 0;
+  const selmaCost= _selmaCostPos > 0 ? _selmaCostPos : (_selma.cost || 0);
+  const selmaGNV = selmaMW - selmaCost;
+  const relai    = getRelaiData();
+  const relaiMW  = relai.priceCHF > 0 ? Math.round(relai.btc * relai.priceCHF) : 0;
+  const relaiGNV = relai.cost > 0 ? relaiMW - relai.cost : 0;
+  const totMW    = saxoMW + neonMW + sqMW + selmaMW + relaiMW;
+  const totGNV   = saxoGNV + neonGNV + sqGNV + selmaGNV + relaiGNV;
+  const totCost  = saxoCost + neonCost;
+
+  // Header
+  document.getElementById('h-total').textContent = 'CHF '+fmt(totMW);
+  const hgnv = document.getElementById('h-gnv');
+  hgnv.textContent = fmtd(totGNV);
+  hgnv.className = 'value '+gc(totGNV);
+  document.getElementById('h-count').textContent = SAXO_DATA.length+NEON_DATA.length+SWISSQUOTE_DATA.length+(selmaMW>0?1:0)+(getRelaiData().btc>0?1:0);
+
+  // ── Übersicht ──
+  document.getElementById('ov-total').textContent = 'CHF '+fmt(totMW);
+  // Swissquote card
+  const sqOv = document.getElementById('ov-swissquote');
+  if (sqOv) { sqOv.textContent = sqMW > 0 ? 'CHF '+fmt(sqMW) : '—'; }
+  const sqOvG = document.getElementById('ov-swissquote-gnv');
+  if (sqOvG) sqOvG.innerHTML = sqMW > 0 ? `<span class="${gc(sqGNV)}">${fmtd(sqGNV)}</span>` : '—';
+  // Selma card
+  renderSelmaPositions();
+  const selOv = document.getElementById('ov-selma');
+  if (selOv) { selOv.textContent = selmaMW > 0 ? 'CHF '+fmt(selmaMW) : '—'; }
+  const selOvG = document.getElementById('ov-selma-gnv');
+  if (selOvG) selOvG.innerHTML = selmaMW > 0 ? `<span class="${gc(selmaGNV)}">${fmtd(selmaGNV)}</span>` : 'Manuell eingeben';
+  // Relai card
+  const relOv = document.getElementById('ov-relai');
+  if (relOv) { relOv.textContent = relaiMW > 0 ? 'CHF '+fmt(relaiMW) : '—'; }
+  const relOvSub = document.getElementById('ov-relai-sub');
+  if (relOvSub) relOvSub.textContent = relai.btc+' BTC · '+(relai.sparplanWeek||100)+' CHF/Woche';
+  // Sparpläne: 4600 CHF/Mt Saxo+Neon + Relai 100/Woche (~433/Mt) + Selma sparplan
+  const selmaSpPlan = (_selma && _selma.sparplan) || 0;
+  const relaiMt = Math.round((relai.sparplanWeek || 100) * 52 / 12);
+  const totalSp = 2900 + relaiMt + selmaSpPlan;
+  const spEl = document.getElementById('ov-sparplan-total');
+  if (spEl) spEl.textContent = fmt(totalSp);
+  const spSubEl = document.getElementById('ov-sparplan-sub');
+  if (spSubEl) spSubEl.textContent = 'VWCE 1200 · SWDA 800 · STOXX 500 · Japan 400 · SEMI 500 · Relai ~'+fmt(relaiMt);
+  document.getElementById('ov-saxo').textContent  = 'CHF '+fmt(saxoMW);
+  document.getElementById('ov-saxo-gnv').innerHTML = `<span class="${gc(saxoGNV)}">${fmtd(saxoGNV)} G/V</span>`;
+  document.getElementById('ov-neon').textContent  = 'CHF '+fmt(neonMW);
+  document.getElementById('ov-neon-gnv').innerHTML = `<span class="${gc(neonGNV)}">${fmtd(neonGNV)} G/V</span>`;
+  const og = document.getElementById('ov-gnv');
+  og.textContent = fmtd(totGNV); og.className = 'card-value '+gc(totGNV);
+  document.getElementById('ov-gnv-pct').textContent = pctStr(totGNV, totCost)+' auf Einstand';
+
+  // Übersicht top bars — ähnliche ETFs über Depots zusammengefasst
+  const allPos = [...SAXO_DATA.map(p=>({...p,depot:'saxo'})), ...NEON_DATA.map(p=>({...p,depot:'neon'})), ...SWISSQUOTE_DATA.map(p=>({...p,depot:'swissquote'})), ...SELMA_DATA.map(p=>({...p,depot:'selma'}))];
+
+  // Thematische Kategorien über alle Depots
+  const MERGE_RULES = [
+    // Welt-ETFs: MSCI World, FTSE All-World, ACWI, S&P 500, globale Welt-ETFs
+    {label:'Welt ETF', match: p => {
+      const n = (p.n||'').toLowerCase(), t = p.ticker||'';
+      return ['VWCE.DE','VWRL.SW','FWRN.SW','SWDA.SW','SWDA','VUSA.SW','WEBG.SW'].includes(t)
+          || n.includes('ftse all-world') || n.includes('global stocks ftse')
+          || (n.includes('msci world') && !n.includes('semiconductor'))
+          || n.includes('s&p 500') || n.includes('sp 500')
+          || (n.includes('world') && p.type==='ETF' && !n.includes('europe') && !n.includes('japan') && !n.includes('emerging') && !n.includes('defence') && !n.includes('semiconductor') && !n.includes('space') && !n.includes('infrastructure') && !n.includes('uranium') && !n.includes('rare') && !n.includes('high yield') && !n.includes('corp bond') && !n.includes('private equity'));
+    }},
+    // Europa: STOXX 600, EURO STOXX 50, Europa-ETFs
+    {label:'Europa ETF', match: p => {
+      const n = (p.n||'').toLowerCase(), t = p.ticker||'';
+      return ['C6E.SW','EXSA.DE','V50A.DE'].includes(t)
+          || n.includes('stoxx') || n.includes('euro stoxx')
+          || (n.includes('europe') && p.type==='ETF' && !n.includes('defence'));
+    }},
+    // Schweiz: SPI, Swiss Dividend
+    {label:'Schweiz ETF', match: p => {
+      const n = (p.n||'').toLowerCase(), t = p.ticker||'';
+      return ['SPICHA.SW','CHSPI.SW','CHSPI','CHDVD.SW','CHDVD'].includes(t)
+          || (n.includes('spi') && p.type==='ETF') || n.includes('swiss dividend');
+    }},
+    // Emerging Markets
+    {label:'Emerging Markets', match: p => {
+      const n = (p.n||'').toLowerCase(), t = p.ticker||'';
+      return ['AEME.SW','EDM2.MI','EMIM.L','EIMI.L'].includes(t)
+          || n.includes('emerging market') || n.includes('emerging markets');
+    }},
+    // Japan
+    {label:'Japan ETF', match: p => {
+      const n = (p.n||'').toLowerCase(), t = p.ticker||'';
+      return ['SJPA.SW','SJPA'].includes(t) || n.includes('japan');
+    }},
+    // Gold
+    {label:'Gold', match: p => {
+      const n = (p.n||'').toLowerCase(), t = p.ticker||'';
+      return ['AUUSI.SW','ZGLD.SW'].includes(t)
+          || (n.includes('gold') && !n.includes('producer') && !n.includes('miner'));
+    }},
+    // Silber
+    {label:'Silber', match: p => {
+      const n = (p.n||'').toLowerCase(), t = p.ticker||'';
+      return ['ZSIL.SW'].includes(t) || n.includes('silver') || n.includes('silber');
+    }},
+    // Bitcoin (alle Depots)
+    {label:'Bitcoin (alle)', match: p => {
+      const n = (p.n||'').toLowerCase(), t = p.ticker||'';
+      return ['BTC-USD','XBTC.SW','BTC'].includes(t) || (n.includes('bitcoin') && !n.includes('ethereum'));
+    }},
+    // Crypto (Rest: ETH, SOL, XRP etc.)
+    {label:'Crypto (ETH/SOL/XRP)', match: p => {
+      const n = (p.n||'').toLowerCase(), t = p.ticker||'';
+      return ['ETH-USD','SOL-USD','XRP-USD','XETH.SW'].includes(t)
+          || (p.type==='Crypto' && !n.includes('bitcoin'));
+    }},
+    // Defence
+    {label:'Defence ETF', match: p => {
+      const n = (p.n||'').toLowerCase();
+      return n.includes('defence') || n.includes('defense') || n.includes('tkms');
+    }},
+    // Semiconductors
+    {label:'Semiconductors ETF', match: p => (p.n||'').toLowerCase().includes('semiconductor')},
+    // Gold Miner / Producer
+    {label:'Gold Miner/Producer', match: p => {
+      const n = (p.n||'').toLowerCase();
+      return n.includes('gold producer') || n.includes('gold miner') || ['IAUP.MI'].includes(p.ticker||'');
+    }},
+    // Anleihen
+    {label:'Anleihen ETF', match: p => {
+      const n = (p.n||'').toLowerCase();
+      return n.includes('bond') || n.includes('corp bond') || n.includes('high yield') || n.includes('credit');
+    }},
+    // Private Equity
+    {label:'Private Equity ETF', match: p => (p.n||'').toLowerCase().includes('private equity')},
+    // Uranium / Space / Rare Earth
+    {label:'Uranium ETF',   match: p => (p.n||'').toLowerCase().includes('uranium')},
+    {label:'Space ETF',     match: p => (p.n||'').toLowerCase().includes('space') || p.ticker==='JEDI.DE'},
+    {label:'Rare Earth ETF',match: p => (p.n||'').toLowerCase().includes('rare earth')},
+    // Nestlé (über Depots)
+    {label:'Nestlé SA',     match: p => (p.n||'').includes('Nestl')},
+    // Einzeltitel: BB Biotech
+    {label:'BB Biotech',    match: p => (p.n||'').includes('BB Biotech')},
+    // Novo Nordisk
+    {label:'Novo Nordisk',  match: p => (p.n||'').includes('Novo Nordisk')},
+    // Amazon
+    {label:'Amazon',        match: p => (p.ticker||'').startsWith('AMZN') || (p.n||'').includes('Amazon')},
+  ];
+
+  // Positionen zusammenführen
+  const mergedMap = {};
+  const usedIdx = new Set();
+  for (const rule of MERGE_RULES) {
+    const matched = allPos.filter((p,i) => !usedIdx.has(i) && rule.match(p));
+    if (matched.length === 0) continue;
+    const totalMwM = matched.reduce((s,p) => s+p.mw, 0);
+    const totalGnvM= matched.reduce((s,p) => s+p.gnv, 0);
+    const totalCostM=matched.reduce((s,p) => s+(p.cost||0), 0);
+    const depots   = [...new Set(matched.map(p=>p.depot))].join('+');
+    if (mergedMap[rule.label]) {
+      mergedMap[rule.label].mw   += totalMwM;
+      mergedMap[rule.label].gnv  += totalGnvM;
+      mergedMap[rule.label].cost += totalCostM;
+    } else {
+      mergedMap[rule.label] = { n: rule.label, mw: totalMwM, gnv: totalGnvM, cost: totalCostM, depots, merged: matched.length > 1 };
+    }
+    matched.forEach((p,i) => usedIdx.add(allPos.indexOf(p)));
+  }
+  // Restliche (nicht gemergete) Positionen einzeln hinzufügen
+  allPos.forEach((p,i) => {
+    if (!usedIdx.has(i)) mergedMap[p.n+'_'+p.depot] = {...p, depots: p.depot, merged: false};
+  });
+
+  // ETF-Kategorien (aus mergedMap, alle nicht-Aktien)
+  const etfMerged = Object.values(mergedMap)
+    .filter(p => {
+      // Alles ausser reine Einzelaktien
+      const n = (p.n||'').toLowerCase();
+      return !['nestlé sa','novo nordisk','bb biotech','amazon'].some(x => n.startsWith(x))
+          || p.merged; // wenn über mehrere Depots = ETF-Kategorie
+    })
+    .sort((a,b) => b.mw-a.mw).slice(0,10);
+
+  // Einzelaktien: direkt aus allPos, type=Aktie, dedupliziert nach Name
+  const aktienMap = {};
+  allPos.filter(p => p.type === 'Aktie').forEach(p => {
+    const key = p.n.replace(/\s*\(Neon\)|\s*\(SQ\)/,'').trim();
+    if (!aktienMap[key]) aktienMap[key] = {...p, n: key, depots: p.depot};
+    else { aktienMap[key].mw += p.mw; aktienMap[key].gnv += p.gnv; aktienMap[key].depots += '+'+p.depot; }
+  });
+  const aktienList = Object.values(aktienMap).sort((a,b) => b.mw-a.mw).slice(0,10);
+
+  // Render ETF
+  const maxETF = etfMerged[0]?.mw || 1;
+  document.getElementById('ov-bars-etf').innerHTML = etfMerged.map((p,i) => `
+    <div class="alloc-bar-row">
+      <div class="alloc-bar-label" title="${p.n}">${p.n.length > 22 ? p.n.slice(0,21)+'…' : p.n}</div>
+      <div class="alloc-bar-track"><div class="alloc-bar-fill" style="width:${(p.mw/maxETF*100).toFixed(1)}%;background:${COLORS[i]}"></div></div>
+      <div class="alloc-pct">${(p.mw/totMW*100).toFixed(1)}%</div>
+      <div class="alloc-chf">${fmt(p.mw)}</div>
+    </div>`).join('')
+    + '<div style="font-size:10px;color:var(--muted);margin-top:5px">Alle Depots zusammengefasst</div>';
+
+  // Render Aktien
+  const maxAKT = aktienList[0]?.mw || 1;
+  document.getElementById('ov-bars-akt').innerHTML = aktienList.length > 0
+    ? aktienList.map((p,i) => `
+    <div class="alloc-bar-row">
+      <div class="alloc-bar-label" title="${p.n}">${p.n.split(' ').slice(0,3).join(' ')}</div>
+      <div class="alloc-bar-track"><div class="alloc-bar-fill" style="width:${(p.mw/maxAKT*100).toFixed(1)}%;background:${COLORS[i]}"></div></div>
+      <div class="alloc-pct">${(p.mw/totMW*100).toFixed(1)}%</div>
+      <div class="alloc-chf">${fmt(p.mw)}</div>
+    </div>`).join('')
+      + '<div style="font-size:10px;color:var(--muted);margin-top:5px">Saxo + Neon + Swissquote</div>'
+    : '<div style="color:var(--muted);font-size:12px;padding:8px 0">Keine Einzelaktien geladen</div>';
+
+  // Übersicht pie
+  const saxoAkt = SAXO_DATA.filter(p=>p.type==='Aktie').reduce((s,p)=>s+p.mw,0);
+  const saxoEtf = SAXO_DATA.filter(p=>p.type==='ETF').reduce((s,p)=>s+p.mw,0);
+  const neonAkt = NEON_DATA.filter(p=>p.type==='Aktie').reduce((s,p)=>s+p.mw,0);
+  const neonEtf = NEON_DATA.filter(p=>p.type==='ETF').reduce((s,p)=>s+p.mw,0);
+  const sqAkt2  = SWISSQUOTE_DATA.filter(p=>p.type==='Aktie').reduce((s,p)=>s+p.mw,0);
+  const sqEtf2  = SWISSQUOTE_DATA.filter(p=>p.type!=='Aktie').reduce((s,p)=>s+p.mw,0);
+  drawPie('ov-pie','ov-pie-legend',[
+    {label:'Saxo Aktien', val:saxoAkt,  color:'#2563eb'},
+    {label:'Saxo ETFs',   val:saxoEtf,  color:'#93c5fd'},
+    {label:'Neon Aktien', val:neonAkt,  color:'#d97706'},
+    {label:'Neon ETFs',   val:neonEtf,  color:'#fcd34d'},
+    {label:'Swissquote',  val:sqMW,     color:'#16a34a'},
+    {label:'Selma',       val:selmaMW,  color:'#7c3aed'},
+    {label:'Relai BTC',   val:relaiMW,  color:'#f59e0b'},
+  ].filter(s=>s.val>0), totMW);
+
+  // Übersicht all table
+  document.getElementById('ov-count').textContent = allPos.length+' Positionen';
+  document.getElementById('ov-body').innerHTML = [...allPos].sort((a,b)=>b.mw-a.mw).map(p=>{
+    const pct = pctStr(p.gnv, p.cost);
+    return `<tr>
+      <td><strong>${p.n}</strong><br><span class="muted">${(p.mw/totMW*100).toFixed(1)}% des Portfolios</span></td>
+      <td>${depotBadge(p.depot==='saxo')}</td>
+      <td class="r"><strong>${fmt(p.mw)}</strong></td>
+      <td class="r ${gc(p.gnv)}">${fmtd(p.gnv)}</td>
+      <td class="r ${gc(p.gnv)}">${pct}</td>
+      <td>${tagHtml(p.n)}</td>
+    </tr>`;
+  }).join('');
+
+  // ── Saxo tab ──
+  const saxo_akt = SAXO_DATA.filter(p=>p.type==='Aktie');
+  const saxo_etf = SAXO_DATA.filter(p=>p.type==='ETF');
+  const saGNV = saxo_akt.reduce((s,p)=>s+p.gnv,0);
+  const saCost = saxo_akt.reduce((s,p)=>s+p.cost,0);
+  const seGNV = saxo_etf.reduce((s,p)=>s+p.gnv,0);
+  const seCost = saxo_etf.reduce((s,p)=>s+p.cost,0);
+  document.getElementById('saxo-total').textContent = 'CHF '+fmt(saxoMW);
+  const saEl = document.getElementById('saxo-akt-gnv'); saEl.textContent = fmtd(saGNV); saEl.className='card-value '+gc(saGNV);
+  document.getElementById('saxo-akt-pct').textContent = pctStr(saGNV, saCost);
+  const seEl = document.getElementById('saxo-etf-gnv'); seEl.textContent = fmtd(seGNV); seEl.className='card-value '+gc(seGNV);
+  document.getElementById('saxo-etf-pct').textContent = pctStr(seGNV, seCost);
+  document.getElementById('saxo-count').textContent = SAXO_DATA.length;
+  renderBars('saxo-bars', SAXO_DATA, saxoMW);
+  drawPie('saxo-pie','saxo-pie-legend',[
+    {label:'Aktien',val:saxoAkt,color:'#d97706'},
+    {label:'ETFs',val:saxoEtf,color:'#fcd34d'},
+  ], saxoMW);
+  document.getElementById('saxo-akt-count').textContent = saxo_akt.length+' Positionen';
+  document.getElementById('saxo-etf-count').textContent = saxo_etf.length+' ETFs';
+  document.getElementById('saxo-akt-body').innerHTML = renderSaxoRows(saxo_akt, saxoMW);
+  document.getElementById('saxo-etf-body').innerHTML = renderSaxoRows(saxo_etf, saxoMW);
+
+  // ── Neon tab ──
+  const neon_akt = NEON_DATA.filter(p=>p.type==='Aktie');
+  const neon_etf = NEON_DATA.filter(p=>p.type==='ETF');
+  document.getElementById('neon-total').textContent = 'CHF '+fmt(neonMW);
+  const ngEl = document.getElementById('neon-gnv'); ngEl.textContent = fmtd(neonGNV); ngEl.className='card-value '+gc(neonGNV);
+  document.getElementById('neon-gnv-pct').textContent = pctStr(neonGNV, neonCost);
+  document.getElementById('neon-count').textContent = NEON_DATA.length;
+  document.getElementById('neon-share').textContent = (neonMW/totMW*100).toFixed(1)+'%';
+  renderBars('neon-bars', NEON_DATA, neonMW);
+  drawPie('neon-pie','neon-pie-legend',[
+    {label:'Aktien',val:neonAkt,color:'#d97706'},
+    {label:'ETFs/ETPs',val:neonEtf,color:'#fcd34d'},
+  ], neonMW);
+  document.getElementById('neon-akt-count').textContent = neon_akt.length+' Positionen';
+  document.getElementById('neon-etf-count').textContent = neon_etf.length+' ETFs/ETPs';
+  document.getElementById('neon-akt-body').innerHTML = renderNeonRows(neon_akt, neonMW);
+  document.getElementById('neon-etf-body').innerHTML = renderNeonRows(neon_etf, neonMW);
+
+  // ── Import tab ──
+  document.getElementById('imp-saxo').textContent = 'CHF '+fmt(saxoMW);
+  document.getElementById('imp-saxo-gnv').innerHTML = `<span class="${gc(saxoGNV)}">${fmtd(saxoGNV)} CHF G/V</span>`;
+  document.getElementById('imp-neon').textContent = 'CHF '+fmt(neonMW);
+  document.getElementById('imp-neon-gnv').innerHTML = `<span class="${gc(neonGNV)}">${fmtd(neonGNV)} CHF G/V</span>`;
+  // Swissquote
+  document.getElementById('imp-swissquote').textContent = sqMW > 0 ? 'CHF '+fmt(sqMW) : '—';
+  document.getElementById('imp-swissquote-gnv').innerHTML = sqMW > 0 ? `<span class="${gc(sqGNV)}">${fmtd(sqGNV)} CHF G/V</span>` : '—';
+  // Selma
+  document.getElementById('imp-selma').textContent = selmaMW > 0 ? 'CHF '+fmt(selmaMW) : '—';
+  document.getElementById('imp-selma-gnv').innerHTML = selmaMW > 0 ? `<span class="${gc(selmaGNV)}">${fmtd(selmaGNV)} CHF G/V</span>` : '—';
+  // Relai
+  document.getElementById('imp-relai').textContent = relaiMW > 0 ? 'CHF '+fmt(relaiMW) : '—';
+  document.getElementById('imp-relai-gnv').innerHTML = relaiMW > 0 ? `<span class="${gc(relaiGNV)}">${fmtd(relaiGNV)} CHF G/V</span>` : '—';
+  // Relai Tab
+  document.getElementById('relai-total').textContent = relaiMW > 0 ? 'CHF '+fmt(relaiMW) : '—';
+  document.getElementById('relai-btc-display').textContent = relai.btc + ' BTC';
+  document.getElementById('relai-detail-btc').textContent  = relai.btc + ' BTC';
+  document.getElementById('relai-detail-chf').textContent  = relaiMW > 0 ? 'CHF '+fmt(relaiMW) : '—';
+  document.getElementById('relai-detail-cost').textContent = relai.cost > 0 ? 'CHF '+fmt(relai.cost) : '—';
+  document.getElementById('relai-detail-sparplan').textContent = (relai.sparplanWeek||'—')+' CHF/Woche';
+  document.getElementById('relai-btc-price').textContent = relai.priceCHF > 0 ? fmt(relai.priceCHF) : '—';
+  const relaiGnvEl = document.getElementById('relai-gnv-display');
+  relaiGnvEl.textContent = relaiMW > 0 && relai.cost > 0 ? (relaiGNV>=0?'+':'')+fmt(relaiGNV) : '—';
+  relaiGnvEl.className = 'card-value ' + gc(relaiGNV);
+  if (relai.cost > 0 && relaiMW > 0) document.getElementById('relai-gnv-pct').textContent = pctStr(relaiGNV,relai.cost);
+  // Swissquote Tab
+  renderSwissquotePositions();
+  document.getElementById('sq-total').textContent = sqMW > 0 ? 'CHF '+fmt(sqMW) : '—';
+  document.getElementById('sq-cost-display') && (document.getElementById('sq-cost-display').textContent = sqCost > 0 ? 'CHF '+fmt(sqCost) : '—');
+  const sqG = document.getElementById('sq-gnv');
+  if (sqG && sqMW > 0) { sqG.textContent = (sqGNV>=0?'+':'')+fmt(sqGNV); sqG.className='card-value '+gc(sqGNV); }
+  if (sqMW > 0) document.getElementById('sq-gnv-pct').textContent = pctStr(sqGNV,sqCost)+' auf Einstand';
+  const sqDt = document.getElementById('sq-import-date');
+  if (sqDt) sqDt.textContent = '23.04.2026';
+  const sqDMW = document.getElementById('sq-detail-mw');
+  if (sqDMW) sqDMW.textContent = sqMW > 0 ? 'CHF '+fmt(sqMW) : '—';
+  const sqDG = document.getElementById('sq-detail-gnv');
+  if (sqDG) { sqDG.textContent = sqMW > 0 ? (sqGNV>=0?'+':'')+fmt(sqGNV) : '—'; sqDG.style.color = sqGNV>=0?'var(--success)':'var(--danger)'; }
+  const sqDP = document.getElementById('sq-detail-pct');
+  if (sqDP) sqDP.textContent = sqCost > 0 ? pctStr(sqGNV,sqCost) : '—';
+  const sqDC = document.getElementById('sq-detail-cost');
+  if (sqDC) sqDC.textContent = sqCost > 0 ? 'CHF '+fmt(sqCost) : '—';
+  // Selma Tab (manual)
+  document.getElementById('selma-total').textContent = selmaMW > 0 ? 'CHF '+fmt(selmaMW) : '—';
+  document.getElementById('selma-cost-display').textContent = selmaCost > 0 ? 'CHF '+fmt(selmaCost) : '—';
+  const slG = document.getElementById('selma-gnv');
+  if (selmaMW > 0) {
+    slG.textContent = (selmaGNV>=0?'+':'')+fmt(selmaGNV); slG.className='card-value '+gc(selmaGNV);
+    document.getElementById('selma-gnv-pct').textContent = pctStr(selmaGNV,selmaCost)+' auf Einstand';
+  }
+  document.getElementById('selma-detail-mw').textContent = selmaMW > 0 ? 'CHF '+fmt(selmaMW) : '—';
+  document.getElementById('selma-detail-gnv').textContent = selmaMW > 0 ? (selmaGNV>=0?'+':'')+fmt(selmaGNV) : '—';
+  if (document.getElementById('selma-detail-gnv')) document.getElementById('selma-detail-gnv').className = 'font-size:20px;font-weight:700;color:'+(selmaGNV>=0?'var(--success)':'var(--danger)');
+  document.getElementById('selma-detail-pct').textContent = selmaCost > 0 ? pctStr(selmaGNV,selmaCost) : '—';
+  document.getElementById('selma-detail-sparplan').textContent = _selma.sparplan > 0 ? 'CHF '+_selma.sparplan+'/Mt' : '—';
+  if (selmaMW > 0) { document.getElementById('selma-import-date').textContent = loadSelmaData()?._date || '—'; }
+  // Gesamt
+  document.getElementById('imp-total').textContent = 'CHF '+fmt(totMW);
+  document.getElementById('imp-total-gnv').innerHTML = `<span class="${gc(totGNV)}">${fmtd(totGNV)} CHF G/V</span>`;
+
+  // ── Dividenden ──
+  renderDividends(totMW);
+
+  // ── News chips ──
+  renderChips();
+
+  // ── New sections ──
+  renderCoreSatellite(totMW);
+  renderFX([...SAXO_DATA,...NEON_DATA,...SWISSQUOTE_DATA,...SELMA_DATA], totMW);
+  renderWinnersLosers([...SAXO_DATA,...NEON_DATA,...SWISSQUOTE_DATA,...SELMA_DATA]);
+  renderWarnings([...SAXO_DATA,...NEON_DATA,...SWISSQUOTE_DATA,...SELMA_DATA], totMW);
+  renderWatchlist();
+}
+
+function renderBars(elId, data, total) {
+  const top = [...data].sort((a,b)=>b.mw-a.mw).slice(0,8);
+  const mx = top[0].mw;
+  document.getElementById(elId).innerHTML = top.map((p,i)=>`
+    <div class="alloc-bar-row">
+      <div class="alloc-bar-label" title="${p.n}">${p.n.split(' ').slice(0,3).join(' ')}</div>
+      <div class="alloc-bar-track"><div class="alloc-bar-fill" style="width:${(p.mw/mx*100).toFixed(1)}%;background:${COLORS[i]}"></div></div>
+      <div class="alloc-pct">${(p.mw/total*100).toFixed(1)}%</div>
+      <div class="alloc-chf">${fmt(p.mw)}</div>
+    </div>`).join('');
+}
+
+function renderSaxoRows(data, total) {
+  return [...data].sort((a,b)=>b.mw-a.mw).map(p=>{
+    const kurs = p.qty>0 ? fmt(p.mw/p.qty) : '—';
+    return `<tr>
+      <td><strong>${p.n}</strong><br><span class="muted">${p.ticker} · ${(p.mw/total*100).toFixed(1)}%</span></td>
+      <td class="r">${p.qty}</td>
+      <td class="r">${kurs}</td>
+      <td class="r"><strong>${fmt(p.mw)}</strong></td>
+      <td class="r ${gc(p.gnv)}">${fmtd(p.gnv)}</td>
+      <td class="r ${gc(p.gnv)}">${pctStr(p.gnv,p.cost)}</td>
+      <td>${tagHtml(p.n)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderNeonRows(data, total) {
+  return [...data].sort((a,b)=>b.mw-a.mw).map(p=>`
+    <tr>
+      <td><strong>${p.n}</strong><br><span class="muted">${p.ticker} · ${(p.mw/total*100).toFixed(1)}%</span></td>
+      <td class="r">${p.qty}</td>
+      <td class="r"><strong>${fmt(p.mw)}</strong></td>
+      <td class="r ${gc(p.gnv)}">${fmtd(p.gnv)}</td>
+      <td class="r ${gc(p.gnv)}">${pctStr(p.gnv,p.cost)}</td>
+    </tr>`).join('');
+}
+
+function drawPie(svgId, legendId, segments, total) {
+  const cx=75, cy=75, r=60, gap=2;
+  let angle = -Math.PI/2;
+  let paths='', legHtml='';
+  segments.forEach(s=>{
+    const frac = s.val/total;
+    const a = frac*2*Math.PI;
+    const end = angle+a-gap*Math.PI/180;
+    const x1=cx+r*Math.cos(angle), y1=cy+r*Math.sin(angle);
+    const x2=cx+r*Math.cos(end),   y2=cy+r*Math.sin(end);
+    paths += `<path d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${a>Math.PI?1:0},1 ${x2},${y2} Z" fill="${s.color}"/>`;
+    angle += frac*2*Math.PI;
+    legHtml += `<div class="pie-legend-item"><div class="pie-dot" style="background:${s.color}"></div><span>${s.label}: ${(frac*100).toFixed(0)}%</span></div>`;
+  });
+  document.getElementById(svgId).innerHTML = paths;
+  document.getElementById(legendId).innerHTML = legHtml;
+}
+
+function renderDividends(totMW) {
+  const all = [
+    ...SAXO_DATA.map(p=>({...p,depot:'Saxo'})),
+    ...NEON_DATA.map(p=>({...p,depot:'Neon'}))
+  ].filter(p=>DIV_YIELDS[p.n]>0);
+  let totalDiv=0;
+  const rows = [...all].sort((a,b)=>b.mw-a.mw).map(p=>{
+    const y=DIV_YIELDS[p.n], d=p.mw*(y/100);
+    totalDiv+=d;
+    const col = p.depot==='Saxo'?'var(--blue)':'var(--accent)';
+    return `<tr>
+      <td><strong>${p.n}</strong></td>
+      <td><span style="color:${col};font-size:11px;font-weight:600">${p.depot}</span></td>
+      <td class="r">${fmt(p.mw)}</td>
+      <td class="r">${y.toFixed(1)}%</td>
+      <td class="r pos">~${fmt(d)}</td>
+    </tr>`;
+  });
+  document.getElementById('div-body').innerHTML = rows.join('');
+  document.getElementById('div-pa').textContent = '~CHF '+fmt(totalDiv);
+  document.getElementById('div-yield').textContent = ((totalDiv/totMW)*100).toFixed(2)+'%';
+  document.getElementById('div-count').textContent = all.length;
+}
+
+function renderChips() {
+  const aktien = [...SAXO_DATA, ...NEON_DATA].filter(p=>p.type==='Aktie').sort((a,b)=>b.mw-a.mw);
+  document.getElementById('chips').innerHTML = aktien.map(p=>{
+    const label = p.n.split(' ').slice(0,2).join(' ');
+    const isSaxo = SAXO_DATA.includes(p);
+    return `<div class="chip" onclick="quickAsk('${p.n}')">${label}${isSaxo?'':' 🟢'}</div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// CORE vs SATELLITE
+// ══════════════════════════════════════════
+// Core = breite Markt-ETFs (VWCE, SWDA, EM, STOXX, Japan, S&P500, SPI, EURO STOXX50, STOXX600)
+// Satellite = alles andere (Einzeltitel, Themen-ETFs, Crypto, Rohstoffe)
+// Core-Erkennung: regelbasiert über alle Depots
+function isCore(p) {
+  const n = (p.n||'').toLowerCase();
+  const t = p.ticker||'';
+  // Breite Markt-ETFs = Core
+  if (['VWCE.DE','VWRL.SW','FWRN.SW','SWDA.SW','VUSA.SW','WEBG.SW',
+       'SJPA.SW','C6E.SW','EXSA.DE','V50A.DE','SPICHA.SW','CHSPI.SW',
+       'CHSPI','CHDVD.SW','AEME.SW','EDM2.MI','EMIM.L','EIMI.L'].includes(t)) return true;
+  if (n.includes('ftse all-world') || n.includes('global stocks ftse')) return true;
+  if (n.includes('msci world') && !n.includes('semiconductor')) return true;
+  if (n.includes('s&p 500') || n.includes('vanguard s&p')) return true;
+  if (n.includes('japan imi')) return true;
+  if (n.includes('stoxx') && !n.includes('defence')) return true;
+  if ((n.includes('spi') && p.type==='ETF') || n.includes('swiss dividend')) return true;
+  if (n.includes('emerging market')) return true;
+  // Selma: nur Aktien-ETFs = Core, Bonds/PE/Edelmetalle = Satellite
+  return false;
+}
+
+function renderCoreSatellite(totMW) {
+  const all = [...SAXO_DATA,...NEON_DATA,...SWISSQUOTE_DATA,...SELMA_DATA];
+  // Selma manuell: Core = Aktien-ETFs (72588 * 44972/72588), Satellite = Rest
+  const selmaPosCore = SELMA_DATA.length > 0
+    ? SELMA_DATA.filter(p => isCore(p)).reduce((s,p)=>s+p.mw,0)
+    : getSelmaData().mw * 0.62; // ~62% Core wenn keine Positionen
+  const selmaTot = SELMA_DATA.length > 0
+    ? SELMA_DATA.reduce((s,p)=>s+p.mw,0)
+    : getSelmaData().mw;
+  const selmaPosSat = selmaTot - selmaPosCore;
+
+  const nonSelmaAll = [...SAXO_DATA,...NEON_DATA,...SWISSQUOTE_DATA];
+  const coreMW = nonSelmaAll.filter(p=>isCore(p)).reduce((s,p)=>s+p.mw,0) + selmaPosCore;
+  const satMW  = totMW - coreMW;
+  const corePct = coreMW/totMW*100;
+  const satPct  = satMW/totMW*100;
+  // Target: ~60% core, ~40% satellite
+  const rows = [
+    {label:'Core',    val:coreMW, pct:corePct, color:'#2563eb', target:60},
+    {label:'Satellite',val:satMW, pct:satPct,  color:'#d97706', target:40},
+  ];
+  document.getElementById('cs-wrap').innerHTML = `
+    ${rows.map(r=>`
+      <div class="cs-row">
+        <div class="cs-label">${r.label}</div>
+        <div class="cs-track">
+          <div class="cs-fill" style="width:${r.pct.toFixed(1)}%;background:${r.color}">
+            ${r.pct>8?r.pct.toFixed(0)+'%':''}
+          </div>
+          <div class="cs-target" style="left:${r.target}%"></div>
+        </div>
+        <div class="cs-pct" style="color:${r.color}">${r.pct.toFixed(1)}%</div>
+        <div class="cs-chf">CHF ${fmt(r.val)}</div>
+      </div>`).join('')}
+    <div style="font-size:11px;color:var(--muted);margin-top:6px">
+      Senkrechte Linie = Ziel (60% Core / 40% Satellite)
+    </div>`;
+}
+
+// ══════════════════════════════════════════
+// WÄHRUNGSEXPOSURE – Underlying (korrekt)
+// ══════════════════════════════════════════
+// Für Einzelaktien = Handelswährung des Unternehmens (Heimatmarkt)
+// Für ETFs = gewichtete Underlying-Währungen des Index
+const FX_MAP = {
+  // ── SAXO ETFs ──
+  // FTSE All-World: ~65% USD, ~11% EUR, ~6% JPY, ~4% GBP, ~3% CHF, ~11% Other
+  "Vanguard FTSE All-World Acc (VWCE)":   {USD:0.65,EUR:0.11,JPY:0.06,GBP:0.04,CHF:0.03,Other:0.11},
+  "Vanguard FTSE All-World Dist (VWRL)":  {USD:0.65,EUR:0.11,JPY:0.06,GBP:0.04,CHF:0.03,Other:0.11},
+  // MSCI World: ~70% USD, ~12% EUR, ~6% JPY, ~4% GBP, ~3% CHF, ~5% Other
+  "iShares MSCI World (SWDA)":            {USD:0.70,EUR:0.12,JPY:0.06,GBP:0.04,CHF:0.03,Other:0.05},
+  // EURO STOXX 50: ~100% EUR
+  "Amundi EURO STOXX 50 (Acc)":           {EUR:1.0},
+  // STOXX Europe 600: ~30% GBP, ~25% EUR, ~15% CHF, ~30% Other EUR-zone
+  "Amundi STOXX Europe 600 ESG":          {GBP:0.22,EUR:0.55,CHF:0.14,Other:0.09},
+  // Japan IMI: ~100% JPY
+  "iShares Japan IMI (SJPA)":             {JPY:1.0},
+  // Swiss Dividend: ~100% CHF
+  "iShares Swiss Dividend (CHDVD)":       {CHF:1.0},
+  // Swiss SPI: ~100% CHF
+  "UBS Core SPI ETF":                     {CHF:1.0},
+  // MSCI Global Semiconductors: ~70% USD, ~15% TWD, ~10% KRW, ~5% Other
+  "iShares MSCI Global Semiconductors":   {USD:0.70,Other:0.30},
+  // US Infrastructure: ~100% USD
+  "iShares US Infrastructure ETF":        {USD:1.0},
+  // Uranium: global mix ~60% USD, ~20% CAD, ~20% Other
+  "Global X Uranium ETF":                 {USD:0.60,Other:0.40},
+  // Defence Tech: ~60% EUR, ~25% USD, ~15% GBP
+  "Global X Defence Tech ETF":            {EUR:0.60,USD:0.25,GBP:0.15},
+  // WisdomTree Europe Defence: ~65% EUR, ~20% GBP, ~15% Other
+  "WisdomTree Europe Defence (WDEF)":     {EUR:0.65,GBP:0.20,Other:0.15},
+  // VanEck Space: ~70% USD, ~20% EUR, ~10% Other
+  "VanEck Space (JEDI)":                  {USD:0.70,EUR:0.20,Other:0.10},
+  // VanEck Rare Earth: ~40% USD, ~30% AUD, ~20% CAD, ~10% Other
+  "VanEck Rare Earth ETF":                {USD:0.40,Other:0.60},
+
+  // ── NEON ETFs ──
+  // Global Stocks FTSE All-World (= VWCE equivalent)
+  "Global Stocks FTSE All-World":         {USD:0.65,EUR:0.11,JPY:0.06,GBP:0.04,CHF:0.03,Other:0.11},
+  // S&P 500: ~100% USD
+  "S&P 500 (Xtrackers)":                  {USD:1.0},
+  // Europe Top 600
+  "Europe Stocks Top 600":                {GBP:0.22,EUR:0.55,CHF:0.14,Other:0.09},
+  // EM: ~30% CNY, ~15% USD, ~12% TWD, ~10% INR, ~8% KRW, ~25% Other
+  "Emerging Markets (Invesco MSCI EM)":   {USD:0.15,Other:0.85},
+  "Emerging Markets (iShares)":           {USD:0.15,Other:0.85},
+  // Swiss Dividend Neon
+  "iShares Swiss Dividend (Neon)":        {CHF:1.0},
+  // China Tech: ~100% CNY/HKD → Other
+  "China Technology ETF":                 {Other:1.0},
+  // Silver ZKB: USD-denominiert
+  "Silver ZKB ETC":                       {USD:1.0},
+  // Gold ZKB: USD-denominiert
+  "Gold ZKB ETC":                         {USD:1.0},
+  // Bitcoin/Ethereum: USD-denominiert
+  "Bitcoin (Xtrackers)":                  {USD:1.0},
+  "Ethereum (Xtrackers)":                 {USD:1.0},
+  // Gold Producers/Miners: USD
+  "Gold Producers (iShares)":             {USD:0.70,Other:0.30},
+  "Gold Miners (VanEck)":                 {USD:0.70,Other:0.30},
+  // Clean Energy: ~50% USD, ~35% EUR, ~15% Other
+  "Clean Energy Dist. (iShares)":         {USD:0.50,EUR:0.35,Other:0.15},
+  // Cybersecurity: ~80% USD, ~20% Other
+  "Cybersecurity ETF":                    {USD:0.80,Other:0.20},
+  // Crypto ETPs
+  "Cardano ETP":                          {USD:1.0},
+  "Polkadot ETP":                         {USD:1.0},
+
+  // ── SELMA ETFs ──
+  "Vanguard S&P 500 UCITS ETF":           {USD:1.0},
+  "Amundi MSCI Emerging Markets Swap":    {USD:0.15,Other:0.85},
+  "iShares STOXX Europe 600 ETF":         {GBP:0.22,EUR:0.55,CHF:0.14,Other:0.09},
+  "iShares Core MSCI Japan IMI ETF":      {JPY:1.0},
+  "UBS ETF (CH) - UBS Core SPI® ETF":    {CHF:1.0},
+  "iShares Listed Private Equity ETF":    {USD:0.50,EUR:0.30,Other:0.20},
+  "iShares Global Corp Bond ETF":         {USD:0.55,EUR:0.25,GBP:0.12,Other:0.08},
+  "iShares Global High Yield Corp Bond ETF": {USD:0.75,EUR:0.15,Other:0.10},
+  "UBS ETF (CH) - UBS Gold ETF":          {USD:1.0},
+  "Swisscanto (CH) Silver ETF":           {USD:1.0},
+
+  // ── SWISSQUOTE ETFs ──
+  "iShares Core SPI (SQ)":               {CHF:1.0},
+  "Amundi MSCI EM (SQ)":                 {USD:0.15,Other:0.85},
+  "iShares MSCI World (SQ)":             {USD:0.70,EUR:0.12,JPY:0.06,GBP:0.04,CHF:0.03,Other:0.05},
+  "Amundi World ETF (SQ)":               {USD:0.65,EUR:0.11,JPY:0.06,GBP:0.04,CHF:0.03,Other:0.11},
+  "Bitcoin (Swissquote)":                {USD:1.0},
+  "Ethereum (Swissquote)":               {USD:1.0},
+  "Solana (Swissquote)":                 {USD:1.0},
+  "XRP (Swissquote)":                    {USD:1.0},
+};
+
+// Einzelaktien: Heimatwährung des Unternehmens
+const EQUITY_CCY = {
+  // USD
+  "Alphabet Inc. Class A":"USD","Amazon.com Inc.":"USD","Apple Inc.":"USD",
+  "BitMine Immersion Technologies":"USD","Boston Scientific Corp.":"USD",
+  "Coinbase Global Inc.":"USD","Microsoft Corp.":"USD","Netflix Inc.":"USD",
+  "PayPal Holdings Inc.":"USD","UnitedHealth Group Inc.":"USD",
+  "Amazon.com (Neon)":"USD",
+  // EUR
+  "Capital B":"EUR","Diageo Plc":"EUR","Fielmann Group AG":"EUR",
+  "Fresenius SE & Co. KGaA":"EUR","Nordea Bank Abp":"EUR",
+  "Novo Nordisk B A/S":"EUR","Schneider Electric SE":"EUR",
+  "TotalEnergies SE":"EUR","Allianz SE":"EUR","Stellantis NV":"EUR",
+  "ams OSRAM":"EUR","Novo Nordisk (Neon)":"EUR",
+  // GBP
+  "British American Tobacco":"GBP","Glencore Plc":"GBP",
+  "National Grid Plc":"GBP","Rio Tinto Plc":"GBP","BP Plc":"GBP",
+  // NOK
+  "Aker BP ASA":"NOK","DNB Bank ASA":"NOK",
+  // CHF
+  "Amrize Ltd":"CHF","BB Biotech AG":"CHF","Nestlé SA":"CHF",
+  "Swiss Re Ltd":"CHF","TKMS AG":"CHF","BB Biotech AG (Neon)":"CHF",
+  "Nestlé SA (Neon)":"CHF","Roche Partizipationsschein":"CHF",
+  "UBS Group AG":"CHF","Zurich Insurance Group":"CHF",
+  "Swiss Life Holding":"CHF","Ypsomed Holding":"CHF",
+  "Helvetia Baloise Holding":"CHF",
+  // Swissquote Einzelaktien
+  "Nordea Bank Abp (SQ)":"EUR","AC Immune SA":"USD","Banque Cant. Vaudoise":"CHF",
+  "Calida Holding":"CHF","Jacobs Holding":"CHF","Reishauer AG":"CHF",
+  "Uhren Holding":"EUR","Audemars Piguet Holding":"CHF",
+};
+
+function renderFX(all, totMW) {
+  const exposure = {CHF:0, USD:0, EUR:0, GBP:0, NOK:0, JPY:0, Other:0};
+
+  // Relai Bitcoin: USD-denominiert
+  const _relai = getRelaiData();
+  const relaiMW2 = _relai.priceCHF > 0 ? Math.round(_relai.btc * _relai.priceCHF) : 0;
+  if (relaiMW2 > 0) exposure['USD'] += relaiMW2;
+
+  // Selma Gesamtwert wenn keine Positionen geladen (Fallback)
+  if (SELMA_DATA.length === 0) {
+    const _s = getSelmaData();
+    if (_s.mw > 0) {
+      // ~62% Aktien-ETFs (USD/global), ~38% Bonds+Edelmetalle (USD)
+      exposure['USD'] += _s.mw * 0.55;
+      exposure['EUR'] += _s.mw * 0.18;
+      exposure['CHF'] += _s.mw * 0.12;
+      exposure['JPY'] += _s.mw * 0.05;
+      exposure['Other'] += _s.mw * 0.10;
+    }
+  }
+
+  all.forEach(p => {
+    if (p.type === 'Aktie') {
+      // Einzelaktie → Heimatwährung
+      const ccy = EQUITY_CCY[p.n] || (p.ccy === 'GBp' ? 'GBP' : p.ccy);
+      const key = exposure[ccy] !== undefined ? ccy : 'Other';
+      exposure[key] += p.mw;
+    } else {
+      // ETF → Underlying-Gewichtung
+      const weights = FX_MAP[p.n];
+      if (weights) {
+        Object.entries(weights).forEach(([ccy, w]) => {
+          const key = exposure[ccy] !== undefined ? ccy : 'Other';
+          exposure[key] += p.mw * w;
+        });
+      } else {
+        // Fallback: Handelswährung
+        const ccy = p.ccy === 'GBp' ? 'GBP' : p.ccy;
+        const key = exposure[ccy] !== undefined ? ccy : 'Other';
+        exposure[key] += p.mw;
+      }
+    }
+  });
+
+  const entries = Object.entries(exposure).filter(([,v]) => v > 100).sort((a,b) => b[1]-a[1]);
+  const flags  = {CHF:'🇨🇭', USD:'🇺🇸', EUR:'🇪🇺', GBP:'🇬🇧', NOK:'🇳🇴', JPY:'🇯🇵', Other:'🌐'};
+  const colors = {CHF:'#d97706', USD:'#2563eb', EUR:'#16a34a', GBP:'#dc2626', NOK:'#7c3aed', JPY:'#0891b2', Other:'#78716c'};
+  const maxVal = entries[0]?.[1] || 1;
+
+  document.getElementById('fx-wrap').innerHTML = entries.map(([ccy, val]) => `
+    <div class="fx-bar-row">
+      <div class="fx-flag">${flags[ccy]||'🌐'}</div>
+      <div class="fx-label">${ccy}</div>
+      <div class="fx-track"><div class="fx-fill" style="width:${(val/maxVal*100).toFixed(1)}%;background:${colors[ccy]||'#78716c'}"></div></div>
+      <div class="fx-pct">${(val/totMW*100).toFixed(1)}%</div>
+      <div class="fx-chf">${fmt(val)}</div>
+    </div>`).join('')
+  + `<div style="font-size:10px;color:var(--muted);margin-top:8px">Underlying-Währung (nicht Handelswährung)</div>`;
+}
+
+// ══════════════════════════════════════════
+// WINNERS & LOSERS
+// ══════════════════════════════════════════
+function renderWinnersLosers(all) {
+  // Virtuelle Positionen für Relai und Selma (wenn keine Einzelpositionen)
+  const _relaiD = getRelaiData();
+  const _relaiMW = _relaiD.priceCHF > 0 ? Math.round(_relaiD.btc * _relaiD.priceCHF) : 0;
+  const _relaiGNV= _relaiD.cost > 0 ? _relaiMW - _relaiD.cost : 0;
+  const extras = [];
+  if (_relaiMW > 0) extras.push({n:'Relai Bitcoin (0.11 BTC)', mw:_relaiMW, gnv:_relaiGNV, cost:_relaiD.cost, type:'Crypto', depot:'relai'});
+  const _selmaD = getSelmaData();
+  if (SELMA_DATA.length === 0 && _selmaD.mw > 0) {
+    extras.push({n:'Selma Portfolio', mw:_selmaD.mw, gnv:_selmaD.mw-_selmaD.cost, cost:_selmaD.cost, type:'ETF', depot:'selma'});
+  }
+  const sorted = [...all, ...extras].sort((a,b)=>b.gnv-a.gnv);
+  const winners = sorted.slice(0,6);
+  const losers  = [...all, ...extras].sort((a,b)=>a.gnv-b.gnv).slice(0,6);
+  const maxW = Math.abs(winners[0].gnv)||1;
+  const maxL = Math.abs(losers[0].gnv)||1;
+
+  document.getElementById('wl-winners').innerHTML = winners.map(p=>`
+    <div class="wl-row">
+      <div class="wl-name" title="${p.n}">${p.n.split(' ').slice(0,3).join(' ')}</div>
+      <div class="wl-bar-track"><div class="wl-bar-fill" style="width:${(Math.abs(p.gnv)/maxW*100).toFixed(0)}%;background:#16a34a"></div></div>
+      <div class="wl-val pos">+${fmt(p.gnv)}</div>
+    </div>`).join('');
+
+  document.getElementById('wl-losers').innerHTML = losers.map(p=>`
+    <div class="wl-row">
+      <div class="wl-name" title="${p.n}">${p.n.split(' ').slice(0,3).join(' ')}</div>
+      <div class="wl-bar-track"><div class="wl-bar-fill" style="width:${(Math.abs(p.gnv)/maxL*100).toFixed(0)}%;background:#dc2626"></div></div>
+      <div class="wl-val neg">${fmt(p.gnv)}</div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// RISIKOHINWEISE (Klumpenrisiko >5%)
+// ══════════════════════════════════════════
+function renderWarnings(all, totMW) {
+  // Virtuelle Positionen für vollständige Klumpenrisikoanalyse
+  const _relaiW = getRelaiData();
+  const _relaiMW2 = _relaiW.priceCHF > 0 ? Math.round(_relaiW.btc * _relaiW.priceCHF) : 0;
+  if (_relaiMW2 > 0) all = [...all, {n:'Relai Bitcoin', mw:_relaiMW2, gnv:0, type:'Crypto', depot:'relai', ccy:'USD'}];
+  if (SELMA_DATA.length === 0) {
+    const _sW = getSelmaData();
+    if (_sW.mw > 0) all = [...all, {n:'Selma Portfolio', mw:_sW.mw, gnv:_sW.mw-_sW.cost, type:'ETF', depot:'selma', ccy:'CHF'}];
+  }
+  const warnings = [];
+
+  // Klumpenrisiko – nur Einzeltitel und Satellite-Positionen (keine Core-ETFs)
+  all.filter(p => !isCore(p)).forEach(p=>{
+    const pct = p.mw/totMW*100;
+    if (pct>=7) warnings.push({type:'red', icon:'🔴', title:`Klumpenrisiko: ${p.n.split(' ').slice(0,3).join(' ')}`, sub:`${pct.toFixed(1)}% des Portfolios – Einzeltitel >7%`});
+    else if (pct>=5) warnings.push({type:'amber', icon:'🟡', title:`Konzentration: ${p.n.split(' ').slice(0,3).join(' ')}`, sub:`${pct.toFixed(1)}% des Portfolios – Einzeltitel >5%`});
+  });
+
+  // Novo Nordisk doppelt (Exit-Kandidat in beiden Depots)
+  warnings.push({type:'amber', icon:'⚠️', title:'Novo Nordisk: Exit-Kandidat in beiden Depots', sub:'Saxo (82 Stk) + Neon (35 Stk) – CHF ~3\'400 Verlust gesamt'});
+
+  // Capital B grosser Verlust
+  warnings.push({type:'red', icon:'🔴', title:'Capital B: Verlust –CHF 3\'940', sub:'–80% auf Einstand – Exit oder Halteentscheidung prüfen'});
+
+  if (warnings.length===2) warnings.unshift({type:'green', icon:'✅', title:'Kein Klumpenrisiko bei Einzeltiteln', sub:'Alle Nicht-Core-Positionen unter 5% des Portfolios'});
+
+  document.getElementById('warn-list').innerHTML = warnings.slice(0,6).map(w=>`
+    <div class="warn-item ${w.type}">
+      <div class="warn-icon">${w.icon}</div>
+      <div class="warn-text"><strong>${w.title}</strong><span>${w.sub}</span></div>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// WATCHLIST / OFFENE ORDERS
+// ══════════════════════════════════════════
+function renderWatchlist() {
+  const orders = [
+    {name:'Amrize Ltd', type:'gtc', detail:'GTC Limit', limit:'CHF 37.50', ziel:'CHF 5\'000', aktuell:3277, zielVal:5000},
+    {name:'iShares MSCI Global Semiconductors', type:'gtc', detail:'GTC Limit', limit:'~USD 12\'100–12\'200', ziel:'CHF 5\'000', aktuell:2964, zielVal:5000},
+    {name:'Microsoft Corp.', type:'target', detail:'2. Tranche offen', limit:'~USD 380 Level', ziel:'CHF 7\'000–8\'000', aktuell:5067, zielVal:7500},
+    {name:'Schneider Electric SE', type:'target', detail:'Aufbauen', limit:'Tranche läuft', ziel:'CHF 5\'000–7\'000', aktuell:1952, zielVal:6000},
+  ];
+  document.getElementById('watch-grid').innerHTML = orders.map(o=>{
+    const prog = Math.min(100, (o.aktuell/o.zielVal*100));
+    return `<div class="watch-card">
+      <div class="watch-card-top">
+        <div class="watch-name">${o.name.split(' ').slice(0,3).join(' ')}</div>
+        <span class="watch-type ${o.type}">${o.type==='gtc'?'GTC Order':'Aufbauen'}</span>
+      </div>
+      <div class="watch-detail">
+        <div>${o.detail}: <strong>${o.limit}</strong></div>
+        <div>Ziel: <strong>${o.ziel}</strong></div>
+        <div>Aktuell: <strong>CHF ${fmt(o.aktuell)}</strong></div>
+      </div>
+      <div class="watch-progress"><div class="watch-progress-fill" style="width:${prog.toFixed(0)}%"></div></div>
+      <div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">${prog.toFixed(0)}% des Ziels erreicht</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════
+// TO-DO GENERATOR
+// ══════════════════════════════════════════
+const STATIC_TODOS = [
+  // VERKAUFEN
+  {priority:"high",   category:"Verkaufen",     title:"Novo Nordisk komplett exitieren",        text:"–CHF 4'881 Verlust über beide Depots (Saxo 82 Stk + Neon 35 Stk). Struktureller Rückgang durch GLP-1-Konkurrenz, keine kurzfristige Trendwende absehbar. Verlust realisieren und Kapital umschichten.", done:false},
+  {priority:"high",   category:"Verkaufen",     title:"PayPal verkaufen",                       text:"–CHF 854 auf Einstand, –40%. Strukturelles Problem: Wettbewerb durch Apple Pay, Google Pay, Buy-Now-Pay-Later. Kein klarer Katalysator. GTC-Limit auf aktuellem Niveau setzen und raus.", done:false},
+  {priority:"high",   category:"Verkaufen",     title:"Capital B: Entscheidung jetzt",          text:"–CHF 3'940 (–80%). 1'810 Stück zu CHF 0.56 – de facto wertlos. Entweder komplett abschreiben (Steueroptimierung in CH begrenzt) oder halten auf Null. Klare Halteentscheidung treffen, nicht aussitzen.", done:false},
+  {priority:"high",   category:"Verkaufen",     title:"VanEck Rare Earth (VVMX) verkaufen",     text:"Verkauft ✓ — Erlös in SEMI ETF umschichten. These wird via Semiconductors-ETF gespielt (Nachfrageseite statt Angebotsseite).", done:true},
+  {priority:"medium", category:"Verkaufen",     title:"Global X Defence Tech in Stärke abbauen",text:"Verkauft ✓ — Erlös in SEMI umgeschichtet. Defence via WDEF weiterhin gespielt.", done:true},
+  {priority:"high",   category:"Aufbauen",      title:"US Infrastructure (IFRA) auf CHF 3'000–4'000 aufbauen", text:"Holdings überzeugen: Caterpillar, Constellation Energy (Nuklear+AI-Strom), NextEra, Quanta Services. Faktisch ein AI-Strom-Play. Aktuell CHF 1'248 — zu klein. Aufbauen via GTC-Limit oder Tranchen auf Ziel CHF 3'000–4'000.", done:false},
+  {priority:"low",    category:"Verkaufen",     title:"Boston Scientific prüfen",               text:"–CHF 364 (–42%). MedTech-Sektor unter Druck. Überzeugung prüfen: wenn kein klares Kursziel, lieber in stärkere Positionen umschichten.", done:false},
+
+  // AUFBAUEN
+  {priority:"high",   category:"Aufbauen",      title:"SEMI ETF auf CHF 6'000–8'000 aufbauen", text:"Erlöse aus Rare Earth + Uranium + 4MMR bereits umgeschichtet. Sparplan CHF 500/Mt aktiv. Ziel in 6–10 Monaten erreicht.", done:false},
+  {priority:"high",   category:"Aufbauen",      title:"Schneider Electric: 2. Tranche kaufen",  text:"Erst CHF 2'142 von Ziel CHF 5'000–7'000. Struktureller Rückenwind durch Energiewende, Rechenzentren, Industrieautomatisierung. Nächste Tranche ~CHF 2'000 bei Schwäche oder als Marktorder.", done:false},
+  {priority:"high",   category:"Aufbauen",      title:"Microsoft: 2. Tranche platzieren",        text:"GTC Limit bei USD 380 noch offen. Aktuell CHF 5'011. AI-Infrastruktur (Azure, Copilot) rechtfertigt höhere Gewichtung. Ziel CHF 7'000–8'000.", done:false},
+  {priority:"medium", category:"Aufbauen",      title:"Amrize GTC 37.50 CHF bestätigen",        text:"CHF 3'441 von Ziel CHF 5'000. Spin-off-Story läuft, GTC-Limit bei 37.50 bestätigen und aktiv beobachten.", done:false},
+
+  // KONSOLIDIEREN
+  {priority:"medium", category:"Konsolidieren", title:"Nestlé: Dopplung bereinigen",            text:"Nestlé in Saxo (68 Stk, CHF 5'365) UND Neon (45 Stk, CHF 3'570) = CHF 8'935 total in einer defensiven CH-Aktie. Eine Position ist genug. Neon-Position beim nächsten Anstieg verkaufen.", done:false},
+  {priority:"medium", category:"Konsolidieren", title:"BB Biotech: Dopplung prüfen",            text:"BB Biotech in Saxo (21 Stk) und Neon (70 Stk). Total CHF 4'041. Eine Position reicht. Saxo-Position kleiner, ggf. dort schliessen.", done:false},
+  {priority:"low",    category:"Konsolidieren", title:"Kleinstpositionen bereinigen",           text:"BitMine (CHF 83), Cardano ETP (CHF 88), Polkadot ETP (CHF 50) – Kleinstpositionen ohne sinnvollen Beitrag. Alle verkaufen, Kapital in SEMI ETF oder Core bündeln.", done:false},
+
+  // REBALANCING
+  {priority:"medium", category:"Rebalancing",   title:"VWCE-Sparplan auf CHF 1'200 reduziert ✓", text:"Neu: VWCE CHF 1'200 statt 2'000 / Monat. Die CHF 800 werden umgeleitet: CHF 500 in neuen SEMI-Sparplan, CHF 300 als freie Rücklage für GTC-Einmalorder (Schneider, Amrize). Sicherstellen dass Neon-Sparplan angepasst ist.", done:false},
+  {priority:"low",    category:"Rebalancing",   title:"USD-Exposure prüfen",                    text:"Über 29% des Portfolios in USD (Underlying). Langfristig ok, aber bei starkem CHF im Auge behalten.", done:false},
+
+  // BEOBACHTEN
+  {priority:"low",    category:"Beobachten",    title:"Fielmann: Geduld oder Exit?",            text:"–CHF 422 (–15%). Optiker-Markt strukturell solide, aber Margendruck. Überzeugung prüfen. Wenn Ziel CHF 60+, halten. Sonst besser in stärkere Positionen.", done:false},
+  {priority:"low",    category:"Beobachten",    title:"Diageo: Dividende vs. Kurs",             text:"–CHF 318 aber 3.2% Dividendenrendite. Spirits-Branche erholt sich langsam. Halten als Dividendentitel, aber kein Aufbau.", done:false},
+  {priority:"low",    category:"Beobachten",    title:"China Tech ETF: Überzeugung klären",     text:"CHF 4'676 · grösster Satelliten-ETF im Portfolio. Kein aktiver Aufbauplan definiert. Entweder als langfristigen Themen-Posten deklarieren (halten, kein Aufbau) oder Exitplan festlegen.", done:false},
+];
+
+let todoItems = [...STATIC_TODOS.map(t=>({...t}))];
+
+async function generateTodo() {
+  const btn = document.querySelector('#tab-todo .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = '↻ Generiert…'; }
+
+  try {
+    const saxoMW = SAXO_DATA.reduce((s,p)=>s+p.mw,0);
+    const neonMW = NEON_DATA.reduce((s,p)=>s+p.mw,0);
+    const totMW  = saxoMW + neonMW;
+    const totGNV = [...SAXO_DATA,...NEON_DATA].reduce((s,p)=>s+p.gnv,0);
+    const coreMW = [...SAXO_DATA,...NEON_DATA,...SWISSQUOTE_DATA,...SELMA_DATA].filter(p=>isCore(p)).reduce((s,p)=>s+p.mw,0);
+
+    const prompt = `Du bist mein persönlicher Portfolio-Coach. Analysiere mein Portfolio und erstelle eine priorisierte To-do-Liste.
+
+PORTFOLIO: CHF ${fmt(totMW)} | G/V: ${fmtd(totGNV)} | Core-Anteil: ${(coreMW/totMW*100).toFixed(0)}%
+EXIT: PayPal (–CHF 854), Novo Nordisk beide Depots (–CHF ~4'881), Capital B (–CHF 3'940, –80%)
+AUFBAUEN: SEMI ETF (Sparplan CHF 500/Mt aktiv, Ziel 6'000–8'000), US Infrastructure IFRA (aktuell CHF 1'248, Ziel 3'000–4'000, AI-Strom-Play), Schneider Electric (aktuell CHF 2'142, Ziel 5-7k), Microsoft 2.Tranche, Amrize GTC 37.50
+VERKAUFEN: —
+SPARPLAN NEU: FWRN 1'200 (Global Stocks Neon, 0% Gebühren, ersetzte Invesco), SWDA 800, STOXX600 500, Japan 400, SEMI 500 (neu), Relai ~433
+DOPPLUNGEN: Nestlé (Saxo+Neon), BB Biotech (Saxo+Neon), Novo Nordisk (Saxo+Neon)
+KLEINSTPOS: BitMine CHF 83, Cardano ETP CHF 88, Polkadot ETP CHF 50
+BEREITS VERKAUFT: Cybersecurity ETF, Stellantis NV, VanEck Rare Earth VVMX (→ SEMI), Global X Uranium URNU (→ SEMI), Global X Defence Tech 4MMR (→ SEMI), Clean Energy INRG +27% (→ SEMI)
+SATELLITEN-THESEN: SEMI=Halbleiter+AI-Infrastruktur, WDEF=Europa-Rüstung, JEDI=Space, ChinaTech=strukturell halten
+STROM/INFRA: via Schneider Electric (kein separater ETF)
+
+Antworte NUR mit JSON-Array, kein Text davor/danach:
+[{"priority":"high","category":"Verkaufen","title":"Kurztitel","text":"Konkrete Begründung","done":false}]
+Kategorien: Verkaufen, Aufbauen, Konsolidieren, Rebalancing, Beobachten
+Prioritäten: high, medium, low. Erstelle 14-18 To-dos auf Deutsch.`;
+
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:apiHeaders(),
+      body: JSON.stringify({model:'claude-sonnet-4-5',max_tokens:2500,messages:[{role:'user',content:prompt}]})
+    });
+    const data = await r.json();
+    let text = data.content?.map(c=>c.text||'').join('') || '';
+    text = text.replace(/```json|```/g,'').trim();
+    const fresh = JSON.parse(text);
+    todoItems = fresh.map(t=>({...t, done:false}));
+    renderTodo();
+  } catch(e) {
+    // Falls API nicht erreichbar, statische To-dos zeigen
+    todoItems = [...STATIC_TODOS.map(t=>({...t}))];
+    renderTodo();
+  }
+
+  if (btn) { btn.disabled = false; btn.textContent = '↻ Neu generieren'; }
+}
+
+function renderTodo() {
+  const categories = [...new Set(todoItems.map(t=>t.category))];
+  const priorityOrder = {high:0, medium:1, low:2};
+  const catIcons = {
+    'Verkaufen':'🔴','Aufbauen':'🟢','Sparplan':'💰',
+    'Rebalancing':'⚖️','Beobachten':'👁','Konsolidieren':'🔵'
+  };
+
+  let html = '';
+  categories.forEach(cat => {
+    const items = todoItems.filter(t=>t.category===cat).sort((a,b)=>priorityOrder[a.priority]-priorityOrder[b.priority]);
+    html += `<div class="todo-section">
+      <div class="todo-section-title">${catIcons[cat]||'•'} ${cat}</div>
+      ${items.map((t,i) => {
+        const idx = todoItems.indexOf(t);
+        return `<div class="todo-item" id="todo-${idx}" onclick="toggleTodo(${idx})">
+          <div class="todo-checkbox" id="cb-${idx}"></div>
+          <span class="todo-priority ${t.priority}">${t.priority==='high'?'Dringend':t.priority==='medium'?'Bald':'Optional'}</span>
+          <div class="todo-text"><strong>${escHtml(t.title)}</strong>${escHtml(t.text)}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  });
+
+  const done = todoItems.filter((_,i)=>document.getElementById('todo-'+i)?.classList.contains('done')).length;
+  html = `<div style="font-size:12px;color:var(--muted);margin-bottom:16px">
+    Klicke auf ein To-do zum Abhaken · KI-Empfehlung vom ${new Date().toLocaleDateString('de-CH')}
+  </div>` + html;
+
+  document.getElementById('todo-out').innerHTML = html;
+}
+
+function toggleTodo(idx) {
+  const el = document.getElementById('todo-'+idx);
+  const cb = document.getElementById('cb-'+idx);
+  el.classList.toggle('done');
+  cb.textContent = el.classList.contains('done') ? '✓' : '';
+}
+
+// ══════════════════════════════════════════
+// MAKRO NEWS
+// ══════════════════════════════════════════
+let macroLoaded = false;
+
+async function loadMacroNews() {
+  macroLoaded = false;
+  const key = getApiKey();
+  if (!key) {
+    document.getElementById('macro-out').innerHTML = `
+      <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:18px 20px;font-size:13px;color:#92400e">
+        <strong>🔑 API-Key erforderlich</strong><br>
+        Gib deinen Anthropic API-Key im gelben Banner oben ein, um News & KI-Analyse zu nutzen.<br>
+        <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:#2563eb;margin-top:6px;display:inline-block">→ API-Key holen (console.anthropic.com)</a>
+      </div>`;
+    return;
+  }
+  document.getElementById('macro-out').innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;padding:16px 0">
+      <div class="spinner"></div>Suche aktuelle Marktdaten… (Web Search aktiv)
+    </div>`;
+
+  // Top 10 Einzelaktien über alle Depots, nach Marktwert
+  const _allAktien = [...SAXO_DATA, ...NEON_DATA, ...SWISSQUOTE_DATA]
+    .filter(p => p.type === 'Aktie')
+    .reduce((map, p) => {
+      const key = p.n.replace(/\s*\(SQ\)|\s*\(Neon\)/g, '').trim();
+      map[key] = (map[key] || 0) + p.mw;
+      return map;
+    }, {});
+  const allPositions = Object.entries(_allAktien)
+    .sort((a,b) => b[1] - a[1])
+    .slice(0, 10)
+    .map(([n]) => n.split(' ').slice(0,2).join(' '))
+    .join(', ');
+
+  const today = new Date().toLocaleDateString('de-DE', {weekday:'long', day:'2-digit', month:'long', year:'numeric'});
+
+  // Schritt 1: Web Search - holt aktuelle Marktdaten
+  const searchPrompt = `Suche aktuelle Finanznews fuer heute ${today}: SMI Tagesstand, S&P500, Bitcoin Kurs, CHF/USD. Dann News zu: ${allPositions}.`;
+
+  // Schritt 2: JSON-Synthese aus Search-Ergebnissen (kein Web Search Tool)
+  const jsonPrompt = (searchResults) => `Basierend auf diesen aktuellen Marktdaten:
+
+${searchResults}
+
+Erstelle eine kompakte News-Uebersicht. Antworte NUR mit diesem JSON (kein Text, kein Markdown):
+{"days":[{"date":"Heute, ${today}","items":[{"category":"macro","title":"Titel","bullets":["Fakt 1","Fakt 2"]}]},{"date":"Gestern","items":[{"category":"equity","title":"Titel","bullets":["Fakt 1","Fakt 2"]}]}]}
+Genau 2 Tage, je 3 Items, je 2 Bullets auf Deutsch. Kategorien: macro/equity/fx/crypto.`;
+
+  try {
+    // Schritt 1: Web Search (mit Retry bei 429)
+    const searchText = await callWithWebSearch(
+      [{ role: 'user', content: searchPrompt }], 1200
+    );
+
+    // Schritt 2: JSON-Synthese — kein Web Search, spart Tokens und vermeidet Rate Limit
+    await new Promise(res => setTimeout(res, 3000)); // 3s Pause zwischen Calls
+    const jsonText = await callWithWebSearch(
+      [{ role: 'user', content: jsonPrompt(searchText || 'keine Daten') }], 900, false
+    );
+    const json = extractJson(jsonText);
+    if (!json.days || !Array.isArray(json.days)) throw new Error('Ungültiges JSON');
+    renderMacroNews(json.days);
+    macroLoaded = true;
+
+  } catch(e) {
+    document.getElementById('macro-out').innerHTML =
+      `<div style="background:#fee2e2;border:1px solid #fca5a5;border-radius:8px;padding:14px;font-size:13px;color:#dc2626">
+        <strong>Fehler:</strong> ${escHtml(e.message)}<br>
+        <span style="color:var(--muted);font-size:12px">Pruefe ob der API-Key korrekt ist (console.anthropic.com)</span>
+      </div>`;
+  }
+}
+
+function renderMacroNews(days) {
+  const catLabel = {macro:'Makro', equity:'Aktien', fx:'Währungen', crypto:'Crypto'};
+  document.getElementById('macro-out').innerHTML = days.map(day => `
+    <div class="news-day">
+      <div class="news-date-label">${escHtml(day.date)}</div>
+      ${day.items.map(item => `
+        <div class="news-card">
+          <div class="news-card-top">
+            <span class="news-category ${item.category}">${catLabel[item.category]||item.category}</span>
+            <div class="news-card-title">${escHtml(item.title)}</div>
+          </div>
+          <ul class="news-bullets">
+            ${item.bullets.map(b => `<li>${escHtml(b)}</li>`).join('')}
+          </ul>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+// ══════════════════════════════════════════
+// AI
+// ══════════════════════════════════════════
+function buildContext() {
+  const saxoMW = SAXO_DATA.reduce((s,p)=>s+p.mw,0);
+  const neonMW = NEON_DATA.reduce((s,p)=>s+p.mw,0);
+  const totGNV = [...SAXO_DATA,...NEON_DATA].reduce((s,p)=>s+p.gnv,0);
+  const saxoLines = SAXO_DATA.map(p=>`- ${p.n}: CHF ${fmt(p.mw)}, G/V ${fmtd(p.gnv)} (${pctStr(p.gnv,p.cost)})`);
+  const neonLines = NEON_DATA.map(p=>`- ${p.n}: CHF ${fmt(p.mw)}, G/V ${fmtd(p.gnv)} (${pctStr(p.gnv,p.cost)})`);
+  const sqLines   = SWISSQUOTE_DATA.map(p=>`- ${p.n} (${p.ticker}): CHF ${fmt(p.mw)}, G/V ${fmtd(p.gnv)} [${p.type}]`);
+  const _selmaCtx = getSelmaData();
+  const selmaLines = _selmaCtx.mw > 0 ? [`- Selma Robo-Advisor: CHF ${fmt(_selmaCtx.mw)}, G/V ${fmtd((_selmaCtx.mw||0)-(_selmaCtx.cost||0))}, Strategie: ${_selmaCtx.strategy||'—'}`] : [];
+  const relai     = getRelaiData();
+  const relaiMW   = relai.priceCHF > 0 ? Math.round(relai.btc * relai.priceCHF) : 0;
+  const totMW2    = saxoMW+neonMW+SWISSQUOTE_DATA.reduce((s,p)=>s+p.mw,0)+SELMA_DATA.reduce((s,p)=>s+p.mw,0)+relaiMW;
+  return `Du bist Portfolio-Assistent für Michel aus der Schweiz (Balsthal/Solothurn). Hauptwährung CHF.
+
+PORTFOLIO GESAMT: CHF ${fmt(totMW2)} | G/V: ${fmtd(totGNV)}
+Saxo: CHF ${fmt(saxoMW)} | Neon: CHF ${fmt(neonMW)} | Swissquote: CHF ${fmt(SWISSQUOTE_DATA.reduce((s,p)=>s+p.mw,0))} | Selma: CHF ${fmt(SELMA_DATA.reduce((s,p)=>s+p.mw,0))} | Relai BTC: CHF ${fmt(relaiMW)}
+Sparplan: VWCE CHF 2'000 (Neon, gratis) + SWDA CHF 800 (Saxo, Hypothek) + STOXX600 CHF 500 + Japan IMI CHF 400 + Relai CHF 100/Woche
+
+STRATEGIE: Core-Satellite, langfristig
+EXIT: PayPal, Novo Nordisk (beide Depots)
+AUFBAUEN: Schneider Electric (Ziel 5-7k), Microsoft (2. Tranche), Amrize (GTC 37.50), SEMI ETF
+IN STÄRKE VERKAUFEN: Global X Defence Tech, iShares US Infrastructure
+
+SAXO POSITIONEN:
+${saxoLines.join('\n')}
+
+NEON POSITIONEN:
+${neonLines.join('\n')}
+
+Antworte auf Deutsch. Direkt, konkret, keine unnötigen Disclaimer. Zahlen in CHF.`;
+}
+
+async function askAI() {
+  const q = document.getElementById('ai-q').value.trim();
+  if (!q) return;
+  const key = getApiKey();
+  if (!key) {
+    document.getElementById('ai-out').innerHTML = `
+      <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:14px 18px;font-size:13px;color:#92400e">
+        <strong>🔑 API-Key fehlt</strong> – Gib deinen Anthropic API-Key im Banner oben ein.
+        <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:#2563eb;margin-left:8px">→ Key holen</a>
+      </div>`;
+    return;
+  }
+  document.getElementById('ai-out').innerHTML = `<div class="loading"><div class="spinner"></div>Analysiere Portfolio…</div>`;
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:apiHeaders(),
+      body: JSON.stringify({
+        model:'claude-sonnet-4-5', max_tokens:1000,
+        system: buildContext(),
+        messages:[{role:'user',content:q}]
+      })
+    });
+    const data = await r.json();
+    const text = data.content?.map(c=>c.text||'').join('') || 'Keine Antwort.';
+    document.getElementById('ai-out').innerHTML = `<div class="ai-box">${escHtml(text)}</div>`;
+  } catch(e) {
+    document.getElementById('ai-out').innerHTML = `<div class="ai-box" style="color:var(--danger)">Fehler: ${e.message}</div>`;
+  }
+}
+
+function quickAsk(name) {
+  document.getElementById('ai-q').value = `Analysiere meine Position in ${name}: aktueller Stand, Einschätzung und konkrete Handlungsempfehlung.`;
+  // Switch to news tab
+  document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(e => e.classList.remove('active'));
+  document.getElementById('tab-news').classList.add('active');
+  document.querySelectorAll('.tab-btn')[1].classList.add('active');
+  askAI();
+}
+
+function escHtml(t) { return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
+
+// ── Import ──
+// ── Tiingo Key Management ──
+function saveTiingoKey() {
+  const key = document.getElementById('tiingo-key').value.trim();
+  if (key) {
+    localStorage.setItem('tiingo_key', key);
+    document.getElementById('tiingo-key').value = '';
+    document.getElementById('tiingo-status').textContent = '✓ Key gespeichert – wird beim nächsten Kursabruf verwendet';
+    document.getElementById('tiingo-status').style.color = 'var(--success)';
+  }
+}
+
+function getTiingoKey() {
+  return localStorage.getItem('tiingo_key') || '';
+}
+
+// Auf Startup Tiingo-Status anzeigen
+function initTiingoStatus() {
+  const k = getTiingoKey();
+  if (k) {
+    const el = document.getElementById('tiingo-status');
+    if (el) { el.textContent = '✓ Key gespeichert'; el.style.color = 'var(--success)'; }
+  }
+}
+
+// ══════════════════════════════════════════
+// IMPORT LOGIC
+// ══════════════════════════════════════════
+
+// Versucht Broker aus Dateiinhalt zu erkennen
+function detectBroker(rows) {
+  const flat = rows.slice(0,10).map(r => r.join(' ').toLowerCase()).join(' ');
+  if (flat.includes('swissquote')) return 'swissquote';
+  if (flat.includes('selma'))      return 'selma';
+  if (flat.includes('neon'))       return 'neon';
+  if (flat.includes('saxo'))       return 'saxo';
+  return 'auto';
+}
+
+// Universelle Normalisierung einer Excel-Zeile zu Position
+function normalizeRow(row, headers) {
+  const h = headers.map(h => (h||'').toString().toLowerCase().trim());
+  const get = (...keys) => {
+    for (const k of keys) {
+      const i = h.findIndex(x => x.includes(k));
+      if (i >= 0 && row[i] !== undefined && row[i] !== '') return row[i];
+    }
+    return null;
+  };
+  const name  = get('name','bezeichnung','titel','instrument','description','security') || '';
+  const qty   = parseFloat(get('menge','qty','quantity','anzahl','shares','stück','units') || 0);
+  const mw    = parseFloat(get('marktwert','market value','value chf','wert','current value','gesamtwert','portfolio value') || 0);
+  const cost  = parseFloat(get('einstand','cost','kaufwert','purchase','invested','book value','buchkurs') || mw);
+  const gnv   = parseFloat(get('g/v','p/l','gain','pnl','unrealized') || (mw - cost));
+  const ticker= get('ticker','symbol','isin','valor') || '';
+  const ccy   = get('währung','currency','ccy','devise') || 'CHF';
+  const type  = (get('typ','type','asset class','asset type') || '').toLowerCase().includes('etf') ? 'ETF' : 'Aktie';
+  if (!name || !mw || mw <= 0) return null;
+  return { n: name.trim(), qty: qty||1, mw: Math.abs(mw), cost: Math.abs(cost), gnv,
+           ticker: ticker.toString().trim(), ccy: ccy.toString().toUpperCase().trim().replace('CHF','CHF'), type };
+}
+
+function parseXlsxToPositions(file, broker, callback) {
+  if (typeof XLSX === 'undefined') { callback(null, 'XLSX nicht geladen'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb   = XLSX.read(e.target.result, { type: 'array' });
+      const ws   = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+
+      // Header-Zeile finden (erste Zeile mit >3 nichtleeren Einträgen)
+      let headerIdx = 0;
+      for (let i = 0; i < Math.min(15, rows.length); i++) {
+        if (rows[i].filter(c => c !== '').length > 3) { headerIdx = i; break; }
+      }
+      const headers = rows[headerIdx].map(c => (c||'').toString());
+      const detectedBroker = broker === 'auto' ? detectBroker(rows) : broker;
+      const positions = [];
+      for (let i = headerIdx + 1; i < rows.length; i++) {
+        const p = normalizeRow(rows[i], headers);
+        if (p) positions.push(p);
+      }
+      callback({ positions, broker: detectedBroker, filename: file.name,
+                 date: new Date().toLocaleDateString('de-CH') });
+    } catch(err) { callback(null, err.message); }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function handleImport(file, broker) {
+  if (!file) return;
+  const status = document.getElementById('imp-status');
+  status.textContent = '⟳ Lese ' + file.name + ' …';
+
+  parseXlsxToPositions(file, broker, (result, err) => {
+    if (err || !result) {
+      status.textContent = '✗ Fehler: ' + (err || 'Unbekannt');
+      return;
+    }
+    const { positions, broker: b, filename, date } = result;
+    if (b === 'swissquote' || broker === 'swissquote') {
+      SWISSQUOTE_DATA = positions;
+      document.getElementById('sq-import-date').textContent = date;
+      document.getElementById('imp-sq-date').textContent = 'Import: ' + date;
+      document.getElementById('sq-dot').className = 'dot-live';
+      renderSwissquoteTable();
+      status.textContent = '✓ Swissquote: ' + positions.length + ' Positionen importiert';
+    } else if (b === 'selma' || broker === 'selma') {
+      SELMA_DATA = positions;
+      document.getElementById('selma-import-date').textContent = date;
+      document.getElementById('imp-selma-date').textContent = 'Import: ' + date;
+      document.getElementById('selma-dot').className = 'dot-live';
+      renderSelmaTable();
+      status.textContent = '✓ Selma: ' + positions.length + ' Positionen importiert';
+    } else {
+      // Saxo/Neon – für jetzt nur Meldung
+      status.textContent = '✓ ' + filename + ' erkannt (' + b + ') – ' + positions.length + ' Positionen. Lade Datei im Claude-Chat hoch für vollständige Aktualisierung.';
+    }
+    renderAll();
+  });
+}
+
+function renderSwissquoteTable() {
+  const total = SWISSQUOTE_DATA.reduce((s,p)=>s+p.mw,0);
+  document.getElementById('sq-body').innerHTML = SWISSQUOTE_DATA.length === 0
+    ? '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">Keine Daten</td></tr>'
+    : [...SWISSQUOTE_DATA].sort((a,b)=>b.mw-a.mw).map(p => `<tr>
+        <td><strong>${p.n}</strong><br><span class="muted">${p.ticker} · ${(p.mw/total*100).toFixed(1)}%</span></td>
+        <td><span class="tag" style="background:#dbeafe;color:#1d4ed8">${p.type}</span></td>
+        <td class="r">${p.qty}</td>
+        <td class="r">${p.qty>0?fmt(p.mw/p.qty):'—'}</td>
+        <td class="r"><strong>${fmt(p.mw)}</strong></td>
+        <td class="r ${gc(p.gnv)}">${fmtd(p.gnv)}</td>
+        <td class="r ${gc(p.gnv)}">${pctStr(p.gnv,p.cost)}</td>
+      </tr>`).join('');
+}
+
+function renderSelmaPositions() {
+  const tbody = document.getElementById('selma-pos-body');
+  if (!tbody || SELMA_DATA.length === 0) return;
+  const totalMW = SELMA_DATA.reduce((s,p) => s+p.mw, 0);
+  tbody.innerHTML = [...SELMA_DATA].sort((a,b) => b.mw-a.mw).map(p => {
+    const kurs = p.qty > 0 ? (p.mw/p.qty).toFixed(2) : '—';
+    return '<tr>' +
+      '<td><strong>' + p.n.split(' ').slice(0,4).join(' ') + '</strong><br><span class="muted">' + p.ticker + '</span></td>' +
+      '<td class="r">' + p.qty + '</td>' +
+      '<td class="r">' + kurs + '</td>' +
+      '<td class="r"><strong>' + fmt(p.mw) + '</strong></td>' +
+      '<td class="r ' + gc(p.gnv) + '">' + fmtd(p.gnv) + '</td>' +
+      '<td class="r ' + gc(p.gnv) + '">' + pctStr(p.gnv, p.cost) + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+function renderSelmaTable() {
+  const total = SELMA_DATA.reduce((s,p)=>s+p.mw,0);
+  document.getElementById('selma-body').innerHTML = SELMA_DATA.length === 0
+    ? '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px">Keine Daten</td></tr>'
+    : [...SELMA_DATA].sort((a,b)=>b.mw-a.mw).map(p => `<tr>
+        <td><strong>${p.n}</strong><br><span class="muted">${p.ticker} · ${(p.mw/total*100).toFixed(1)}%</span></td>
+        <td><span class="tag" style="background:#dbeafe;color:#1d4ed8">${p.type}</span></td>
+        <td class="r">${p.qty}</td>
+        <td class="r"><strong>${fmt(p.mw)}</strong></td>
+        <td class="r ${gc(p.gnv)}">${fmtd(p.gnv)}</td>
+        <td class="r ${gc(p.gnv)}">${pctStr(p.gnv,p.cost)}</td>
+      </tr>`).join('');
+}
+
+// ── RELAI / BITCOIN ──
+// ── SWISSQUOTE (manual) ──
+function renderSwissquotePositions() {
+  const tbody = document.getElementById('sq-pos-body');
+  if (!tbody || SWISSQUOTE_DATA.length === 0) return;
+  const totalMW = SWISSQUOTE_DATA.reduce((s,p) => s+p.mw, 0);
+  const typeColor = {Aktie:'#dbeafe', ETF:'#dcfce7', Crypto:'#f3e8ff'};
+  const typeText  = {Aktie:'#1d4ed8', ETF:'#15803d', Crypto:'#7c3aed'};
+  tbody.innerHTML = [...SWISSQUOTE_DATA].sort((a,b) => b.mw-a.mw).map(p => {
+    const kurs = p.qty > 0 ? (p.mw / p.qty).toFixed(p.qty < 1 ? 0 : 2) : '—';
+    const bg   = typeColor[p.type] || '#f3f4f6';
+    const tc   = typeText[p.type]  || '#374151';
+    return '<tr>' +
+      '<td><strong>' + p.n + '</strong><br><span class="muted">' + p.ticker + ' · ' + (p.mw/totalMW*100).toFixed(1) + '%</span></td>' +
+      '<td><span class="tag" style="background:' + bg + ';color:' + tc + '">' + p.type + '</span></td>' +
+      '<td class="r">' + (p.qty < 1 ? p.qty.toFixed(5) : p.qty) + '</td>' +
+      '<td class="r">' + kurs + '</td>' +
+      '<td class="r"><strong>' + fmt(p.mw) + '</strong></td>' +
+      '<td class="r ' + gc(p.gnv) + '">' + fmtd(p.gnv) + '</td>' +
+      '<td class="r ' + gc(p.gnv) + '">' + pctStr(p.gnv, p.cost) + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+function saveSwissquote() {
+  const mw   = parseFloat(document.getElementById('sq-mw-input').value)   || 0;
+  const cost = parseFloat(document.getElementById('sq-cost-input').value)  || 0;
+  const data = { mw, cost, _date: new Date().toLocaleDateString('de-CH') };
+  localStorage.setItem('swissquote_data', JSON.stringify(data));
+  const msg = document.getElementById('sq-msg');
+  msg.textContent = '✓ Gespeichert – CHF ' + fmt(mw);
+  setTimeout(() => msg.textContent = '', 3000);
+  renderAll();
+}
+
+function initSwissquoteForm() {
+  const d = getSwissquoteData();
+  const mwEl = document.getElementById('sq-mw-input');
+  if (mwEl) mwEl.value = d.mw || 39572;
+  const cEl = document.getElementById('sq-cost-input');
+  if (cEl)  cEl.value  = d.cost || 36642;
+}
+
+// ── SELMA (manual) ──
+function saveSelma() {
+  const mw       = parseFloat(document.getElementById('selma-mw-input').value)   || 0;
+  const cost     = parseFloat(document.getElementById('selma-cost-input').value)  || 0;
+  const sparplan = parseFloat(document.getElementById('selma-sparplan').value)    || 0;
+  const strategy = document.getElementById('selma-strategy').value.trim();
+  const data = { mw, cost, sparplan, strategy, _date: new Date().toLocaleDateString('de-CH') };
+  localStorage.setItem('selma_data', JSON.stringify(data));
+  const msg = document.getElementById('selma-msg');
+  msg.textContent = '✓ Gespeichert – CHF ' + fmt(mw);
+  setTimeout(() => msg.textContent = '', 3000);
+  renderAll();
+}
+
+function initSelmaForm() {
+  const d = getSelmaData();
+  const mwEl = document.getElementById('selma-mw-input');
+  if (mwEl) mwEl.value = d.mw || 72588.39;
+  const cEl = document.getElementById('selma-cost-input');
+  if (cEl)  cEl.value  = d.cost || 62635.93;
+  const spEl = document.getElementById('selma-sparplan');
+  if (spEl) spEl.value = d.sparplan || 0;
+  const stEl = document.getElementById('selma-strategy');
+  if (stEl) stEl.value = d.strategy || 'Robo-Advisor';
+}
+
+function saveRelai() {
+  const btc      = parseFloat(document.getElementById('relai-btc').value) || 0.11;
+  const price    = parseFloat(document.getElementById('relai-price').value) || 0;
+  const cost     = parseFloat(document.getElementById('relai-cost').value) || 0;
+  const sparplan = parseFloat(document.getElementById('relai-sparplan').value) || 0;
+  const data = { btc, priceCHF: price, cost, sparplanWeek: sparplan };
+  localStorage.setItem('relai_data', JSON.stringify(data));
+  const msg = document.getElementById('relai-msg');
+  msg.textContent = '✓ Gespeichert';
+  setTimeout(() => msg.textContent = '', 2500);
+  renderAll();
+}
+
+function updateRelaiManual() {
+  switchTab('import', document.querySelectorAll('.tab-btn')[7]);
+  setTimeout(() => document.getElementById('relai-btc').focus(), 200);
+}
+
+async function fetchBtcPrice() {
+  const msg = document.getElementById('relai-msg');
+  msg.textContent = '⟳ BTC Kurs wird geholt…';
+  try {
+    const text = await callWithWebSearch(
+      [{ role: 'user', content: 'Aktueller Bitcoin Kurs in CHF. Nur JSON: {"btcchf": 95000}' }], 300
+    );
+    const json = extractJson(text);
+    const price = json.btcchf || json.btc_chf || json.price || 0;
+    if (price > 0) {
+      document.getElementById('relai-price').value = Math.round(price);
+      msg.textContent = '✓ BTC/CHF: ' + fmt(price);
+    } else {
+      msg.textContent = 'Kurs nicht gefunden';
+    }
+  } catch(e) {
+    msg.textContent = '✗ ' + e.message;
+  }
+}
+
+// Relai Formular auf Startup befüllen
+function initRelaiForm() {
+  const d = getRelaiData();
+  const el = document.getElementById('relai-btc');
+  if (el) el.value = d.btc || 0.11;
+  const pc = document.getElementById('relai-price');
+  if (pc) pc.value = d.priceCHF || 60836;
+  const co = document.getElementById('relai-cost');
+  if (co) co.value = d.cost || 8365;
+  const sp = document.getElementById('relai-sparplan');
+  if (sp) sp.value = d.sparplanWeek || 100;
+}
+
+
+// ══════════════════════════════════════════
+// ─────────────────────────────────────────────
+// THESEN
+// ─────────────────────────────────────────────
+const THESEN_KEY = 'portfolio_thesen_michel_v1';
+
+const THESEN_DEFAULT = [
+  {id:'t1', kategorie:'Satelliten-ETF', titel:'Semiconductors — iShares MSCI Global Semi (SEMI)', status:'Aufbauen', ziel:'Ziel CHF 6–8k', farbe:'#7c3aed',
+   these:'AI-Infrastruktur, Rechenzentren und Automatisierung treiben strukturell steigende Chip-Nachfrage. TSMC, ASML, Nvidia und ASIC-Designer profitieren langfristig. Zyklischer Einstieg via Sparplan CHF 500/Mt. Kritische Erden spielen wir bewusst auf der Nachfrageseite hier — nicht bei den Minen.',
+   exit:'AI-Capex-Zyklus dreht, Bewertungen exzessiv, oder bessere Überzeugung gefunden', aktiv:true, geaendert:'2025-04-01'},
+  {id:'t2', kategorie:'Satelliten-ETF', titel:'Defence Europa — WisdomTree Europe Defence (WDEF)', status:'Halten', ziel:'kein Aufbau', farbe:'#dc2626',
+   these:'Europäisches Rearmament ist strukturell, nicht zyklisch. NATO-Ziele von 2% BIP werden von allen grossen Ländern angehoben. Rheinmetall, BAE Systems, Leonardo profitieren direkt. Bewusst Europa-fokussiert — kein US-Defence nötig, da WDEF präziser ist.',
+   exit:'Geopolitische Entspannung, Rüstungsbudgets fallen, oder Ukraine-Konflikt endet ohne Nachfolge-Bedrohung', aktiv:true, geaendert:'2025-04-01'},
+  {id:'t3', kategorie:'Satelliten-ETF', titel:'Space — VanEck Space (JEDI)', status:'Halten', ziel:'kleiner Posten', farbe:'#2563eb',
+   these:'Satelliten-Infrastruktur (Starlink-Konkurrenz), Erdbeobachtung, militärische Nutzung und Raumfahrt-Kommerzialisierung. Langfristiges Thema mit 10+ Jahre Horizont. Bewusst klein gehalten — hohes Risiko, breite Streuung via ETF sinnvoll.',
+   exit:'Überzeugungsverlust oder Umschichtung in stärkere Position nötig', aktiv:true, geaendert:'2025-04-01'},
+  {id:'t4', kategorie:'Satelliten-ETF', titel:'Uranium — Global X Uranium (URNU)', status:'Verkauft', ziel:'Erlös → SEMI', farbe:'#d97706',
+   these:'These war gut (Nuklearrenaissance, AI-Stromhunger), aber CHF 878 zu klein für Wirkung. Gleiche These sauberer via SEMI gespielt — AI braucht Strom, Strom braucht Infrastruktur, Chips steuern alles. Verkauft, Erlös in SEMI umgeschichtet.',
+   exit:'Bereits verkauft.', aktiv:false, geaendert:'2025-03-01'},
+  {id:'t5', kategorie:'Satelliten-ETF', titel:'China Technology — China Tech ETF', status:'Halten', ziel:'kein Aufbau', farbe:'#16a34a',
+   these:'Strukturelles Wachstum in chinesischer Tech (Alibaba, Tencent, Baidu, BYD). Günstige Bewertungen nach Regulierungs-Crackdown. Grösste Satelliten-Position — bewusste Entscheidung zu halten ohne weiteren Aufbau. Geopolitisches Risiko (Taiwan) bleibt Hauptrisiko.',
+   exit:'Taiwan-Eskalation, weitere Regulierungswellen, oder Überzeugungsverlust', aktiv:true, geaendert:'2025-04-01'},
+  {id:'t6', kategorie:'Einzeltitel', titel:'Schneider Electric — Strom & Infrastruktur-Play', status:'Aufbauen', ziel:'Ziel CHF 5–7k', farbe:'#16a34a',
+   these:'Marktführer Energiemanagement und Industrieautomatisierung. Profitiert direkt von Rechenzentrum-Boom (Strom-Infrastruktur), Energiewende und Reshoring. Ersetzt bewusst einen Clean-Energy oder Infrastruktur-ETF — als profitables Qualitätsunternehmen mit solidem Moat. Kein separater Strom-ETF nötig.',
+   exit:'Bewertung exzessiv, Wachstum enttäuscht, oder Rechenzentrum-Boom endet', aktiv:true, geaendert:'2025-04-01'},
+  {id:'t7', kategorie:'Einzeltitel', titel:'Microsoft — Cloud & AI-Infrastruktur', status:'Aufbauen', ziel:'2. Tranche offen ~USD 2\'000', farbe:'#2563eb',
+   these:'Dominante Cloud-Position (Azure), tief integriertes AI-Angebot (Copilot, OpenAI-Deal), starkes Enterprise-Geschäft. Qualitätsunternehmen mit soliden Margen. Zweite Tranche noch offen.',
+   exit:'AI-Monetarisierung enttäuscht, Azure verliert Marktanteil, Bewertung exzessiv', aktiv:true, geaendert:'2025-04-01'},
+  {id:'t8', kategorie:'Einzeltitel', titel:'Amrize — GTC Limit 37.50 CHF', status:'Aufbauen', ziel:'Bis CHF 5\'000 · GTC 37.50', farbe:'#0891b2',
+   these:'Spin-off aus Holcim, fokussiert auf nordamerikanischen Bau-/Infrastrukturmarkt. Profitiert von US-Reshoring und Infrastrukturprogrammen. GTC-Limitorder bei 37.50 CHF aktiv.',
+   exit:'Limitorder läuft ab, Überzeugungsverlust, US-Infrastrukturbudgets gekürzt', aktiv:true, geaendert:'2025-04-01'},
+  {id:'t9', kategorie:'Einzeltitel', titel:'US Infrastructure — iShares US Infrastructure (IFRA)', status:'In Stärke verkaufen', ziel:'Exit geplant', farbe:'#78716c',
+   these:'AI-Strom-Play verpackt als Infrastruktur-ETF. Constellation Energy, NextEra, Quanta Services. Overlap mit Schneider Electric und SEMI ist zu gross geworden — Position zu kleinteilig für den Mehrwert.',
+   exit:'In Stärke abbauen, Erlös in fokussiertere Positionen umschichten', aktiv:true, geaendert:'2025-04-01'},
+  {id:'t10', kategorie:'Nicht gespielt', titel:'Rare Earth (VVMX) — verkauft', status:'Verkauft', ziel:'—', farbe:'#78716c',
+   these:'These war richtig, Umsetzung falsch. Angebotsseitig zu politisch (China-Abhängigkeit), zu zyklisch. These wird via SEMI auf Nachfrageseite gespielt.',
+   exit:'Bereits verkauft.', aktiv:false, geaendert:'2025-02-01'},
+  {id:'t11', kategorie:'Nicht gespielt', titel:'Clean Energy (INRG) — verkauft', status:'Verkauft', ziel:'+27% mitgenommen', farbe:'#78716c',
+   these:'+27% mitgenommen. Strukturelle Gegenwinds bleiben (Zinsen, IRA). Thema via Schneider Electric sauberer gespielt.',
+   exit:'Bereits verkauft.', aktiv:false, geaendert:'2025-01-01'},
+  {id:'t12', kategorie:'Nicht gespielt', titel:'Cybersecurity — verkauft', status:'Verkauft', ziel:'—', farbe:'#78716c',
+   these:'Exposure via Alphabet, Microsoft und SEMI bereits vorhanden. Kein separates Thema nötig.',
+   exit:'Bereits verkauft.', aktiv:false, geaendert:'2025-01-01'},
+];
+
+let _thesenData = null;
+let _thesenEditId = null;
+let _thesenSelColor = '#7c3aed';
+let _thesenFilter = 'alle';
+
+function thesenLaden() {
+  try {
+    const raw = localStorage.getItem(THESEN_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return THESEN_DEFAULT.map(t => ({...t}));
+}
+
+function thesenSichern(data) {
+  localStorage.setItem(THESEN_KEY, JSON.stringify(data));
+}
+
+function getThesen() {
+  if (!_thesenData) _thesenData = thesenLaden();
+  return _thesenData;
+}
+
+const STATUS_STYLE = {
+  'Aufbauen':           {bg:'#dcfce7', fg:'#166534'},
+  'Halten':             {bg:'#dbeafe', fg:'#1e40af'},
+  'In Stärke verkaufen':{bg:'#fef3c7', fg:'#92400e'},
+  'Exit':               {bg:'#fee2e2', fg:'#991b1b'},
+  'Verkauft':           {bg:'#f3f4f6', fg:'#6b7280'},
+  'Beobachten':         {bg:'#e0f2fe', fg:'#075985'},
+};
+
+function thesenRender() {
+  const all = getThesen();
+  const list = document.getElementById('thesen-list');
+  if (!list) return;
+
+  const filtered = _thesenFilter === 'alle' ? all : all.filter(t => t.kategorie === _thesenFilter);
+
+  // Gruppiert nach Kategorie
+  const kategorien = _thesenFilter === 'alle'
+    ? ['Satelliten-ETF','Einzeltitel','Nicht gespielt','Beobachtung']
+    : [_thesenFilter];
+
+  let html = '';
+  for (const kat of kategorien) {
+    const items = filtered.filter(t => t.kategorie === kat);
+    if (!items.length) continue;
+    html += `<div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--muted);margin:20px 0 10px">${kat}</div>`;
+    for (const t of items) {
+      const ss = STATUS_STYLE[t.status] || {bg:'#f3f4f6', fg:'#6b7280'};
+      const opacity = t.aktiv ? '1' : '0.5';
+      const datum = t.geaendert ? new Date(t.geaendert).toLocaleDateString('de-CH', {month:'short', year:'numeric'}) : '';
+      html += `
+      <div style="background:var(--surface);border:1px solid var(--border);border-left:4px solid ${t.farbe};border-radius:var(--radius);padding:16px 20px;opacity:${opacity};cursor:pointer;transition:box-shadow 0.15s"
+           onclick="thesenEditDialog('${t.id}')"
+           onmouseenter="this.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)'"
+           onmouseleave="this.style.boxShadow='none'">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:12px">
+          <div style="font-weight:600;font-size:14px;flex:1">${escH(t.titel)}</div>
+          <div style="display:flex;gap:6px;align-items:center;flex-shrink:0">
+            <span style="font-size:11px;background:${ss.bg};color:${ss.fg};padding:3px 10px;border-radius:20px;white-space:nowrap">${escH(t.status)}${t.ziel ? ' · ' + escH(t.ziel) : ''}</span>
+            <span style="font-size:10px;color:var(--muted2);white-space:nowrap">✏️ ${datum}</span>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.6">${escH(t.these)}</div>
+        ${t.exit && t.status !== 'Verkauft' ? `<div style="font-size:11px;color:var(--muted);margin-top:8px">⚡ Verkaufen wenn: ${escH(t.exit)}</div>` : ''}
+      </div>`;
+    }
+  }
+
+  if (!html) html = `<div style="text-align:center;padding:40px;color:var(--muted);font-size:13px">Keine Thesen in dieser Kategorie</div>`;
+  list.innerHTML = html;
+}
+
+function escH(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function thesenFilter(f, btn) {
+  _thesenFilter = f;
+  document.querySelectorAll('#thesen-filter-bar .chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  thesenRender();
+}
+
+function thesenNeuDialog() {
+  _thesenEditId = null;
+  document.getElementById('modal-title').textContent = 'Neue These';
+  document.getElementById('t-titel').value = '';
+  document.getElementById('t-kategorie').value = 'Satelliten-ETF';
+  document.getElementById('t-status').value = 'Halten';
+  document.getElementById('t-ziel').value = '';
+  document.getElementById('t-these').value = '';
+  document.getElementById('t-exit').value = '';
+  document.getElementById('modal-delete-btn').style.display = 'none';
+  selectColorVal('#7c3aed');
+  thesenModalOpen();
+}
+
+function thesenEditDialog(id) {
+  const t = getThesen().find(x => x.id === id);
+  if (!t) return;
+  _thesenEditId = id;
+  document.getElementById('modal-title').textContent = 'These bearbeiten';
+  document.getElementById('t-titel').value = t.titel || '';
+  document.getElementById('t-kategorie').value = t.kategorie || 'Satelliten-ETF';
+  document.getElementById('t-status').value = t.status || 'Halten';
+  document.getElementById('t-ziel').value = t.ziel || '';
+  document.getElementById('t-these').value = t.these || '';
+  document.getElementById('t-exit').value = t.exit || '';
+  document.getElementById('modal-delete-btn').style.display = 'inline-block';
+  selectColorVal(t.farbe || '#7c3aed');
+  thesenModalOpen();
+}
+
+function thesenModalOpen() {
+  const m = document.getElementById('thesen-modal');
+  m.style.display = 'flex';
+}
+
+function thesenModalClose() {
+  document.getElementById('thesen-modal').style.display = 'none';
+}
+
+function selectColor(el) {
+  document.querySelectorAll('.color-swatch').forEach(s => s.style.border = '2px solid transparent');
+  el.style.border = '2px solid var(--text)';
+  _thesenSelColor = el.dataset.color;
+}
+
+function selectColorVal(val) {
+  _thesenSelColor = val;
+  document.querySelectorAll('.color-swatch').forEach(s => {
+    s.style.border = s.dataset.color === val ? '2px solid var(--text)' : '2px solid transparent';
+  });
+}
+
+function thesenSpeichern() {
+  const titel = document.getElementById('t-titel').value.trim();
+  if (!titel) { alert('Bitte Titel eingeben'); return; }
+  const data = getThesen();
+  const status = document.getElementById('t-status').value;
+  const aktiv = status !== 'Verkauft';
+
+  if (_thesenEditId) {
+    const idx = data.findIndex(x => x.id === _thesenEditId);
+    if (idx >= 0) {
+      data[idx] = {...data[idx],
+        titel, kategorie: document.getElementById('t-kategorie').value,
+        status, ziel: document.getElementById('t-ziel').value.trim(),
+        these: document.getElementById('t-these').value.trim(),
+        exit: document.getElementById('t-exit').value.trim(),
+        farbe: _thesenSelColor, aktiv,
+        geaendert: new Date().toISOString().slice(0,10)
+      };
+    }
+  } else {
+    data.push({
+      id: 't' + Date.now(),
+      titel, kategorie: document.getElementById('t-kategorie').value,
+      status, ziel: document.getElementById('t-ziel').value.trim(),
+      these: document.getElementById('t-these').value.trim(),
+      exit: document.getElementById('t-exit').value.trim(),
+      farbe: _thesenSelColor, aktiv,
+      geaendert: new Date().toISOString().slice(0,10)
+    });
+  }
+  _thesenData = data;
+  thesenSichern(data);
+  thesenModalClose();
+  thesenRender();
+}
+
+function thesenLoeschen() {
+  if (!_thesenEditId) return;
+  if (!confirm('These wirklich löschen?')) return;
+  _thesenData = getThesen().filter(x => x.id !== _thesenEditId);
+  thesenSichern(_thesenData);
+  thesenModalClose();
+  thesenRender();
+}
+
+function thesenExportieren() {
+  const data = getThesen();
+  let txt = '# Investitionsthesen Michel\n\n';
+  const kats = [...new Set(data.map(t => t.kategorie))];
+  for (const kat of kats) {
+    txt += `## ${kat}\n\n`;
+    for (const t of data.filter(x => x.kategorie === kat)) {
+      txt += `### ${t.titel}\n`;
+      txt += `**Status:** ${t.status} | **Ziel:** ${t.ziel}\n\n`;
+      txt += `${t.these}\n\n`;
+      if (t.exit) txt += `_Verkaufen wenn: ${t.exit}_\n\n`;
+    }
+  }
+  const blob = new Blob([txt], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'thesen_michel_' + new Date().toISOString().slice(0,10) + '.md';
+  a.click();
+}
+
+// Init Thesen beim Laden
+document.addEventListener('DOMContentLoaded', () => {
+  // Modal-Klick außen schließen
+  document.getElementById('thesen-modal').addEventListener('click', function(e) {
+    if (e.target === this) thesenModalClose();
+  });
+  thesenRender();
+});
+
+// VERLAUF
+// ══════════════════════════════════════════
+const VERLAUF_KEY = 'portfolio_verlauf_michel';
+
+function loadVerlaufData() {
+  try {
+    return JSON.parse(localStorage.getItem(VERLAUF_KEY) || '[]');
+  } catch(e) { return []; }
+}
+
+function saveVerlaufData(data) {
+  localStorage.setItem(VERLAUF_KEY, JSON.stringify(data));
+}
+
+function addVerlaufPunkt() {
+  const date = document.getElementById('vl-date').value;
+  const mw   = parseFloat(document.getElementById('vl-mw').value);
+  const cost = parseFloat(document.getElementById('vl-cost').value);
+  const note = document.getElementById('vl-note').value.trim();
+
+  if (!date || isNaN(mw) || mw <= 0) {
+    alert('Datum und Marktwert sind erforderlich.');
+    return;
+  }
+
+  const data = loadVerlaufData();
+  // Bestehenden Eintrag für dieses Datum überschreiben
+  const idx = data.findIndex(d => d.date === date);
+  const entry = { date, mw: Math.round(mw), cost: isNaN(cost) ? null : Math.round(cost), note };
+  if (idx >= 0) data[idx] = entry; else data.push(entry);
+  data.sort((a,b) => a.date.localeCompare(b.date));
+  saveVerlaufData(data);
+
+  // Felder leeren
+  document.getElementById('vl-mw').value = '';
+  document.getElementById('vl-cost').value = '';
+  document.getElementById('vl-note').value = '';
+
+  const msg = document.getElementById('vl-save-msg');
+  msg.textContent = '✓ Gespeichert';
+  setTimeout(() => msg.textContent = '', 2500);
+  renderVerlauf();
+}
+
+function addVerlaufHeute() {
+  // Aktuellen Depotstand aus den geladenen Daten übernehmen
+  const saxoMW = SAXO_DATA.reduce((s,p) => s+p.mw, 0);
+  const neonMW = NEON_DATA.reduce((s,p) => s+p.mw, 0);
+  const saxoCost = SAXO_DATA.reduce((s,p) => s+p.cost, 0);
+  const neonCost = NEON_DATA.reduce((s,p) => s+p.cost, 0);
+  const totalMW   = Math.round(saxoMW + neonMW);
+  const totalCost = Math.round(saxoCost + neonCost);
+  const today = new Date().toISOString().split('T')[0];
+
+  document.getElementById('vl-date').value = today;
+  document.getElementById('vl-mw').value   = totalMW;
+  document.getElementById('vl-cost').value = totalCost;
+  document.getElementById('vl-note').value = 'Import-Stand';
+}
+
+function deleteVerlaufPunkt(date) {
+  const data = loadVerlaufData().filter(d => d.date !== date);
+  saveVerlaufData(data);
+  renderVerlauf();
+}
+
+function clearVerlauf() {
+  if (!confirm('Wirklich alle Verlaufsdaten löschen?')) return;
+  localStorage.removeItem(VERLAUF_KEY);
+  renderVerlauf();
+}
+
+let verlaufMode  = 'chf';
+let verlaufRange = 'all';
+let verlaufChart = null;
+
+function setVerlaufMode(mode, btn) {
+  verlaufMode = mode;
+  document.querySelectorAll('[id^="vl-mode-"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderVerlauf();
+}
+
+function setVerlaufRange(range, btn) {
+  verlaufRange = range;
+  document.querySelectorAll('[id^="vl-range-"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderVerlauf();
+}
+
+function filterByRange(data) {
+  if (verlaufRange === 'all' || data.length === 0) return data;
+  const now = new Date();
+  const cutoff = new Date(now);
+  if (verlaufRange === '1y') cutoff.setFullYear(now.getFullYear() - 1);
+  if (verlaufRange === '6m') cutoff.setMonth(now.getMonth() - 6);
+  if (verlaufRange === '3m') cutoff.setMonth(now.getMonth() - 3);
+  const cutStr = cutoff.toISOString().split('T')[0];
+  return data.filter(d => d.date >= cutStr);
+}
+
+function renderVerlauf() {
+  const raw  = loadVerlaufData();
+  const data = filterByRange(raw);
+
+  // Karten
+  const latestAll = raw.length > 0 ? raw[raw.length-1] : null;
+  const firstAll  = raw.length > 0 ? raw[0] : null;
+  if (latestAll) {
+    document.getElementById('vl-current').textContent = 'CHF ' + fmt(latestAll.mw);
+    if (latestAll.cost) {
+      const gnv = latestAll.mw - latestAll.cost;
+      const pct = (gnv / latestAll.cost * 100).toFixed(1);
+      document.getElementById('vl-total-pct').textContent = (gnv >= 0 ? '+' : '') + pct + '%';
+      document.getElementById('vl-total-pct').className = 'card-value ' + (gnv >= 0 ? 'pos' : 'neg');
+      document.getElementById('vl-total-chf').textContent = (gnv >= 0 ? '+' : '') + 'CHF ' + fmt(gnv) + ' G/V';
+      document.getElementById('vl-cost').textContent = 'CHF ' + fmt(latestAll.cost);
+    }
+  } else {
+    document.getElementById('vl-total-pct').textContent = '—';
+    document.getElementById('vl-current').textContent = '—';
+    document.getElementById('vl-cost').textContent = '—';
+    document.getElementById('vl-total-chf').textContent = 'Noch keine Daten';
+  }
+  document.getElementById('vl-count').textContent = raw.length;
+
+  // Chart
+  const labels = data.map(d => {
+    const [y,m,day] = d.date.split('-');
+    return `${day}.${m}.${String(y).slice(2)}`;
+  });
+  const mwVals  = data.map(d => d.mw);
+  const costVals = data.map(d => d.cost || null);
+  const pctVals = data.map(d => d.cost ? +((d.mw - d.cost) / d.cost * 100).toFixed(2) : null);
+
+  const ctx = document.getElementById('verlauf-chart');
+  if (!ctx) return;
+
+  if (verlaufChart) { verlaufChart.destroy(); verlaufChart = null; }
+
+  // Canvas nach destroy() immer neu erstellen (Chart.js Requirement)
+  const wrapper = document.querySelector('#tab-verlauf [style*="height:320px"]');
+  if (wrapper) wrapper.innerHTML = '<canvas id="verlauf-chart"></canvas>';
+
+  if (data.length < 2) {
+    if (wrapper) wrapper.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#78716c;font-size:13px;flex-direction:column;gap:8px"><div style="font-size:28px">📈</div><div>Noch keine Verlaufsdaten</div><div style="font-size:12px">Füge mindestens 2 Datenpunkte hinzu</div></div>';
+    renderVerlaufTable(raw);
+    return;
+  }
+
+  const datasets = [];
+
+  if (verlaufMode === 'chf' || verlaufMode === 'both') {
+    datasets.push({
+      label: 'Marktwert CHF',
+      data: mwVals,
+      borderColor: '#d97706',
+      backgroundColor: 'rgba(217,119,6,0.08)',
+      fill: true,
+      tension: 0.35,
+      pointRadius: data.length <= 20 ? 4 : 2,
+      pointHoverRadius: 7,
+      borderWidth: 2.5,
+      yAxisID: 'y',
+    });
+    if (costVals.some(v => v !== null)) {
+      datasets.push({
+        label: 'Einstand CHF',
+        data: costVals,
+        borderColor: '#78716c',
+        backgroundColor: 'transparent',
+        fill: false,
+        tension: 0.3,
+        pointRadius: 0,
+        borderWidth: 1.5,
+        borderDash: [5,4],
+        yAxisID: 'y',
+      });
+    }
+  }
+
+  if (verlaufMode === 'pct' || verlaufMode === 'both') {
+    datasets.push({
+      label: 'Performance %',
+      data: pctVals,
+      borderColor: '#2563eb',
+      backgroundColor: 'rgba(37,99,235,0.07)',
+      fill: verlaufMode === 'pct',
+      tension: 0.35,
+      pointRadius: data.length <= 20 ? 4 : 2,
+      pointHoverRadius: 7,
+      borderWidth: 2.5,
+      yAxisID: verlaufMode === 'both' ? 'y2' : 'y',
+    });
+  }
+
+  const scales = {};
+  if (verlaufMode === 'chf' || verlaufMode === 'both') {
+    scales.y = {
+      position: 'left',
+      grid: { color: 'rgba(0,0,0,0.05)' },
+      ticks: {
+        color: '#78716c', font: { size: 11 },
+        callback: v => 'CHF ' + (v >= 1000 ? Math.round(v/1000)+'k' : v)
+      }
+    };
+  }
+  if (verlaufMode === 'pct' || verlaufMode === 'both') {
+    scales[verlaufMode === 'both' ? 'y2' : 'y'] = {
+      position: verlaufMode === 'both' ? 'right' : 'left',
+      grid: verlaufMode === 'both' ? { drawOnChartArea: false } : { color: 'rgba(0,0,0,0.05)' },
+      ticks: {
+        color: '#2563eb', font: { size: 11 },
+        callback: v => v.toFixed(1) + '%'
+      }
+    };
+  }
+  scales.x = {
+    grid: { display: false },
+    ticks: {
+      color: '#78716c', font: { size: 11 },
+      maxTicksLimit: 12,
+      maxRotation: 30
+    }
+  };
+
+  verlaufChart = new Chart(document.getElementById('verlauf-chart'), {
+    type: 'line',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: datasets.length > 1, position: 'top', labels: { font: { size: 12 }, color: '#44403c', boxWidth: 12, padding: 16 } },
+        tooltip: {
+          backgroundColor: 'rgba(28,25,23,0.9)',
+          titleFont: { size: 12 }, bodyFont: { size: 12 },
+          callbacks: {
+            label: ctx => {
+              const v = ctx.parsed.y;
+              if (v === null) return null;
+              if (ctx.dataset.label.includes('%')) return ' ' + ctx.dataset.label + ': ' + (v >= 0 ? '+' : '') + v.toFixed(2) + '%';
+              return ' ' + ctx.dataset.label + ': CHF ' + Math.round(v).toLocaleString('de-CH');
+            }
+          }
+        }
+      },
+      scales
+    }
+  });
+
+  renderVerlaufTable(raw);
+}
+
+function renderVerlaufTable(data) {
+  const tbody = document.getElementById('vl-tbody');
+  if (!tbody) return;
+  const sorted = [...data].reverse();
+  tbody.innerHTML = sorted.map(d => {
+    const gnv  = d.cost ? d.mw - d.cost : null;
+    const pct  = d.cost ? ((gnv / d.cost) * 100).toFixed(1) + '%' : '—';
+    const gnvFmt = gnv !== null ? `<span class="${gnv >= 0 ? 'pos' : 'neg'}">${gnv >= 0 ? '+' : ''}CHF ${fmt(gnv)}</span>` : '—';
+    const pctFmt = gnv !== null ? `<span class="${gnv >= 0 ? 'pos' : 'neg'}">${gnv >= 0 ? '+' : ''}${pct}</span>` : '—';
+    const [y,m,day] = d.date.split('-');
+    return `<tr>
+      <td>${day}.${m}.${y}</td>
+      <td class="r"><strong>CHF ${fmt(d.mw)}</strong></td>
+      <td class="r">${d.cost ? 'CHF ' + fmt(d.cost) : '—'}</td>
+      <td class="r">${gnvFmt}</td>
+      <td class="r">${pctFmt}</td>
+      <td style="color:var(--muted);font-size:12px">${d.note || ''}</td>
+      <td class="r"><button onclick="deleteVerlaufPunkt('${d.date}')" style="font-size:10px;color:var(--muted);background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:4px" title="Löschen">✕</button></td>
+    </tr>`;
+  }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">Noch keine Einträge – füge den ersten Datenpunkt hinzu</td></tr>';
+}
+
+// ══════════════════════════════════════════
+// START
+// ══════════════════════════════════════════
+showApiKeyStatus();
+initTiingoStatus();
+renderAll();
+renderTodo();
+initRelaiForm();
+initSelmaForm();
+initSwissquoteForm();
+// Verlauf initialisieren (heute als Default-Datum setzen)
+const _todayIso = new Date().toISOString().split('T')[0];
+const _vlDateEl = document.getElementById('vl-date');
+if (_vlDateEl) _vlDateEl.value = _todayIso;
+renderVerlauf();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// Re-render Verlauf after Chart.js loads
+if(typeof renderVerlauf === "function") renderVerlauf();
+</script>
+</body>
+</html>
